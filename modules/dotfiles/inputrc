@@ -1,0 +1,11 @@
+"\C-n": menu-complete
+"\C-p": menu-complete-backward
+"\C-o": "> flag.txt"
+"\en": history-search-forward
+"\ep": history-search-backward
+"\C-x\C-u": universal-argument
+"\eU": downcase-word
+"\eu": upcase-word
+"\eC": capitalize-word
+
+set completion-ignore-case on

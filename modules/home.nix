@@ -85,7 +85,7 @@ in {
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
-    EDITOR = "nvim";
+    EDITOR = "${pkgs.neovim}/bin/nvim";
   };
 
   programs.bash = {
@@ -107,13 +107,13 @@ in {
       };
     };
     extraConfig = {
-      "credential \"https://github.com\"".helper = "!gh auth git-credential";
-      "credential \"https://gist.github.com\"".helper = "!gh auth git-credential";
+      "credential \"https://github.com\"".helper = "!${pkgs.gh}/bin/gh auth git-credential";
+      "credential \"https://gist.github.com\"".helper = "!${pkgs.gh}/bin/gh auth git-credential";
       core = {
-        editor = "nvim";
+        editor = "${pkgs.neovim}/bin/nvim";
       };
       init.defaultBranch = "main";
-      diff.tool = "nvim -d";
+      diff.tool = "${pkgs.neovim}/bin/nvim -d";
       difftool.prompt = false;
     };
     aliases = {
@@ -128,8 +128,8 @@ in {
       rb = "rebase";
       wt = "worktree";
       fh = "fetch";
-      ps = "!git push -u origin $(git rev-parse --abbrev-ref HEAD)";
-      pl = "!git pull origin $(git rev-parse --abbrev-ref HEAD)";
+      ps = "!${pkgs.git}/bin/git push -u origin $(git rev-parse --abbrev-ref HEAD)";
+      pl = "!${pkgs.git}/bin/git pull origin $(git rev-parse --abbrev-ref HEAD)";
       hist = "log --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --graph --date=relative --decorate --all";
       logg = "log --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --date=relative --decorate";
       llog = "log --graph --name-status --pretty=format:\"%C(red)%h %C(reset)(%cd) %C(green)%an %Creset%s %C(yellow)%d%Creset\" --date=relative";

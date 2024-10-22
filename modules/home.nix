@@ -9,6 +9,7 @@ let
     vim = "nvim";
     tm = "tmux";
     py3 = "python3";
+    g = "git";
   };
 in {
   # Home Manager needs a bit of information about you and the paths it should
@@ -91,6 +92,48 @@ in {
     enable = true;
     enableCompletion = true;
     shellAliases = aliases;
+  };
+
+  programs.git = {
+    enable = true;
+    userName = "d0ublew";
+    userEmail = "66501624+d0UBleW@users.noreply.github.com";
+    delta = {
+      enable = true;
+      options = {
+        navigate = true;
+        light = false;
+        line-numbers = false;
+      };
+    };
+    extraConfig = {
+      "credential \"https://github.com\"".helper = "!gh auth git-credential";
+      "credential \"https://gist.github.com\"".helper = "!gh auth git-credential";
+      core = {
+        editor = "nvim";
+      };
+      init.defaultBranch = "main";
+      diff.tool = "nvim -d";
+      difftool.prompt = false;
+    };
+    aliases = {
+      ap = "add -i -p";
+      st = "status";
+      sw = "switch";
+      br = "branch";
+      ba = "branch -a";
+      d  = "diff";
+      ci = "commit";
+      ca = "commit -a";
+      rb = "rebase";
+      wt = "worktree";
+      fh = "fetch";
+      ps = "!git push -u origin $(git rev-parse --abbrev-ref HEAD)";
+      pl = "!git pull origin $(git rev-parse --abbrev-ref HEAD)";
+      hist = "log --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --graph --date=relative --decorate --all";
+      logg = "log --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --date=relative --decorate";
+      llog = "log --graph --name-status --pretty=format:\"%C(red)%h %C(reset)(%cd) %C(green)%an %Creset%s %C(yellow)%d%Creset\" --date=relative";
+    };
   };
 
   # Let Home Manager install and manage itself.

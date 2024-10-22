@@ -1,10 +1,20 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  uname,
+  ...
+}:
+let
+  aliases = {
+    vim = "nvim";
+    tm = "tmux";
+    py3 = "python3";
+  };
+in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "d0ublew";
-  home.homeDirectory = "/home/d0ublew";
+  home.username = "${uname}";
+  home.homeDirectory = "/home/${uname}";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -75,6 +85,12 @@
   home.sessionVariables = {
     # EDITOR = "emacs";
     EDITOR = "nvim";
+  };
+
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    shellAliases = aliases;
   };
 
   # Let Home Manager install and manage itself.

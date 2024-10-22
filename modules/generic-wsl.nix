@@ -3,30 +3,27 @@
   lib,
   config,
   inputs,
+  uname,
   ...
 }: {
   imports = [
-    ./aliases.nix
     ./packages.nix
-    inputs.home-manager.nixosModules.default
   ];
   wsl = {
     enable = true;
-    defaultUser = "d0ublew";
+    defaultUser = "${uname}";
     docker-desktop.enable = false;
   };
 
-  users.users.d0ublew = {
+  users.users."${uname}" = {
     isNormalUser = true;
     extraGroups = [ "wheel" ];
   };
 
-  programs.bash.completion.enable = true;
-
-  home-manager = {
-    # extraSpecialArgs = { inherit inputs; };
-    users = {
-      "d0ublew" = import ./home.nix;
-    };
-  };
+  # home-manager = {
+  #   extraSpecialArgs = { inherit uname; };
+  #   users = {
+  #     "${uname}" = import ./home.nix;
+  #   };
+  # };
 }

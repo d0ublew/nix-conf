@@ -3,6 +3,7 @@
   lib,
   config,
   inputs,
+  uname,
   ...
 }: {
   system.stateVersion = config.system.nixos.release;

@@ -18,5 +18,6 @@
     wtf
     gh
     delta
+    home-manager
   ];
 }

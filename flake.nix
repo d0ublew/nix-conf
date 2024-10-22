@@ -10,18 +10,36 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, nixos-wsl, ... }: {
-    nixosConfigurations = {
-      my-nix = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        system = "x86_64-linux";
-        modules = [
-          nixos-wsl.nixosModules.default
-	  inputs.home-manager.nixosModules.default
-	  ./hosts/my-nix.nix
-        ];
+  outputs = { self, nixpkgs, nixos-wsl, home-manager, ... }@inputs: 
+    let
+      uname = "d0ublew";
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      nixosConfigurations = {
+        my-nix = nixpkgs.lib.nixosSystem {
+	  inherit system;
+          specialArgs = { inherit inputs uname system; };
+          modules = [
+            nixos-wsl.nixosModules.default
+            home-manager.nixosModules.home-manager {
+	      home-manager.useGlobalPkgs = true;
+	      home-manager.useUserPackages = true;
+	      home-manager.users."${uname}" = import ./modules/home.nix;
+	      home-manager.extraSpecialArgs = { inherit uname; };
+	    }
+            ./hosts/my-nix.nix
+          ];
+        };
       };
-    };
-    # home-manager-mods.default = ./modules/home-manager-mods;
+      homeConfigurations = {
+        "d0ublew" = home-manager.lib.homeManagerConfiguration {
+	  inherit pkgs;
+	  extraSpecialArgs = { inherit uname; };
+          modules = [
+            ./modules/home.nix
+          ];
+        };
+      };
   };
 }

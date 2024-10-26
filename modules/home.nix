@@ -6,12 +6,20 @@
 }:
 let
   aliases = {
+    less = "less -R";
     vim = "nvim";
-    tm = "tmux";
+    tm = "history -a; tmux";
+    ta = "tmux attach";
     py3 = "python3";
+    cat = "bat";
+    c = "clear";
     g = "git";
+    rm = "rm -i";
+    mv = "mv -i";
+    cp = "cp -i";
   };
-in {
+in
+{
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "${uname}";
@@ -92,6 +100,24 @@ in {
     enable = true;
     enableCompletion = true;
     shellAliases = aliases;
+    # bashrcExtra = ''
+    # eval "$(zoxide init bash)"
+    # '';
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "ansi";
+      style = "plain";
+      paging = "never";
+      pager = "less -FR";
+    };
   };
 
   programs.git = {
@@ -122,7 +148,7 @@ in {
       sw = "switch";
       br = "branch";
       ba = "branch -a";
-      d  = "diff";
+      d = "diff";
       ci = "commit";
       ca = "commit -a";
       rb = "rebase";
@@ -134,6 +160,11 @@ in {
       logg = "log --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --date=relative --decorate";
       llog = "log --graph --name-status --pretty=format:\"%C(red)%h %C(reset)(%cd) %C(green)%an %Creset%s %C(yellow)%d%Creset\" --date=relative";
     };
+  };
+
+  programs.yazi = {
+    enable = true;
+    enableBashIntegration = true;
   };
 
   # Let Home Manager install and manage itself.

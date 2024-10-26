@@ -3,7 +3,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   environment.systemPackages = with pkgs; [
     nix-output-monitor
     tmux
@@ -12,12 +13,21 @@
     ripgrep
     fd
     htop
-    neofetch
+    fastfetch
+    pfetch-rs
     acpi
     python312
     wtf
     gh
     delta
     home-manager
+    zoxide
+    fzf
+    nixfmt-rfc-style
+    aria2
+    gnupg
+    tealdeer
+    bat
+    yazi
   ];
 }

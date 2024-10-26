@@ -1,11 +1,6 @@
 {
-  config,
-  pkgs,
-  lib,
-  ...
-}:
-{
   imports = [
-    ./git.nix
+    ./git
+    ./neovim
   ];
 }

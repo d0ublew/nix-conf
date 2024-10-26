@@ -108,18 +108,15 @@ in
     email = "66501624+d0UBleW@users.noreply.github.com";
   };
 
+  neovim-mod = {
+    enable = true;
+    colorscheme = "tokyonight";
+  };
+
   programs.bash = {
     enable = true;
     enableCompletion = true;
     shellAliases = aliases;
-  };
-
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
   };
 
   programs.zoxide = {

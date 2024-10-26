@@ -6,25 +6,26 @@
   uname,
   ...
 }:
+with lib;
+let
+  mod = "wsl-mod";
+  cfg = config.${mod};
+in
 {
-  imports = [
-    ./packages.nix
-  ];
-  wsl = {
-    enable = true;
-    defaultUser = "${uname}";
-    docker-desktop.enable = false;
+  options.${mod} = {
+    enable = mkEnableOption "WSL";
+    docker-desktop = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable docker desktop";
+    };
   };
 
-  users.users."${uname}" = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
+  config = mkIf cfg.enable {
+    wsl = {
+      enable = true;
+      defaultUser = "${uname}";
+      docker-desktop.enable = cfg.docker-desktop;
+    };
   };
-
-  # home-manager = {
-  #   extraSpecialArgs = { inherit uname; };
-  #   users = {
-  #     "${uname}" = import ./home.nix;
-  #   };
-  # };
 }

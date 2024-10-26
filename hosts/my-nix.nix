@@ -15,8 +15,13 @@
 
   imports = [
     ../modules/generic-wsl.nix
+    ../modules/users.nix
+    ../modules/packages.nix
   ];
 
+  wsl-mod = {
+    enable = true;
+  };
   networking.hostName = "my-nix";
   time.timeZone = "Asia/Jakarta";
 }

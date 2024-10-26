@@ -48,7 +48,7 @@
         };
       };
       homeConfigurations = {
-        "d0ublew" = home-manager.lib.homeManagerConfiguration {
+        "${uname}" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           extraSpecialArgs = {
             inherit uname;

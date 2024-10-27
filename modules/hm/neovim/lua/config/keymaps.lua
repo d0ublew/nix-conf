@@ -90,6 +90,8 @@ nnoremap("<leader>l", "<cmd>wincmd l<CR>", { desc = "Select right window" })
 -- 	-- nnoremap("<S-tab>", "<cmd>tabprevious<CR>", { desc = "Prev tab" })
 -- end
 
+nnoremap("<tab>", "<cmd>tabnext<CR>", { desc = "Next tab" })
+nnoremap("<S-tab>", "<cmd>tabprevious<CR>", { desc = "Prev tab" })
 nnoremap("<leader><tab>", "<cmd>e #<CR>", { desc = "Switch to last buffer" })
 nnoremap("<leader>te", "<cmd>tabedit<CR>", { desc = "New tab" })
 

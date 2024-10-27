@@ -24,6 +24,7 @@ in
       conform-nvim
       fidget-nvim
       telescope-nvim
+      actions-preview-nvim
     ];
     xdg.configFile."nvim/lua/plugins/lsp_config.lua".source = ./spec.lua;
   };

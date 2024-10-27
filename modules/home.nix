@@ -114,8 +114,10 @@ in
     lsp = {
       enable = true;
       nix.enable = true;
-      lua.enable = false;
+      lua.enable = true;
     };
+    telescope.enable = true;
+    completion.enable = true;
   };
 
   programs.bash = {

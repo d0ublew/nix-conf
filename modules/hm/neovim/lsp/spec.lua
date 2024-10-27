@@ -7,6 +7,7 @@ return {
 			-- "williamboman/mason-lspconfig.nvim",
 
 			{ "j-hui/fidget.nvim", opts = {} },
+			{ "aznhe21/actions-preview.nvim" },
 			{ "nvim-telescope/telescope.nvim" },
 
 			-- Autoformatting
@@ -25,8 +26,15 @@ return {
 
 			local lspconfig = require("lspconfig")
 			local servers = {}
-			local langs = { "nix", "lua" }
-			for _, lang in pairs(langs) do
+
+			local function extract_lang(fpath)
+				local fname = fpath:match("^.+/(.+)$") or fpath
+				local lang = fname:match("^(.*)%.") or fname
+				return lang
+			end
+
+			for _, fpath in ipairs(vim.api.nvim_get_runtime_file("lua/plugins/lsp/*.lua", true)) do
+				local lang = extract_lang(fpath)
 				local has_lang, lsp_lang = pcall(require, "plugins.lsp." .. lang)
 				if has_lang then
 					servers[lsp_lang.name] = lsp_lang.config
@@ -68,10 +76,14 @@ return {
 					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
 					vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
+					vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = 0 })
+					vim.keymap.set("i", "<C-l>", vim.lsp.buf.signature_help, { buffer = 0 })
 
 					vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
-					vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = 0 })
+					vim.keymap.set({ "n", "v" }, "<space>ca", require("actions-preview").code_actions, { buffer = 0 })
 					vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0 })
+
+					vim.keymap.set("n", "gl", vim.diagnostic.open_float, { buffer = 0 })
 
 					local filetype = vim.bo[bufnr].filetype
 					if disable_semantic_tokens[filetype] then
@@ -127,9 +139,9 @@ return {
 			})
 
 			-- require("lsp_lines").setup()
-			vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
+			vim.diagnostic.config({ virtual_text = false, virtual_lines = false })
 
-			vim.keymap.set("", "gl", function()
+			vim.keymap.set("", "gL", function()
 				local config = vim.diagnostic.config() or {}
 				if config.virtual_text then
 					vim.diagnostic.config({ virtual_text = false, virtual_lines = true })

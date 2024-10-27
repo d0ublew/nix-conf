@@ -12,8 +12,10 @@ in
 {
   imports = [
     ./tokyonight
-    ./utils
+    ./misc
     ./lsp
+    ./telescope
+    ./completion
   ];
   # https://github.com/azuwis/nix-config/blob/52a6c657fb8031d5690f8971c52dc5c95c2f91b6/common/lazyvim/base/default.nix
   options.${mod} =
@@ -44,7 +46,7 @@ in
         type = pluginsOptionType;
         default = with pkgs.vimPlugins; [
           vim-unimpaired
-          telescope-nvim
+          telescope-fzf-native-nvim
         ];
       };
       extraPlugins = mkOption {

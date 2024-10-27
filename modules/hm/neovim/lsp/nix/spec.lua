@@ -12,34 +12,36 @@ end
 local hostname = uv.os_gethostname()
 
 return {
-	name = "nixd",
-	config = {
-		settings = {
-			nixd = {
-				formatting = {
-					command = { "nixfmt" },
-				},
-				options = {
-					nixos = {
-						expr = string.format(
-							'(builtins.getFlake "git+file://%s").nixosConfigurations."%s".options',
-							dir,
-							hostname
-						),
+	{
+		name = "nixd",
+		config = {
+			settings = {
+				nixd = {
+					formatting = {
+						command = { "nixfmt" },
 					},
-					nix_darwin = {
-						expr = string.format(
-							'(builtins.getFlake "git+file://%s").darwinConfigurations."%s".options',
-							dir,
-							hostname
-						),
-					},
-					home_manager = {
-						expr = string.format(
-							'(builtins.getFlake "git+file://%s").homeConfigurations."%s".options',
-							dir,
-							os.getenv("USER")
-						),
+					options = {
+						nixos = {
+							expr = string.format(
+								'(builtins.getFlake "git+file://%s").nixosConfigurations."%s".options',
+								dir,
+								hostname
+							),
+						},
+						nix_darwin = {
+							expr = string.format(
+								'(builtins.getFlake "git+file://%s").darwinConfigurations."%s".options',
+								dir,
+								hostname
+							),
+						},
+						home_manager = {
+							expr = string.format(
+								'(builtins.getFlake "git+file://%s").homeConfigurations."%s".options',
+								dir,
+								os.getenv("USER")
+							),
+						},
 					},
 				},
 			},

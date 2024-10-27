@@ -115,6 +115,7 @@ in
       enable = true;
       nix.enable = true;
       lua.enable = true;
+      python.enable = true;
     };
     telescope.enable = true;
     completion.enable = true;

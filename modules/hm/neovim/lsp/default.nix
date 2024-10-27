@@ -12,6 +12,7 @@ in
   imports = [
     ./nix
     ./lua
+    ./python
   ];
 
   options.neovim-mod.lsp = {

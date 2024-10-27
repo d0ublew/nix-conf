@@ -6,7 +6,17 @@ return {
 			-- "williamboman/mason.nvim",
 			-- "williamboman/mason-lspconfig.nvim",
 
-			{ "j-hui/fidget.nvim", opts = {} },
+			{
+				"j-hui/fidget.nvim",
+				opts = {
+					notification = {
+						window = {
+							winblend = 0,
+						},
+					},
+				},
+			},
+
 			{ "aznhe21/actions-preview.nvim" },
 			{ "nvim-telescope/telescope.nvim" },
 
@@ -35,9 +45,11 @@ return {
 
 			for _, fpath in ipairs(vim.api.nvim_get_runtime_file("lua/plugins/lsp/*.lua", true)) do
 				local lang = extract_lang(fpath)
-				local has_lang, lsp_lang = pcall(require, "plugins.lsp." .. lang)
+				local has_lang, lsp_cfgs = pcall(require, "plugins.lsp." .. lang)
 				if has_lang then
-					servers[lsp_lang.name] = lsp_lang.config
+					for _, lsp_cfg in pairs(lsp_cfgs) do
+						servers[lsp_cfg.name] = lsp_cfg.config
+					end
 				end
 			end
 			-- local td = require("util.table_dump")
@@ -109,6 +121,8 @@ return {
 			conform.setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
+					nix = { "nixfmt" },
+					python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
 				},
 			})
 

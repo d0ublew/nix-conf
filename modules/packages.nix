@@ -23,7 +23,6 @@
     home-manager
     zoxide
     fzf
-    nixfmt-rfc-style
     aria2
     gnupg
     tealdeer

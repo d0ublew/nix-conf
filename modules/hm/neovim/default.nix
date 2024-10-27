@@ -13,6 +13,7 @@ in
   imports = [
     ./tokyonight
     ./utils
+    ./lsp
   ];
   # https://github.com/azuwis/nix-config/blob/52a6c657fb8031d5690f8971c52dc5c95c2f91b6/common/lazyvim/base/default.nix
   options.${mod} =
@@ -42,7 +43,8 @@ in
       plugins = mkOption {
         type = pluginsOptionType;
         default = with pkgs.vimPlugins; [
-          plenary-nvim
+          vim-unimpaired
+          telescope-nvim
         ];
       };
       extraPlugins = mkOption {
@@ -59,6 +61,7 @@ in
         type = lib.types.lines;
         default = "";
       };
+
       colorscheme = mkOption {
         type = lib.types.enum [
           "default"
@@ -78,7 +81,6 @@ in
       vimdiffAlias = true;
       withNodeJs = false;
       extraPackages = with pkgs; [
-        stylua
         ripgrep
       ];
       plugins = with pkgs.vimPlugins; [
@@ -96,7 +98,8 @@ in
             else
               drv;
           lazyPath = pkgs.linkFarm "lazy-plugins" (
-            builtins.map mkEntryFromDrv (lib.subtractLists cfg.excludePlugins cfg.plugins ++ cfg.extraPlugins)
+            # builtins.map mkEntryFromDrv (lib.subtractLists cfg.excludePlugins cfg.plugins ++ cfg.extraPlugins)
+            builtins.map mkEntryFromDrv (cfg.plugins ++ cfg.extraPlugins)
           );
         in
         ''

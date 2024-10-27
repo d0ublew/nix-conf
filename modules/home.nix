@@ -111,6 +111,11 @@ in
   neovim-mod = {
     enable = true;
     colorscheme = "tokyonight";
+    lsp = {
+      enable = true;
+      nix.enable = true;
+      lua.enable = false;
+    };
   };
 
   programs.bash = {

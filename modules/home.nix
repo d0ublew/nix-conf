@@ -119,6 +119,7 @@ in
     };
     telescope.enable = true;
     completion.enable = true;
+    ui.enable = true;
   };
 
   programs.bash = {

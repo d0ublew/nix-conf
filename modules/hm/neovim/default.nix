@@ -46,8 +46,7 @@ in
       plugins = mkOption {
         type = pluginsOptionType;
         default = with pkgs.vimPlugins; [
-          vim-unimpaired
-          telescope-fzf-native-nvim
+          # lazy-nvim
         ];
       };
       extraPlugins = mkOption {

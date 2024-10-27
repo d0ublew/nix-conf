@@ -8,7 +8,7 @@
   environment.systemPackages = with pkgs; [
     nix-output-monitor
     tmux
-    neovim
+    # neovim-unwrapped
     git
     ripgrep
     fd

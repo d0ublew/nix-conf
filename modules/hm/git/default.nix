@@ -48,10 +48,10 @@ in
         "credential \"https://github.com\"".helper = "!${pkgs.gh}/bin/gh auth git-credential";
         "credential \"https://gist.github.com\"".helper = "!${pkgs.gh}/bin/gh auth git-credential";
         core = {
-          editor = "${pkgs.neovim}/bin/nvim";
+          editor = "nvim";
         };
         init.defaultBranch = cfg.default-branch;
-        diff.tool = "${pkgs.neovim}/bin/nvim -d";
+        diff.tool = "nvim -d";
         difftool.prompt = false;
       };
       aliases = {

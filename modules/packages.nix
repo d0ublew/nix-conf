@@ -28,5 +28,7 @@
     tealdeer
     bat
     yazi
+    p7zip
+    unixtools.xxd
   ];
 }

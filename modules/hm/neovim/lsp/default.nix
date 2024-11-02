@@ -13,6 +13,8 @@ in
     ./nix
     ./lua
     ./python
+    ./json
+    ./javascript
   ];
 
   options.neovim-mod.lsp = {
@@ -26,6 +28,7 @@ in
       fidget-nvim
       telescope-nvim
       actions-preview-nvim
+      lsp_lines-nvim
     ];
     xdg.configFile."nvim/lua/plugins/lsp_config.lua".source = ./spec.lua;
   };

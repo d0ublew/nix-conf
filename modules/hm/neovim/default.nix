@@ -117,6 +117,7 @@ in
               },
               spec = {
                   { import = "plugins" },
+
                   ${cfg.extraSpec}
               },
           })

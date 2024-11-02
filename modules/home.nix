@@ -117,6 +117,8 @@ in
       nix.enable = true;
       lua.enable = true;
       python.enable = true;
+      javascript.enable = true;
+      json.enable = true;
     };
     telescope.enable = true;
     completion.enable = true;

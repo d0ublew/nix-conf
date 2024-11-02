@@ -1,23 +1,23 @@
 local M = {}
 
 local function bind(op, outer_opts)
-	outer_opts = outer_opts or { noremap = true, silent = true }
-	return function(lhs, rhs, opts)
-		opts = vim.tbl_extend("force", outer_opts, opts or {})
-		vim.keymap.set(op, lhs, rhs, opts)
-	end
+  outer_opts = outer_opts or { noremap = true, silent = true }
+  return function(lhs, rhs, opts)
+    opts = vim.tbl_extend("force", outer_opts, opts or {})
+    vim.keymap.set(op, lhs, rhs, opts)
+  end
 end
 
 local function lazy_bind(outer_opts)
-	outer_opts = outer_opts or { remap = false, silent = true }
-	return function(lhs, rhs, opts)
-		local lazy_key = {
-			lhs,
-			rhs,
-		}
-		lazy_key = vim.tbl_extend("force", lazy_key, outer_opts, opts or {})
-		return lazy_key
-	end
+  outer_opts = outer_opts or { remap = false, silent = true }
+  return function(lhs, rhs, opts)
+    local lazy_key = {
+      lhs,
+      rhs,
+    }
+    lazy_key = vim.tbl_extend("force", lazy_key, outer_opts, opts or {})
+    return lazy_key
+  end
 end
 
 M.nmap = bind("n", { noremap = false })
@@ -31,11 +31,11 @@ M.cnoremap = bind("c")
 M.lazy_keymap = lazy_bind()
 
 local function buf_bind(op, outer_opts)
-	outer_opts = outer_opts or { noremap = true, silent = true }
-	return function(bufnr, lhs, rhs, opts)
-		opts = vim.tbl_extend("force", outer_opts, opts or {}, { buffer = bufnr })
-		vim.keymap.set(op, lhs, rhs, opts or {})
-	end
+  outer_opts = outer_opts or { noremap = true, silent = true }
+  return function(bufnr, lhs, rhs, opts)
+    opts = vim.tbl_extend("force", outer_opts, opts or {}, { buffer = bufnr })
+    vim.keymap.set(op, lhs, rhs, opts or {})
+  end
 end
 
 M.buf_nnoremap = buf_bind("n")

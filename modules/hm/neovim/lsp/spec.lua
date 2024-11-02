@@ -1,168 +1,184 @@
 return {
-	{
-		"neovim/nvim-lspconfig",
-		event = { "BufReadPre", "BufNewFile" },
-		dependencies = {
-			-- "williamboman/mason.nvim",
-			-- "williamboman/mason-lspconfig.nvim",
+  {
+    "neovim/nvim-lspconfig",
+    event = { "BufReadPre", "BufNewFile" },
+    dependencies = {
+      -- "williamboman/mason.nvim",
+      -- "williamboman/mason-lspconfig.nvim",
 
-			{
-				"j-hui/fidget.nvim",
-				opts = {
-					notification = {
-						window = {
-							winblend = 0,
-						},
-					},
-				},
-			},
+      {
+        "j-hui/fidget.nvim",
+        opts = {
+          notification = {
+            window = {
+              winblend = 0,
+            },
+          },
+        },
+      },
 
-			{ "aznhe21/actions-preview.nvim" },
-			{ "nvim-telescope/telescope.nvim" },
+      { "https://git.sr.ht/~whynothugo/lsp_lines.nvim" },
 
-			-- Autoformatting
-			"stevearc/conform.nvim",
-		},
-		config = function()
-			-- Don't do LSP stuff if we're in Obsidian Edit mode
-			if vim.g.obsidian then
-				return
-			end
+      -- {
+      --   "rachartier/tiny-inline-diagnostic.nvim",
+      --   config = function()
+      --     require("tiny-inline-diagnostic").setup()
+      --   end,
+      -- },
 
-			local capabilities = nil
-			if pcall(require, "cmp_nvim_lsp") then
-				capabilities = require("cmp_nvim_lsp").default_capabilities()
-			end
+      { "aznhe21/actions-preview.nvim" },
+      { "nvim-telescope/telescope.nvim" },
 
-			local lspconfig = require("lspconfig")
-			local servers = {}
+      -- Autoformatting
+      { "stevearc/conform.nvim" },
+    },
+    config = function()
+      -- Don't do LSP stuff if we're in Obsidian Edit mode
+      if vim.g.obsidian then
+        return
+      end
 
-			local function extract_lang(fpath)
-				local fname = fpath:match("^.+/(.+)$") or fpath
-				local lang = fname:match("^(.*)%.") or fname
-				return lang
-			end
+      local capabilities = nil
+      if pcall(require, "cmp_nvim_lsp") then
+        capabilities = require("cmp_nvim_lsp").default_capabilities()
+      end
 
-			for _, fpath in ipairs(vim.api.nvim_get_runtime_file("lua/plugins/lsp/*.lua", true)) do
-				local lang = extract_lang(fpath)
-				local has_lang, lsp_cfgs = pcall(require, "plugins.lsp." .. lang)
-				if has_lang then
-					for _, lsp_cfg in pairs(lsp_cfgs) do
-						servers[lsp_cfg.name] = lsp_cfg.config
-					end
-				end
-			end
-			-- local td = require("util.table_dump")
-			-- vim.print(td(servers))
+      local lspconfig = require("lspconfig")
+      local servers = {}
+      local formatters = {}
 
-			for name, config in pairs(servers) do
-				if config == true then
-					config = {}
-				end
-				config = vim.tbl_deep_extend("force", {}, {
-					capabilities = capabilities,
-				}, config)
+      local function extract_lang(fpath)
+        local fname = fpath:match("^.+/(.+)$") or fpath
+        local lang = fname:match("^(.*)%.") or fname
+        return lang
+      end
 
-				lspconfig[name].setup(config)
-			end
+      for _, fpath in ipairs(vim.api.nvim_get_runtime_file("lua/plugins/lsp/*.lua", true)) do
+        local lang = extract_lang(fpath)
+        local has_lang, lsp_cfgs = pcall(require, "plugins.lsp." .. lang)
+        if has_lang then
+          for _, lsp_cfg in pairs(lsp_cfgs.servers) do
+            servers[lsp_cfg.name] = lsp_cfg.config
+          end
+          if lsp_cfgs.formatters ~= nil then
+            formatters[lang] = lsp_cfgs.formatters
+          end
+        end
+      end
 
-			local disable_semantic_tokens = {
-				lua = true,
-			}
+      for name, config in pairs(servers) do
+        if config == true then
+          config = {}
+        end
+        config = vim.tbl_deep_extend("force", {}, {
+          capabilities = capabilities,
+        }, config)
 
-			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(args)
-					local bufnr = args.buf
-					local client = assert(vim.lsp.get_client_by_id(args.data.client_id), "must have valid client")
+        lspconfig[name].setup(config)
+      end
 
-					local settings = servers[client.name]
-					if type(settings) ~= "table" then
-						settings = {}
-					end
+      local disable_semantic_tokens = {
+        lua = true,
+      }
 
-					local builtin = require("telescope.builtin")
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local bufnr = args.buf
+          local client = assert(vim.lsp.get_client_by_id(args.data.client_id), "must have valid client")
 
-					vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
-					vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0 })
-					vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = 0 })
-					vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
-					vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
-					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
-					vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = 0 })
-					vim.keymap.set("i", "<C-l>", vim.lsp.buf.signature_help, { buffer = 0 })
+          local settings = servers[client.name]
+          if type(settings) ~= "table" then
+            settings = {}
+          end
 
-					vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
-					vim.keymap.set({ "n", "v" }, "<space>ca", require("actions-preview").code_actions, { buffer = 0 })
-					vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0 })
+          local builtin = require("telescope.builtin")
 
-					vim.keymap.set("n", "gl", vim.diagnostic.open_float, { buffer = 0 })
+          vim.opt_local.omnifunc = "v:lua.vim.lsp.omnifunc"
+          vim.keymap.set("n", "gd", builtin.lsp_definitions, { buffer = 0 })
+          vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = 0 })
+          vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
+          vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
+          vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = 0 })
+          vim.keymap.set("i", "<C-l>", vim.lsp.buf.signature_help, { buffer = 0 })
 
-					local filetype = vim.bo[bufnr].filetype
-					if disable_semantic_tokens[filetype] then
-						client.server_capabilities.semanticTokensProvider = nil
-					end
+          vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
+          vim.keymap.set({ "n", "v" }, "<space>ca", require("actions-preview").code_actions, { buffer = 0 })
+          vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0 })
 
-					-- Override server capabilities
-					if settings.server_capabilities then
-						for k, v in pairs(settings.server_capabilities) do
-							if v == vim.NIL then
-								---@diagnostic disable-next-line: cast-local-type
-								v = nil
-							end
+          vim.keymap.set("n", "gl", vim.diagnostic.open_float, { buffer = 0 })
 
-							client.server_capabilities[k] = v
-						end
-					end
-				end,
-			})
+          local filetype = vim.bo[bufnr].filetype
+          if disable_semantic_tokens[filetype] then
+            client.server_capabilities.semanticTokensProvider = nil
+          end
 
-			-- Autoformatting Setup
-			local conform = require("conform")
-			conform.setup({
-				formatters_by_ft = {
-					lua = { "stylua" },
-					nix = { "nixfmt" },
-					python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
-				},
-			})
+          -- Override server capabilities
+          if settings.server_capabilities then
+            for k, v in pairs(settings.server_capabilities) do
+              if v == vim.NIL then
+                ---@diagnostic disable-next-line: cast-local-type
+                v = nil
+              end
 
-			-- conform.formatters.injected = {
-			--   options = {
-			--     ignore_errors = false,
-			--     lang_to_formatters = {
-			--       sql = { "sleek" },
-			--     },
-			--   },
-			-- }
+              client.server_capabilities[k] = v
+            end
+          end
+        end,
+      })
 
-			vim.api.nvim_create_autocmd("BufWritePre", {
-				callback = function(args)
-					-- local filename = vim.fn.expand "%:p"
+      -- Autoformatting Setup
+      local conform = require("conform")
+      -- conform.setup({
+      --   formatters_by_ft = {
+      --     lua = { "stylua" },
+      --     nix = { "nixfmt" },
+      --     python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
+      --     javascript = { "biome", "biome-check" },
+      --   },
+      -- })
 
-					local extension = vim.fn.expand("%:e")
-					if extension == "mlx" then
-						return
-					end
+      conform.setup({
+        formatters_by_ft = formatters,
+      })
 
-					require("conform").format({
-						bufnr = args.buf,
-						lsp_fallback = true,
-						quiet = true,
-					})
-				end,
-			})
+      -- conform.formatters.injected = {
+      --   options = {
+      --     ignore_errors = false,
+      --     lang_to_formatters = {
+      --       sql = { "sleek" },
+      --     },
+      --   },
+      -- }
 
-			-- require("lsp_lines").setup()
-			vim.diagnostic.config({ virtual_text = false, virtual_lines = false })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        callback = function(args)
+          -- local filename = vim.fn.expand "%:p"
 
-			vim.keymap.set("", "gL", function()
-				local config = vim.diagnostic.config() or {}
-				if config.virtual_text then
-					vim.diagnostic.config({ virtual_text = false, virtual_lines = true })
-				else
-					vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
-				end
-			end, { desc = "Toggle lsp_lines" })
-		end,
-	},
+          local extension = vim.fn.expand("%:e")
+          if extension == "mlx" then
+            return
+          end
+
+          require("conform").format({
+            bufnr = args.buf,
+            lsp_fallback = true,
+            quiet = true,
+          })
+        end,
+      })
+
+      require("lsp_lines").setup()
+      vim.diagnostic.config({ virtual_text = false, virtual_lines = false })
+
+      vim.keymap.set("", "gL", function()
+        local config = vim.diagnostic.config() or {}
+        if config.virtual_lines then
+          vim.diagnostic.config({ virtual_text = false, virtual_lines = false })
+        else
+          vim.diagnostic.config({ virtual_text = false, virtual_lines = true })
+        end
+      end, { desc = "Toggle lsp_lines" })
+    end,
+  },
 }

@@ -2,7 +2,7 @@
 local status_ok_km, keymap = pcall(require, "util.keymaps")
 
 if not status_ok_km then
-	return
+  return
 end
 
 local nnoremap = keymap.nnoremap
@@ -16,7 +16,7 @@ cmap("<C-e>", "<end>", { desc = "Go to end of line" })
 
 local status_ok_toggle, toggle = pcall(require, "util.toggle")
 if status_ok_toggle then
-	nnoremap("<leader>mm", toggle.toggle_bg, { desc = "Toggle Light/Dark Mode" })
+  nnoremap("<leader>mm", toggle.toggle_bg, { desc = "Toggle Light/Dark Mode" })
 end
 
 nnoremap("<esc>", "<cmd>noh<CR><esc>", { desc = "Escape and clear hlsearch" })
@@ -30,12 +30,12 @@ nnoremap("<C-u>", "<C-u>zz")
 
 -- nnoremap("-", vim.cmd.Ex, { desc = "Open NetRW" })
 nnoremap("<leader>.", function()
-	local basename = vim.fn.expand("%:p:h")
-	if vim.bo.filetype == "oil" then
-		basename = string.sub(basename, 7, -1)
-	end
-	vim.fn.chdir(basename)
-	vim.notify("Set cwd to " .. basename)
+  local basename = vim.fn.expand("%:p:h")
+  if vim.bo.filetype == "oil" then
+    basename = string.sub(basename, 7, -1)
+  end
+  vim.fn.chdir(basename)
+  vim.notify("Set cwd to " .. basename)
 end, { desc = "Set cwd to current file basename" })
 
 -- vim.keymap.set({ "n", "v" }, "<leader>cf", function()
@@ -90,8 +90,8 @@ nnoremap("<leader>l", "<cmd>wincmd l<CR>", { desc = "Select right window" })
 -- 	-- nnoremap("<S-tab>", "<cmd>tabprevious<CR>", { desc = "Prev tab" })
 -- end
 
-nnoremap("<tab>", "<cmd>tabnext<CR>", { desc = "Next tab" })
-nnoremap("<S-tab>", "<cmd>tabprevious<CR>", { desc = "Prev tab" })
+nnoremap("<leader>tn", "<cmd>tabnext<CR>", { desc = "Next tab" })
+nnoremap("<leader>tp", "<cmd>tabprevious<CR>", { desc = "Prev tab" })
 nnoremap("<leader><tab>", "<cmd>e #<CR>", { desc = "Switch to last buffer" })
 nnoremap("<leader>te", "<cmd>tabedit<CR>", { desc = "New tab" })
 

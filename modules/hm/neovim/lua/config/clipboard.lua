@@ -1,7 +1,7 @@
 local inside_tmux = vim.fn.exists("$TMUX") == 1
 
 if inside_tmux then
-	vim.cmd([[
+  vim.cmd([[
     let g:clipboard = {
                 \   'name': 'myClipboard',
                 \   'copy': {
@@ -15,8 +15,8 @@ if inside_tmux then
                 \   'cache_enabled': 1,
                 \ }
     ]])
-elseif vim.fn.executable("clip.exe") and not inside_tmux then
-	vim.cmd([[
+elseif vim.fn.executable("clip.exe") == 1 then
+  vim.cmd([[
     let g:clipboard = {
                 \   'name': 'WslClipboard',
                 \   'copy': {
@@ -30,8 +30,8 @@ elseif vim.fn.executable("clip.exe") and not inside_tmux then
                 \   'cache_enabled': 0,
                 \ }
 	]])
-elseif vim.fn.executable("xclip") and not inside_tmux then
-	vim.cmd([[
+elseif vim.fn.executable("xclip") == 1 then
+  vim.cmd([[
     let g:clipboard = {
                 \   'name': 'xclip',
                 \   'copy': {
@@ -41,6 +41,21 @@ elseif vim.fn.executable("xclip") and not inside_tmux then
                 \   'paste': {
                 \      '+': 'xclip -o -sel clip',
                 \      '*': 'xclip -o -sel clip',
+                \   },
+                \   'cache_enabled': 1,
+                \ }
+	]])
+elseif vim.fn.executable("pbcopy") == 1 then
+  vim.cmd([[
+    let g:clipboard = {
+                \   'name': 'pbcopy',
+                \   'copy': {
+                \      '+': 'pbcopy',
+                \      '*': 'pbcopy',
+                \    },
+                \   'paste': {
+                \      '+': 'pbpaste',
+                \      '*': 'pbpaste',
                 \   },
                 \   'cache_enabled': 1,
                 \ }

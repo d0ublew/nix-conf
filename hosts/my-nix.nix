@@ -19,9 +19,7 @@
     ../modules/packages.nix
   ];
 
-  wsl-mod = {
-    enable = true;
-  };
   networking.hostName = "my-nix";
   time.timeZone = "Asia/Jakarta";
+  nixpkgs.overlays = import ../overlays { };
 }

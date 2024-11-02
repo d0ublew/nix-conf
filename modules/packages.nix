@@ -6,6 +6,7 @@
 }:
 {
   environment.systemPackages = with pkgs; [
+    file
     nix-output-monitor
     tmux
     # neovim-unwrapped

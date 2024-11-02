@@ -44,6 +44,9 @@
               };
             }
             ./hosts/my-nix.nix
+            {
+              wsl-mod.enable = true;
+            }
           ];
         };
       };
@@ -55,6 +58,9 @@
           };
           modules = [
             ./modules/home.nix
+            {
+              nixpkgs.overlays = import ./overlays { };
+            }
           ];
         };
       };

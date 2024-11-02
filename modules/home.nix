@@ -129,6 +129,8 @@ in
     enable = true;
   };
 
+  gdb-mod.enable = true;
+
   programs.zoxide = {
     enable = true;
     enableBashIntegration = true;

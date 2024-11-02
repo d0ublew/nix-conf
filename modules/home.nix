@@ -122,15 +122,28 @@ in
     ui.enable = true;
   };
 
-  programs.bash = {
+  yazi-mod = {
     enable = true;
-    enableCompletion = true;
-    shellAliases = aliases;
   };
 
   programs.zoxide = {
     enable = true;
     enableBashIntegration = true;
+  };
+
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    shellAliases = aliases;
+    bashrcExtra = ''
+      __tmux_prompt_hook() {
+        PS0="${"$"}{TMUX:+\e]133;C\e\\}"
+      }
+    '';
+    profileExtra = ''
+      export PATH="${"$"}{HOME}/.local/bin:$PATH"
+      export PROMPT_COMMAND="__tmux_prompt_hook;${"$"}{PROMPT_COMMAND}"
+    '';
   };
 
   programs.bat = {
@@ -141,11 +154,6 @@ in
       paging = "never";
       pager = "less -FR";
     };
-  };
-
-  programs.yazi = {
-    enable = true;
-    enableBashIntegration = true;
   };
 
   # Let Home Manager install and manage itself.

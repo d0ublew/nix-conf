@@ -15,7 +15,7 @@ in
   config = mkIf cfg.enable {
     neovim-mod.extraPlugins = with pkgs.vimPlugins; [
       nvim-navic
-      nvim-web-devicons
+      # nvim-web-devicons
       nui-nvim
       indent-blankline-nvim
       lualine-nvim

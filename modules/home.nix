@@ -126,6 +126,7 @@ in
     telescope.enable = true;
     completion.enable = true;
     ui.enable = true;
+    misc.enable = true;
     mini.enable = true;
   };
 

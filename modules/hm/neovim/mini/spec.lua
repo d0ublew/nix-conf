@@ -24,5 +24,6 @@ return {
   --   opts = {},
   --   event = "InsertEnter",
   -- },
+
   { "echasnovski/mini.icons", opts = {}, version = false },
 }

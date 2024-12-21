@@ -7,6 +7,7 @@
 with lib;
 let
   cfg = config.neovim-mod.completion;
+  my-blink-cmp = pkgs.callPackage ./blink-cmp.nix { };
 in
 {
   options.neovim-mod.completion = {
@@ -14,10 +15,12 @@ in
   };
   config = mkIf cfg.enable {
     neovim-mod.extraPlugins = with pkgs.vimPlugins; [
-      nvim-cmp
-      cmp-nvim-lsp
-      cmp-buffer
-      cmp-path
+      # nvim-cmp
+      # cmp-nvim-lsp
+      # cmp-buffer
+      # cmp-path
+      my-blink-cmp
+      friendly-snippets
     ];
 
     xdg.configFile."nvim/lua/plugins/completion.lua".source = ./spec.lua;

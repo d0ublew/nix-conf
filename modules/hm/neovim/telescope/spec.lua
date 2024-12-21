@@ -7,6 +7,7 @@ return {
     dependencies = {
       { "nvim-telescope/telescope-fzf-native.nvim" },
       { "nvim-telescope/telescope-ui-select.nvim" },
+      { "nvim-lua/plenary.nvim" },
     },
     cmd = "Telescope",
     version = false, -- telescope did only one release, so use HEAD for now

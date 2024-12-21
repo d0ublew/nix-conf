@@ -19,6 +19,7 @@ if status_ok_toggle then
   nnoremap("<leader>mm", toggle.toggle_bg, { desc = "Toggle Light/Dark Mode" })
 end
 
+nnoremap("s", "<nop>", { silent = true })
 nnoremap("<esc>", "<cmd>noh<CR><esc>", { desc = "Escape and clear hlsearch" })
 nnoremap("k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 nnoremap("j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })

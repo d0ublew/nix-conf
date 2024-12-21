@@ -124,6 +124,7 @@ in
     telescope.enable = true;
     completion.enable = true;
     ui.enable = true;
+    mini.enable = true;
   };
 
   yazi-mod = {

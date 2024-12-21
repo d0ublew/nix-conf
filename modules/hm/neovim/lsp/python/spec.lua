@@ -1,5 +1,5 @@
 local on_attach = function(client, _)
-  if client.name == "ruff_lsp" then
+  if client.name == "ruff" then
     client.server_capabilities.hoverProvider = false
   end
 end
@@ -12,7 +12,7 @@ return {
   },
   servers = {
     {
-      name = "ruff_lsp",
+      name = "ruff",
       config = {
         on_attach = on_attach,
         init_options = {

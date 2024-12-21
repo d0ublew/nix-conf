@@ -16,6 +16,7 @@ in
   config = mkIf cfg.enable {
     programs.neovim.extraPackages = with pkgs; [
       vscode-langservers-extracted
+      jq
     ];
 
     neovim-mod.extraPlugins = with pkgs.vimPlugins; [

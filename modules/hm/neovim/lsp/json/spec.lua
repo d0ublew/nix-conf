@@ -1,4 +1,7 @@
 return {
+  formatters = {
+    "jq",
+  },
   servers = {
     {
       name = "jsonls",

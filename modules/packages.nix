@@ -31,5 +31,12 @@
     yazi
     p7zip
     unixtools.xxd
+    netcat-openbsd
+    # podman
+    # podman-compose
+    # qemu-user
+    # qemu-utils
+    # qemu
+    # virtiofsd
   ];
 }

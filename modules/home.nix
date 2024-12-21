@@ -18,6 +18,7 @@ let
     rm = "rm -i";
     mv = "mv -i";
     cp = "cp -i";
+    ".." = "cd ..";
   };
 in
 {
@@ -64,6 +65,7 @@ in
     ".inputrc".source = dotfiles/inputrc;
     ".tmux".source = dotfiles/tmux/tmux;
     ".tmux.conf".source = dotfiles/tmux/tmux.conf;
+    ".wezterm.sh".source = dotfiles/wezterm.sh;
 
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
@@ -144,10 +146,12 @@ in
       __tmux_prompt_hook() {
         PS0="${"$"}{TMUX:+\e]133;C\e\\}"
       }
+      . $HOME/.wezterm.sh
+      source <(${pkgs.fzf}/bin/fzf --bash)
     '';
     profileExtra = ''
       export PATH="${"$"}{HOME}/.local/bin:$PATH"
-      export PROMPT_COMMAND="__tmux_prompt_hook;${"$"}{PROMPT_COMMAND}"
+      # export PROMPT_COMMAND="__tmux_prompt_hook;${"$"}{PROMPT_COMMAND}"
     '';
   };
 

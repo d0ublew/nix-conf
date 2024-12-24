@@ -26,7 +26,15 @@ return {
       --   end,
       -- },
 
-      { "aznhe21/actions-preview.nvim" },
+      {
+        "aznhe21/actions-preview.nvim",
+        dependencies = { { "nvim-telescope/telescope.nvim" } },
+        config = function()
+          require("actions-preview").setup({
+            telescope = require("telescope.themes").get_ivy({ winblend = 0 }),
+          })
+        end,
+      },
       { "nvim-telescope/telescope.nvim" },
 
       -- Autoformatting

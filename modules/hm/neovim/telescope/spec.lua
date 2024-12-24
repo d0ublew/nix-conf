@@ -1,4 +1,5 @@
 local builtin = require("telescope.builtin")
+local themes = require("telescope.themes")
 pcall(require("telescope").load_extension, "ui-select")
 
 return {
@@ -16,7 +17,13 @@ return {
       { "<leader>,", "<cmd>Telescope buffers show_all_buffers=true<cr>", desc = "Switch Buffer" },
       { "<leader>/", builtin.current_buffer_fuzzy_find, desc = "Search current buffer" },
       -- find
-      { "<leader>ff", builtin.find_files, desc = "Find Files (root dir)" },
+      {
+        "<leader>ff",
+        function()
+          builtin.find_files({ hidden = true })
+        end,
+        desc = "Find Files (root dir)",
+      },
       {
         "<leader>fR",
         function()
@@ -47,7 +54,7 @@ return {
       { "<leader>sM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
       { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
       { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
-      { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Resume" },
+      { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Launch last telescope command" },
       {
         "<leader>st",
         function()
@@ -97,7 +104,7 @@ return {
       },
     },
     opts = {
-      defaults = {
+      defaults = vim.tbl_deep_extend("force", themes.get_ivy({ winblend = 0 }), {
         prompt_prefix = " ",
         selection_caret = " ",
         mappings = {
@@ -135,12 +142,18 @@ return {
             ["q"] = function(...)
               return require("telescope.actions").close(...)
             end,
+            ["<C-c>"] = "close",
           },
         },
-      },
+      }),
+      -- pickers = {
+      --   find_files = {
+      --     theme = "ivy",
+      --   },
+      -- },
       extensions = {
         ["ui-select"] = {
-          require("telescope.themes").get_dropdown({}),
+          require("telescope.themes").get_ivy({ winblend = 0 }),
         },
       },
     },

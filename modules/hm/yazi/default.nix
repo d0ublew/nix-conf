@@ -11,8 +11,8 @@ let
   yazi-plugins = pkgs.fetchFromGitHub {
     owner = "yazi-rs";
     repo = "plugins";
-    rev = "ad52adf917d6dd679dbc2dcefa3a9384654bd1c7";
-    hash = "sha256-UOSH8RM+6VkQqi14bwUdFUNm8CgbDRlNial9VevjYuU=";
+    rev = "71c4fc2e6fa1d6f70c85bf525842d6888d1ffa46";
+    hash = "sha256-X3R5bsnzGv1TVXOKdhAyspDMguVAyc9tvCxJlypUUAA=";
     # hash = lib.fakeHash;
   };
 in
@@ -22,14 +22,14 @@ in
   };
 
   config = mkIf cfg.enable {
-    xdg.configFile."yazi/plugins/smart-enter.yazi/init.lua".text = ''
-      return {
-        entry = function()
-          local h = cx.active.current.hovered
-          ya.manager_emit(h and h.cha.is_dir and "enter" or "open", { hovered = true })
-        end,
-      }
-    '';
+    # xdg.configFile."yazi/plugins/smart-enter.yazi/init.lua".text = ''
+    #   return {
+    #     entry = function()
+    #       local h = cx.active.current.hovered
+    #       ya.manager_emit(h and h.cha.is_dir and "enter" or "open", { hovered = true })
+    #     end,
+    #   }
+    # '';
     programs.yazi = {
       enable = true;
       enableBashIntegration = true;
@@ -47,6 +47,7 @@ in
         full-border = "${yazi-plugins}/full-border.yazi";
         max-preview = "${yazi-plugins}/max-preview.yazi";
         hide-preview = "${yazi-plugins}/hide-preview.yazi";
+        smart-enter = "${yazi-plugins}/smart-enter.yazi";
       };
       keymap = {
         manager.prepend_keymap = [
@@ -79,17 +80,17 @@ in
             desc = "Go to the workspace directory";
           }
           {
-            run = "plugin --sync smart-enter";
+            run = "plugin smart-enter";
             on = [ "<Enter>" ];
             desc = "Enter the child directory, or open the file";
           }
           {
-            run = "plugin --sync hide-preview";
+            run = "plugin hide-preview";
             on = [ "<A-Z>" ];
             desc = "Toggle preview pane";
           }
           {
-            run = "plugin --sync max-preview";
+            run = "plugin max-preview";
             on = [ "<A-p>" ];
             desc = "Maximize or restore preview";
           }

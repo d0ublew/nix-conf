@@ -9,6 +9,10 @@
 {
   users.users."${uname}" = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "podman-root"
+    ];
   };
+  users.groups."podman-root".gid = 10;
 }

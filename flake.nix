@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nix-ld = {
+      url = "github:Mic92/nix-ld";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,6 +19,7 @@
       self,
       nixpkgs,
       nixos-wsl,
+      nix-ld,
       home-manager,
       ...
     }@inputs:
@@ -34,6 +39,10 @@
           };
           modules = [
             nixos-wsl.nixosModules.default
+            nix-ld.nixosModules.nix-ld
+            {
+              programs.nix-ld.dev.enable = true;
+            }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

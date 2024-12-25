@@ -8,6 +8,8 @@
   environment.systemPackages = with pkgs; [
     file
     nix-output-monitor
+    # nix-direnv
+    # nix-direnv-flakes
     tmux
     # neovim-unwrapped
     git
@@ -32,8 +34,8 @@
     p7zip
     unixtools.xxd
     netcat-openbsd
-    # podman
-    # podman-compose
+    podman
+    podman-compose
     # qemu-user
     # qemu-utils
     # qemu

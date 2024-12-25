@@ -19,6 +19,7 @@ let
     mv = "mv -i";
     cp = "cp -i";
     ".." = "cd ..";
+    podr = "podman --remote";
   };
 in
 {
@@ -40,6 +41,7 @@ in
   # environment.
   home.packages = with pkgs; [
     uv
+    patchelf
     gef-bata24
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
@@ -149,6 +151,8 @@ in
       }
       . $HOME/.wezterm.sh
       source <(${pkgs.fzf}/bin/fzf --bash)
+      source <(podman completion bash)
+      complete -o default -F __start_podman podr
     '';
     profileExtra = ''
       export PATH="${"$"}{HOME}/.local/bin:$PATH"
@@ -164,6 +168,12 @@ in
       paging = "never";
       pager = "less -FR";
     };
+  };
+
+  programs.direnv = {
+    enable = true;
+    enableBashIntegration = true;
+    nix-direnv.enable = true;
   };
 
   # Let Home Manager install and manage itself.

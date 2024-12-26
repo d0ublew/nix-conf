@@ -12,6 +12,9 @@
     "nix-command"
     "flakes"
   ];
+  nix.settings.trusted-users = [
+    "@wheel"
+  ];
 
   imports = [
     ../modules/generic-wsl.nix

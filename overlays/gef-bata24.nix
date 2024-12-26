@@ -23,6 +23,7 @@ let
       keystone-engine
       tqdm
       magika
+      rpyc
     ];
   binPath =
     with final;

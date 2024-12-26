@@ -20,9 +20,16 @@ return {
       {
         "<leader>ff",
         function()
-          builtin.find_files({ hidden = true })
+          builtin.find_files({ hidden = false })
         end,
         desc = "Find Files (root dir)",
+      },
+      {
+        "<leader>fF",
+        function()
+          builtin.find_files({ hidden = true })
+        end,
+        desc = "Find Files including hidden files (root dir)",
       },
       {
         "<leader>fR",

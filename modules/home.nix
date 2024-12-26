@@ -176,6 +176,17 @@ in
     nix-direnv.enable = true;
   };
 
+  programs.starship = {
+    enable = true;
+    enableBashIntegration = true;
+    settings = {
+      character = {
+        success_symbol = "[➜](bold green)";
+        error_symbol = "[➜](bold red)";
+      };
+    };
+  };
+
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

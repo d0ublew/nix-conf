@@ -27,5 +27,23 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank()
   end,
   group = augroup("highlight_yank"),
+  desc = "Highlight when yanking",
   pattern = "*",
+})
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+  group = augroup("last_cursor_position"),
+  pattern = "*",
+  desc = "Remember last cursor position",
+  callback = function()
+    local ft = vim.opt.filetype:get()
+    if ft == "fugitive" or ft == "gitcommit" or ft == "gitrebase" then
+      return
+    end
+    local mark = vim.api.nvim_buf_get_mark(0, '"')
+    local lcount = vim.api.nvim_buf_line_count(0)
+    if mark[1] > 0 and mark[1] <= lcount then
+      pcall(vim.api.nvim_win_set_cursor, 0, mark)
+    end
+  end,
 })

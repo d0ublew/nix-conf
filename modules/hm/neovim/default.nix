@@ -8,10 +8,15 @@ with lib;
 let
   mod = "neovim-mod";
   cfg = config.${mod};
+  cschemes = [
+    "default"
+    "tokyonight"
+    "rose-pine"
+  ];
 in
 {
   imports = [
-    ./tokyonight
+    ./colorscheme
     ./misc
     ./lsp
     ./telescope
@@ -41,6 +46,18 @@ in
             };
           })
         ]);
+      colorschemesOptionType =
+        let
+          inherit (lib.types)
+            listOf
+            oneOf
+            enum
+            ;
+        in
+        oneOf [
+          (enum cschemes)
+          (listOf (enum cschemes))
+        ];
     in
     {
       enable = mkEnableOption "Neovim config";
@@ -66,11 +83,15 @@ in
       };
 
       colorscheme = mkOption {
-        type = lib.types.enum [
-          "default"
-          "tokyonight"
-        ];
+        type = lib.types.enum cschemes;
         default = "default";
+        description = "Enabled colorscheme from list of installed colorschemes";
+      };
+
+      colorschemes = mkOption {
+        type = colorschemesOptionType;
+        default = cschemes;
+        description = "List of colorschemes to be installed";
       };
     };
 

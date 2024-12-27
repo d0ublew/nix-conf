@@ -115,9 +115,13 @@ in
     email = "66501624+d0UBleW@users.noreply.github.com";
   };
 
-  neovim-mod = {
+  neovim-mod = rec {
     enable = true;
-    colorscheme = "tokyonight";
+    colorschemes = [
+      "tokyonight"
+      "rose-pine"
+    ];
+    colorscheme = lib.elemAt colorschemes 0;
     lsp = {
       enable = true;
       nix.enable = true;

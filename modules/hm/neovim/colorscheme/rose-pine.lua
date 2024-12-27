@@ -8,6 +8,25 @@ return {
     styles = {
       transparency = true,
     },
+    before_highlight = function(group, highlight, palette)
+      -- Disable all undercurls
+      -- if highlight.undercurl then
+      --   highlight.undercurl = false
+      -- end
+
+      -- Change palette colour
+      -- if highlight.fg == palette.pine then
+      --     highlight.fg = palette.foam
+      -- end
+    end,
+    highlight_groups = {
+      TelescopeBorder = { fg = "highlight_high", bg = "none" },
+      TelescopeNormal = { bg = "none" },
+      TelescopePromptNormal = { bg = "none" },
+      TelescopeResultsNormal = { fg = "subtle", bg = "none" },
+      TelescopeSelection = { fg = "text", bg = "base" },
+      TelescopeSelectionCaret = { fg = "rose", bg = "rose" },
+    },
   },
   -- config = function(_, opts)
   --   require("rose-pine").setup(opts)

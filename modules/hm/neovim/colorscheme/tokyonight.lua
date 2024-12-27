@@ -20,6 +20,17 @@ return {
         hide_inactive_statusline = false,
         dim_inactive = false,
         lualine_bold = false,
+        on_highlights = function(hl, c)
+          -- set telescope-bg transparent
+          hl.TelescopeNormal.bg = c.none
+          hl.TelescopeBorder.bg = c.none
+          hl.TelescopeSelectionCaret = {
+            fg = c.blue,
+            bg = c.blue,
+          }
+          hl.TelescopePromptBorder.bg = c.none
+          hl.TelescopePromptTitle.bg = c.none
+        end,
       }
     end,
     config = function(_, opts)

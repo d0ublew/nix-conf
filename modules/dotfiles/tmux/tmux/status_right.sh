@@ -18,33 +18,33 @@ function battery_meter() {
 			100% | 9[0-9]% | 8[0-9]% | 7[5-9]%)
 				bgcolor='blue'
 				fgcolor='#ffffff'
-				icon=' '
+				icon='󰁹 '
 				;;
 
 			# From 74% to 50% display color green.
 			7[0-4]% | 6[0-9]% | 5[0-9]%)
 				bgcolor='green'
 				fgcolor='#ffffff'
-				icon=' '
+				icon='󰂀 '
 				;;
 
 			# From 49% to 25% display color yellow.
 			4[0-9]% | 3[0-9]% | 2[5-9]%)
 				bgcolor='yellow'
 				fgcolor='#ffffff'
-				icon=' '
+				icon='󰁾 '
 				;;
 
 			# From 24% to 0% display color red.
 			2[0-4]% | 1[0-9]% | [0-9]%)
 				bgcolor='red'
 				fgcolor='#ffffff'
-				icon=' '
+				icon='󰁻 '
 				;;
 			esac
 
 			if [ "$(cat /sys/class/power_supply/AC1/online)" == 1 ]; then
-				icon=' '
+				icon='󰂄 '
 			fi
 
 			# Display the percentage of charge the battery has.

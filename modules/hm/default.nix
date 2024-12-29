@@ -1,8 +1,4 @@
+{ lib, ... }:
 {
-  imports = [
-    ./git
-    ./neovim
-    ./yazi
-    ./gdb
-  ];
+  imports = lib.my.getModules ./.;
 }

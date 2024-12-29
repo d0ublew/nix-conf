@@ -27,6 +27,8 @@
       uname = "d0ublew";
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      mylib = import ./libs { inherit (nixpkgs) lib; };
+      lib = nixpkgs.lib.extend (final: prev: { my = mylib; });
     in
     {
       nixosConfigurations = {
@@ -36,6 +38,7 @@
             inherit inputs;
             inherit uname;
             inherit system;
+            inherit lib;
           };
           modules = [
             nixos-wsl.nixosModules.default
@@ -62,6 +65,7 @@
       homeConfigurations = {
         "${uname}" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
+          inherit lib;
           extraSpecialArgs = {
             inherit uname;
           };

@@ -30,6 +30,19 @@ return {
           }
           hl.TelescopePromptBorder.bg = c.none
           hl.TelescopePromptTitle.bg = c.none
+
+          hl.WinBar = {
+            bg = c.none,
+            fg = hl.StatusLine.fg,
+          }
+
+          hl.WinBarNC = {
+            bg = c.none,
+            fg = hl.StatusLine.fg,
+          }
+
+          -- hl.NavicText.bg = c.bg_statusline
+          -- hl.NavicSeparator.bg = c.bg_statusline
         end,
       }
     end,

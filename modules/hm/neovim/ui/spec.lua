@@ -89,6 +89,9 @@ return {
   {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
+    dependencies = {
+      { "SmiteshP/nvim-navic" },
+    },
     opts = function()
       local branch = {
         "branch",
@@ -109,9 +112,9 @@ return {
           always_divide_middle = true,
           globalstatus = true,
           refresh = {
-            statusline = 1000,
+            statusline = 150,
             tabline = 1000,
-            winbar = 1000,
+            winbar = 250,
           },
         },
         sections = {
@@ -119,14 +122,6 @@ return {
           lualine_b = { branch, "diagnostics" },
           lualine_c = {
             "filename",
-            {
-              function()
-                return require("nvim-navic").get_location()
-              end,
-              cond = function()
-                return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-              end,
-            },
           },
           lualine_x = { "encoding", "fileformat", "filetype" },
           lualine_y = { "progress" },
@@ -141,7 +136,19 @@ return {
           lualine_z = {},
         },
         tabline = {},
-        winbar = {},
+        winbar = {
+          lualine_c = {
+            {
+              function()
+                return require("nvim-navic").get_location()
+              end,
+              cond = function()
+                return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+              end,
+              color = "lualine_c_normal",
+            },
+          },
+        },
         inactive_winbar = {},
         extensions = {},
       }
@@ -177,27 +184,38 @@ return {
   -- etc - in the statusline.
   {
     "SmiteshP/nvim-navic",
-    lazy = true,
+    -- lazy = true,
+    event = "LspAttach",
     init = function()
       vim.g.navic_silence = true
-      require("util.lazyvim").lsp.on_attach(function(client, buffer)
-        if client.server_capabilities.documentSymbolProvider then
-          require("nvim-navic").attach(client, buffer)
-        end
-      end)
+      -- local on_attach = function(client, buffer)
+      --   if client.server_capabilities.documentSymbolProvider then
+      --     require("nvim-navic").attach(client, buffer)
+      --   end
+      -- end
+      -- vim.api.nvim_create_autocmd("LspAttach", {
+      --   callback = function(args)
+      --     local buffer = args.buf
+      --     local client = vim.lsp.get_client_by_id(args.data.client_id)
+      --     on_attach(client, buffer)
+      --   end,
+      -- })
     end,
     opts = function()
       return {
-        separator = " ",
+        separator = " > ",
         highlight = true,
         depth_limit = 5,
         icons = require("config.icons").kinds,
+        lsp = {
+          auto_attach = true,
+        },
       }
     end,
   },
 
   -- icons
-  -- { "nvim-tree/nvim-web-devicons", lazy = true },
+  { "nvim-tree/nvim-web-devicons", lazy = true },
 
   -- ui components
   { "MunifTanjim/nui.nvim", lazy = true },

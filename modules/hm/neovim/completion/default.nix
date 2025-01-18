@@ -7,8 +7,8 @@
 with lib;
 let
   cfg = config.neovim-mod.completion;
-  my-blink-cmp = pkgs.callPackage ./blink-cmp.nix { };
 in
+# my-blink-cmp = pkgs.callPackage ./blink-cmp.nix { };
 {
   options.neovim-mod.completion = {
     enable = mkEnableOption "neovim completion";
@@ -19,7 +19,7 @@ in
       # cmp-nvim-lsp
       # cmp-buffer
       # cmp-path
-      my-blink-cmp
+      blink-cmp
       friendly-snippets
     ];
 

@@ -15,7 +15,7 @@ if [[ "${curr_session}" == "${sp_session}" ]]; then
 fi
 
 if [[ "${curr_session}:${cmd}" == "${popup_session}:bash" ]]; then 
-        exit 0
+    exit 0
 fi
 if [[ "${curr_session}:${curr_window}" == "${popup_session}:${window_name}" ]]; then 
     exit 0

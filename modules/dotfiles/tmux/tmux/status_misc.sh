@@ -18,7 +18,7 @@ function main() {
     mouse_indicator
     sync_indicator
     zoom_indicator
-	prefix_indicator
+    prefix_indicator
 }
 
 main

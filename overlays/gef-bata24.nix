@@ -1,7 +1,7 @@
 final: prev:
 let
   vmlinux-to-elf =
-    with final.python3.pkgs;
+    with final.python313.pkgs;
     buildPythonPackage rec {
       name = "vmlinux-to-elf";
       version = "da14e789596d493f305688e221e9e34ebf63cbb8";
@@ -14,7 +14,7 @@ let
       };
     };
   pythonPath =
-    with final.python3.pkgs;
+    with final.python313.pkgs;
     makePythonPath [
       crccheck
       unicorn
@@ -28,7 +28,7 @@ let
   binPath =
     with final;
     lib.makeBinPath [
-      python3
+      python313
       bintools-unwrapped # for readelf
       file
       ps

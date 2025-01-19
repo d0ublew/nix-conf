@@ -1,4 +1,6 @@
-{ }:
-[
-  (import ./gef-bata24.nix)
-]
+{ ... }:
+{
+  nixpkgs.overlays = [
+    (import ./gef-bata24.nix)
+  ];
+}

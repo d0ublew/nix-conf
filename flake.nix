@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     nix-ld = {
       url = "github:Mic92/nix-ld";
@@ -18,6 +19,7 @@
     {
       self,
       nixpkgs,
+      nixpkgs-stable,
       nixos-wsl,
       nix-ld,
       home-manager,
@@ -27,6 +29,7 @@
       uname = "d0ublew";
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      pkgs-stable = nixpkgs-stable.legacyPackages.${system};
       mylib = import ./libs { inherit (nixpkgs) lib; };
       lib = nixpkgs.lib.extend (final: prev: { my = mylib; });
     in
@@ -39,6 +42,7 @@
             inherit uname;
             inherit system;
             inherit lib;
+            inherit pkgs-stable;
           };
           modules = [
             nixos-wsl.nixosModules.default
@@ -68,12 +72,11 @@
           inherit lib;
           extraSpecialArgs = {
             inherit uname;
+            inherit pkgs-stable;
           };
           modules = [
             ./modules/home.nix
-            {
-              nixpkgs.overlays = import ./overlays { };
-            }
+            ./overlays
           ];
         };
       };

@@ -20,9 +20,10 @@
     ../modules/generic-wsl.nix
     ../modules/users.nix
     ../modules/packages.nix
+    ../overlays
   ];
 
   networking.hostName = "my-nix";
   time.timeZone = "Asia/Jakarta";
-  nixpkgs.overlays = import ../overlays { };
+  # nixpkgs.overlays = import ../overlays { };
 }

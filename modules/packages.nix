@@ -36,6 +36,10 @@
     netcat-openbsd
     podman
     podman-compose
+    elfutils
+    gdb
+    jq
+    dig
     # qemu-user
     # qemu-utils
     # qemu

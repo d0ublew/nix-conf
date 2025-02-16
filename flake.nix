@@ -79,6 +79,18 @@
             ./overlays
           ];
         };
+        kali = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          inherit lib;
+          extraSpecialArgs = {
+            inherit uname;
+            inherit pkgs-stable;
+          };
+          modules = [
+            ./modules/kali-home.nix
+            ./overlays
+          ];
+        };
       };
     };
 }

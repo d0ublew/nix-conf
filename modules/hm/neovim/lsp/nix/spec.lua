@@ -3,6 +3,8 @@ local uv = vim.loop
 local dir
 if uv.fs_stat(vim.fn.expand("~/config")) then
   dir = vim.fn.expand("~/config")
+elseif uv.fs_stat("~/nix-conf") then
+  dir = vim.fn.expand("~/nix-conf")
 elseif uv.fs_stat("/etc/nixos") then
   dir = "/etc/nixos"
 else

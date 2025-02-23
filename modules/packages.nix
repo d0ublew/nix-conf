@@ -40,6 +40,7 @@
     gdb
     jq
     dig
+    openssl
     # qemu-user
     # qemu-utils
     # qemu

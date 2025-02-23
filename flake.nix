@@ -32,6 +32,9 @@
       pkgs-stable = nixpkgs-stable.legacyPackages.${system};
       mylib = import ./libs { inherit (nixpkgs) lib; };
       lib = nixpkgs.lib.extend (final: prev: { my = mylib; });
+      unfree-pkgs = [
+        "ngrok"
+      ];
     in
     {
       nixosConfigurations = {
@@ -43,6 +46,7 @@
             inherit system;
             inherit lib;
             inherit pkgs-stable;
+            inherit unfree-pkgs;
           };
           modules = [
             nixos-wsl.nixosModules.default
@@ -73,6 +77,7 @@
           extraSpecialArgs = {
             inherit uname;
             inherit pkgs-stable;
+            inherit unfree-pkgs;
           };
           modules = [
             ./modules/home.nix
@@ -85,6 +90,7 @@
           extraSpecialArgs = {
             inherit uname;
             inherit pkgs-stable;
+            inherit unfree-pkgs;
           };
           modules = [
             ./modules/kali-home.nix

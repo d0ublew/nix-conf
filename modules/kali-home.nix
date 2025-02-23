@@ -3,6 +3,7 @@
   pkgs,
   uname,
   lib,
+  unfree-pkgs,
   ...
 }:
 let
@@ -25,6 +26,7 @@ let
   };
 in
 {
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) unfree-pkgs;
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "kali";

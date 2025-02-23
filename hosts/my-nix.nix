@@ -4,6 +4,7 @@
   config,
   inputs,
   uname,
+  unfree-pkgs,
   ...
 }:
 {
@@ -25,5 +26,7 @@
 
   networking.hostName = "my-nix";
   time.timeZone = "Asia/Jakarta";
+  # nixpkgs.config.allowUnfree = true;
   # nixpkgs.overlays = import ../overlays { };
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) unfree-pkgs;
 }

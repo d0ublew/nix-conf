@@ -9,7 +9,14 @@ let
   cfg = config.neovim-mod.lsp;
 in
 {
-  imports = lib.my.getModules ./.;
+  imports = [
+    ./nix
+    ./lua
+    ./python
+    ./json
+    ./javascript
+    ./java
+  ];
 
   options.neovim-mod.lsp = {
     enable = mkEnableOption "neovim LSP";

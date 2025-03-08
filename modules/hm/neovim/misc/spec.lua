@@ -64,7 +64,7 @@ return {
     end,
   },
   -- { "tpope/vim-sleuth", event = "VeryLazy" },
-  { "tpope/vim-unimpaired", event = "VeryLazy" },
+  -- { "tpope/vim-unimpaired", event = "VeryLazy" },
   { "tpope/vim-repeat", event = "VeryLazy" },
 
   {
@@ -138,31 +138,31 @@ return {
     end,
   },
 
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {
-      plugins = { spelling = true },
-    },
-    config = function(_, opts)
-      local wk = require("which-key")
-      wk.add({
-        mode = { "n", "v" },
-        { "<leader>b", group = "buffer" },
-        { "<leader>f", group = "file/find" },
-        { "<leader>g", group = "git" },
-        { "<leader>gh", group = "hunks" },
-        { "<leader>s", group = "search" },
-        { "<leader>u", group = "ui" },
-        { "<leader>x", group = "diagnostics/quickfix" },
-        { "[", group = "prev" },
-        { "]", group = "next" },
-        { "g", group = "goto" },
-      })
-      -- wk.setup(opts)
-      -- wk.register(opts.defaults)
-    end,
-  },
+  -- {
+  --   "folke/which-key.nvim",
+  --   event = "VeryLazy",
+  --   opts = {
+  --     plugins = { spelling = true },
+  --   },
+  --   config = function(_, opts)
+  --     local wk = require("which-key")
+  --     wk.add({
+  --       mode = { "n", "v" },
+  --       { "<leader>b", group = "buffer" },
+  --       { "<leader>f", group = "file/find" },
+  --       { "<leader>g", group = "git" },
+  --       { "<leader>gh", group = "hunks" },
+  --       { "<leader>s", group = "search" },
+  --       { "<leader>u", group = "ui" },
+  --       { "<leader>x", group = "diagnostics/quickfix" },
+  --       { "[", group = "prev" },
+  --       { "]", group = "next" },
+  --       { "g", group = "goto" },
+  --     })
+  --     -- wk.setup(opts)
+  --     -- wk.register(opts.defaults)
+  --   end,
+  -- },
 
   {
     "lewis6991/gitsigns.nvim",
@@ -220,21 +220,21 @@ return {
         end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
       end
 
-      map("]]", "next")
-      map("[[", "prev")
+      map("<A-n>", "next")
+      map("<A-p>", "prev")
 
       -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
       vim.api.nvim_create_autocmd("FileType", {
         callback = function()
           local buffer = vim.api.nvim_get_current_buf()
-          map("]]", "next", buffer)
-          map("[[", "prev", buffer)
+          map("<A-n>", "next", buffer)
+          map("<A-p>", "prev", buffer)
         end,
       })
     end,
     keys = {
-      { "]]", desc = "Next Reference" },
-      { "[[", desc = "Prev Reference" },
+      { "<A-n>", desc = "Next Reference" },
+      { "<A-p>", desc = "Prev Reference" },
     },
   },
 

@@ -58,7 +58,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users."${uname}" = import ./modules/home.nix;
+              home-manager.users."${uname}" = import ./home/home.nix;
               home-manager.extraSpecialArgs = {
                 inherit uname;
               };
@@ -80,7 +80,7 @@
             inherit unfree-pkgs;
           };
           modules = [
-            ./modules/home.nix
+            ./home/wsl.nix
             ./overlays
           ];
         };
@@ -88,12 +88,25 @@
           inherit pkgs;
           inherit lib;
           extraSpecialArgs = {
-            inherit uname;
+            uname = "kali";
             inherit pkgs-stable;
             inherit unfree-pkgs;
           };
           modules = [
-            ./modules/kali-home.nix
+            ./home/kali.nix
+            ./overlays
+          ];
+        };
+        williamwijaya = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+          inherit lib;
+          extraSpecialArgs = {
+            pkgs-stable = nixpkgs-stable.legacyPackages.aarch64-darwin;
+            uname = "williamwijaya";
+            inherit unfree-pkgs;
+          };
+          modules = [
+            ./home/mac.nix
             ./overlays
           ];
         };

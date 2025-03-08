@@ -8,8 +8,6 @@
 }:
 let
   aliases = {
-    ls = "lsd";
-    tree = "lsd --tree";
     less = "less -R";
     vim = "nvim";
     tm = "history -a; tmux";
@@ -22,15 +20,21 @@ let
     mv = "mv -i";
     cp = "cp -i";
     ".." = "cd ..";
-    podr = "podman --remote";
   };
 in
 {
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) unfree-pkgs;
+  nix = {
+    package = pkgs.nix;
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "kali";
-  home.homeDirectory = "/home/kali";
+  home.username = "${uname}";
+  home.homeDirectory = "/home/${uname}";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -39,32 +43,19 @@ in
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "24.11"; # Please read the comment before changing.
+  home.stateVersion = "24.05"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    uv
+    act
     gh
-    patchelf
-    ripgrep
-    dust
-    lsd
-    python312
-    fd
-    aria2
-    fzf
-
-    nmap
-    feroxbuster
-    ldeep
-    smbclient-ng
-    coercer
-    bloodhound-py
-    certipy
-
-    # gef-bata24
-    # kompose
+    yazi
+    gitui
+    lazygit
+    btop
+    timg
+    devenv
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -86,10 +77,10 @@ in
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
-    ".inputrc".source = dotfiles/inputrc;
-    ".tmux".source = dotfiles/tmux/tmux;
-    ".tmux.conf".source = dotfiles/tmux/tmux.conf;
-    # ".wezterm.sh".source = dotfiles/wezterm.sh;
+    ".inputrc".source = ../modules/dotfiles/inputrc;
+    # ".tmux".source = ../modules/dotfiles/tmux/tmux;
+    # ".tmux.conf".source = ../modules/dotfiles/tmux/tmux.conf;
+    # ".wezterm.sh".source = ../modules/dotfiles/wezterm.sh;
 
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
@@ -102,7 +93,7 @@ in
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
-  xdg.configFile."wtf/config.yml".source = dotfiles/wtf/config.yml;
+  # xdg.configFile."wtf/config.yml".source = dotfiles/wtf/config.yml;
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a
@@ -126,7 +117,7 @@ in
   };
 
   imports = [
-    ./hm
+    ../modules/hm
   ];
 
   git-mod = {
@@ -148,75 +139,22 @@ in
       nix.enable = true;
       lua.enable = true;
       python.enable = true;
-      javascript.enable = true;
       json.enable = true;
+      javascript.enable = true;
+      java.enable = true;
     };
     telescope.enable = true;
     completion.enable = true;
     ui.enable = true;
     misc.enable = true;
     mini.enable = true;
-  };
-
-  yazi-mod = {
-    enable = true;
-  };
-
-  programs.zoxide = {
-    enable = true;
-    enableBashIntegration = true;
-  };
-
-  programs.bash = {
-    enable = true;
-    enableCompletion = true;
-    shellAliases = aliases;
-    bashrcExtra = ''
-      __tmux_prompt_hook() {
-        PS0="${"$"}{TMUX:+\e]133;C\e\\}"
-      }
-      # . $HOME/.wezterm.sh
-      source <(${pkgs.fzf}/bin/fzf --bash)
-      # source <(podman completion bash)
-      # complete -o default -F __start_podman podr
-    '';
-    profileExtra = ''
-      [[ $DISPLAY ]] && xmodmap ~/.Xmodmap
-      export PATH="${"$"}{HOME}/.local/bin:$PATH"
-      # export PROMPT_COMMAND="__tmux_prompt_hook;${"$"}{PROMPT_COMMAND}"
-      # export LD_LIBRARY_PATH=/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-    '';
-  };
-
-  programs.bat = {
-    enable = true;
-    config = {
-      theme = "ansi";
-      style = "plain";
-      paging = "never";
-      pager = "less -FR";
-    };
+    snacks.enable = true;
   };
 
   programs.direnv = {
     enable = true;
     enableBashIntegration = true;
     nix-direnv.enable = true;
-  };
-
-  programs.starship = {
-    enable = true;
-    enableBashIntegration = true;
-    settings = {
-      character = {
-        success_symbol = "[➜](bold green)";
-        error_symbol = "[➜](bold red)";
-      };
-    };
-  };
-
-  programs.lsd = {
-    enable = true;
   };
 
   # Let Home Manager install and manage itself.

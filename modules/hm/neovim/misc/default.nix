@@ -21,7 +21,7 @@ in
       undotree
       vim-unimpaired
       nvim-spectre
-      which-key-nvim
+      # which-key-nvim
       gitsigns-nvim
       vim-illuminate
       indent-o-matic

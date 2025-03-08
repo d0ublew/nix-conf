@@ -122,8 +122,21 @@ return {
           lualine_b = { branch, "diagnostics" },
           lualine_c = {
             "filename",
+            {
+              function()
+                return require("nvim-navic").get_location()
+              end,
+              cond = function()
+                return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+              end,
+              color = "lualine_c_normal",
+            },
           },
-          lualine_x = { "encoding", "fileformat", "filetype" },
+          lualine_x = {
+            "encoding",
+            "fileformat",
+            "filetype",
+          },
           lualine_y = { "progress" },
           lualine_z = { "location" },
         },
@@ -137,17 +150,17 @@ return {
         },
         tabline = {},
         winbar = {
-          lualine_c = {
-            {
-              function()
-                return require("nvim-navic").get_location()
-              end,
-              cond = function()
-                return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
-              end,
-              color = "lualine_c_normal",
-            },
-          },
+          -- lualine_c = {
+          --   {
+          --     function()
+          --       return require("nvim-navic").get_location()
+          --     end,
+          --     cond = function()
+          --       return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+          --     end,
+          --     color = "lualine_c_normal",
+          --   },
+          -- },
         },
         inactive_winbar = {},
         extensions = {},
@@ -156,28 +169,28 @@ return {
   },
 
   -- indent guides for Neovim
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    event = { "BufReadPost", "BufNewFile" },
-    main = "ibl",
-    opts = {
-      indent = {
-        char = "│",
-        tab_char = "│",
-      },
-      scope = { enabled = false },
-      exclude = {
-        filetypes = {
-          "help",
-          "Trouble",
-          "trouble",
-          "lazy",
-          "mason",
-          "notify",
-        },
-      },
-    },
-  },
+  -- {
+  --   "lukas-reineke/indent-blankline.nvim",
+  --   event = { "BufReadPost", "BufNewFile" },
+  --   main = "ibl",
+  --   opts = {
+  --     indent = {
+  --       char = "│",
+  --       tab_char = "│",
+  --     },
+  --     scope = { enabled = false },
+  --     exclude = {
+  --       filetypes = {
+  --         "help",
+  --         "Trouble",
+  --         "trouble",
+  --         "lazy",
+  --         "mason",
+  --         "notify",
+  --       },
+  --     },
+  --   },
+  -- },
 
   -- lsp symbol navigation for lualine. This shows where
   -- in the code structure you are - within functions, classes,
@@ -220,21 +233,21 @@ return {
   -- ui components
   { "MunifTanjim/nui.nvim", lazy = true },
 
-  {
-    "folke/zen-mode.nvim",
-    cmd = "ZenMode",
-    keys = {
-      {
-        "<leader>z",
-        function()
-          require("zen-mode").toggle({
-            window = {
-              width = 0.80,
-            },
-          })
-        end,
-        desc = "Toggle zen mode",
-      },
-    },
-  },
+  -- {
+  --   "folke/zen-mode.nvim",
+  --   cmd = "ZenMode",
+  --   keys = {
+  --     {
+  --       "<leader>z",
+  --       function()
+  --         require("zen-mode").toggle({
+  --           window = {
+  --             width = 0.80,
+  --           },
+  --         })
+  --       end,
+  --       desc = "Toggle zen mode",
+  --     },
+  --   },
+  -- },
 }

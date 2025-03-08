@@ -20,6 +20,10 @@ in
       mini-cursorword
       mini-completion
       mini-icons
+      mini-clue
+      mini-bracketed
+      mini-trailspace
+      mini-align
     ];
 
     xdg.configFile."nvim/lua/plugins/mini.lua".source = ./spec.lua;

@@ -17,10 +17,10 @@ in
       nvim-navic
       nvim-web-devicons
       nui-nvim
-      indent-blankline-nvim
+      # indent-blankline-nvim
       lualine-nvim
       nvim-notify
-      zen-mode-nvim
+      # zen-mode-nvim
       dressing-nvim
     ];
 

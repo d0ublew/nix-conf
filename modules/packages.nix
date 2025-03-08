@@ -20,7 +20,7 @@
     pfetch-rs
     acpi
     python312
-    wtf
+    wtfutil
     gh
     delta
     home-manager

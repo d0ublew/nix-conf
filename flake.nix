@@ -58,7 +58,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users."${uname}" = import ./home/home.nix;
+              home-manager.users."${uname}" = import ./home/wsl.nix;
               home-manager.extraSpecialArgs = {
                 inherit uname;
               };

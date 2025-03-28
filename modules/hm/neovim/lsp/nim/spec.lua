@@ -1,13 +1,14 @@
 return {
   servers = {
     {
-      name = "jdtls",
+      name = "nim_langserver",
       config = {},
     },
   },
   formatters = {
     {
-      name = "google-java-format",
+      name = "nimpretty",
+      config = {},
     },
   },
 }

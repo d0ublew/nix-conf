@@ -1,6 +1,6 @@
 return {
   formatters = {
-    "jq",
+    { name = "jq" },
   },
   servers = {
     {

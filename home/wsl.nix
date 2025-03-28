@@ -85,7 +85,7 @@ in
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
-  xdg.configFile."wtf/config.yml".source = dotfiles/wtf/config.yml;
+  xdg.configFile."wtf/config.yml".source = ../modules/dotfiles/wtf/config.yml;
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a

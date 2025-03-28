@@ -1,13 +1,14 @@
 return {
   servers = {
     {
-      name = "jdtls",
+      name = "gopls",
       config = {},
     },
   },
   formatters = {
     {
-      name = "google-java-format",
+      name = "gofumpt",
+      config = {},
     },
   },
 }

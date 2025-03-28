@@ -3,6 +3,8 @@ local uv = vim.loop
 local dir
 if uv.fs_stat(vim.fn.expand("~/config")) then
   dir = vim.fn.expand("~/config")
+elseif uv.fs_stat(vim.fn.expand("~/nix-conf")) then
+  dir = vim.fn.expand("~/nix-conf")
 elseif uv.fs_stat("/etc/nixos") then
   dir = "/etc/nixos"
 else
@@ -11,9 +13,11 @@ end
 
 local hostname = uv.os_gethostname()
 
+-- vim.notify("flake: " .. dir .. "/flake.nix")
+
 return {
   formatters = {
-    "nixfmt",
+    { name = "nixfmt" },
   },
   servers = {
     {
@@ -32,13 +36,13 @@ return {
                   hostname
                 ),
               },
-              nix_darwin = {
-                expr = string.format(
-                  '(builtins.getFlake "git+file://%s").darwinConfigurations."%s".options',
-                  dir,
-                  hostname
-                ),
-              },
+              -- nix_darwin = {
+              --   expr = string.format(
+              --     '(builtins.getFlake "git+file://%s").darwinConfigurations."%s".options',
+              --     dir,
+              --     hostname
+              --   ),
+              -- },
               home_manager = {
                 expr = string.format(
                   '(builtins.getFlake "git+file://%s").homeConfigurations."%s".options',

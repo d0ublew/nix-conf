@@ -140,6 +140,7 @@ in
     ui.enable = true;
     misc.enable = true;
     mini.enable = true;
+    treesitter.enable = true;
   };
 
   yazi-mod = {

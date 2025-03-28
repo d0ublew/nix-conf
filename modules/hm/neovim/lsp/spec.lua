@@ -38,7 +38,15 @@ return {
       { "nvim-telescope/telescope.nvim" },
 
       -- Autoformatting
-      { "stevearc/conform.nvim" },
+      {
+        "stevearc/conform.nvim",
+        opts = {
+          format = {
+            timeout_ms = 10000,
+          },
+          log_level = vim.log.levels.DEBUG,
+        },
+      },
     },
     config = function()
       -- Don't do LSP stuff if we're in Obsidian Edit mode
@@ -55,7 +63,8 @@ return {
 
       local lspconfig = require("lspconfig")
       local servers = {}
-      local formatters = {}
+      local _formatters = {}
+      local _formatters_by_ft = {}
 
       local function extract_lang(fpath)
         local fname = fpath:match("^.+/(.+)$") or fpath
@@ -65,16 +74,35 @@ return {
 
       for _, fpath in ipairs(vim.api.nvim_get_runtime_file("lua/plugins/lsp/*.lua", true)) do
         local lang = extract_lang(fpath)
-        local has_lang, lsp_cfgs = pcall(require, "plugins.lsp." .. lang)
-        if has_lang then
-          for _, lsp_cfg in pairs(lsp_cfgs.servers) do
-            servers[lsp_cfg.name] = lsp_cfg.config
+        --   local has_lang, lsp_cfgs = pcall(require, "plugins.lsp." .. lang)
+        --   if has_lang then
+        --     for _, lsp_cfg in pairs(lsp_cfgs.servers) do
+        --       servers[lsp_cfg.name] = lsp_cfg.config
+        --     end
+        --     if lsp_cfgs.formatters ~= nil then
+        --       formatters[lang] = lsp_cfgs.formatters
+        --     end
+        --   end
+        -- end
+
+        local lsp_cfgs = require("plugins.lsp." .. lang)
+        for _, lsp_cfg in pairs(lsp_cfgs.servers) do
+          servers[lsp_cfg.name] = lsp_cfg.config
+        end
+        if lsp_cfgs.formatters ~= nil then
+          local fmts = {}
+          for _, fmt_cfg in ipairs(lsp_cfgs.formatters) do
+            table.insert(fmts, fmt_cfg.name)
+            if fmt_cfg["config"] ~= nil and next(fmt_cfg.config) ~= nil then
+              _formatters[fmt_cfg.name] = fmt_cfg.config
+            end
           end
-          if lsp_cfgs.formatters ~= nil then
-            formatters[lang] = lsp_cfgs.formatters
-          end
+          _formatters_by_ft[lang] = fmts
         end
       end
+      -- local table_dump = require("util.table_dump")
+      -- vim.print(table_dump(_formatters_by_ft))
+      -- vim.print(table_dump(_formatters))
 
       for name, config in pairs(servers) do
         if config == true then
@@ -149,7 +177,8 @@ return {
       -- })
 
       conform.setup({
-        formatters_by_ft = formatters,
+        formatters_by_ft = _formatters_by_ft,
+        formatters = _formatters,
       })
 
       -- conform.formatters.injected = {
@@ -173,7 +202,7 @@ return {
           require("conform").format({
             bufnr = args.buf,
             lsp_fallback = true,
-            quiet = true,
+            -- quiet = true,
           })
         end,
       })

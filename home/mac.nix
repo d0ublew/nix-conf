@@ -26,10 +26,16 @@ in
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) unfree-pkgs;
   nix = {
     package = pkgs.nix;
-    settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [
+        "root"
+        "williamwijaya"
+      ];
+    };
   };
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -56,6 +62,11 @@ in
     btop
     timg
     devenv
+    inetutils
+    # aapt
+    # apksigner
+    # apktool
+
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -142,6 +153,10 @@ in
       json.enable = true;
       javascript.enable = true;
       java.enable = true;
+      kotlin.enable = true;
+      nim.enable = true;
+      go.enable = true;
+      dart.enable = true;
     };
     telescope.enable = true;
     completion.enable = true;
@@ -149,6 +164,7 @@ in
     misc.enable = true;
     mini.enable = true;
     snacks.enable = true;
+    treesitter.enable = true;
   };
 
   programs.direnv = {

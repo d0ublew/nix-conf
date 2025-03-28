@@ -6,9 +6,9 @@ end
 
 return {
   formatters = {
-    "ruff_fix",
-    "ruff_format",
-    "ruff_organize_imports",
+    { name = "ruff_fix" },
+    { name = "ruff_format" },
+    { name = "ruff_organize_imports" },
   },
   servers = {
     {

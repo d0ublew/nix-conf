@@ -14,7 +14,7 @@ return {
     },
   },
   formatters = {
-    "biome",
-    "biome-check",
+    { name = "biome" },
+    { name = "biome-check" },
   },
 }

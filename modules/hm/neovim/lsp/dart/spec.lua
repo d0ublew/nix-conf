@@ -1,13 +1,14 @@
 return {
   servers = {
     {
-      name = "jdtls",
+      name = "dartls",
       config = {},
     },
   },
   formatters = {
     {
-      name = "google-java-format",
+      name = "dart_format",
+      config = {},
     },
   },
 }

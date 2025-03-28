@@ -134,6 +134,7 @@ in
       python.enable = true;
       javascript.enable = true;
       json.enable = true;
+      c.enable = true;
     };
     telescope.enable = true;
     completion.enable = true;

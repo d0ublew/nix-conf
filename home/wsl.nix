@@ -22,6 +22,7 @@ let
     ".." = "cd ..";
     podr = "podman --remote";
   };
+  ropr = import ../pkgs/ropr { inherit (pkgs) fetchFromGitHub rustPlatform lib; };
 in
 {
   # nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) unfree-pkgs;
@@ -49,6 +50,7 @@ in
     zrok
     ngrok
     devenv
+    ropr
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello

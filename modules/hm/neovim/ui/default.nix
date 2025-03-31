@@ -14,14 +14,15 @@ in
   };
   config = mkIf cfg.enable {
     neovim-mod.extraPlugins = with pkgs.vimPlugins; [
-      nvim-navic
+      # nvim-navic
+      dropbar-nvim
       nvim-web-devicons
       nui-nvim
       # indent-blankline-nvim
       lualine-nvim
       nvim-notify
       # zen-mode-nvim
-      dressing-nvim
+      # dressing-nvim
     ];
 
     xdg.configFile."nvim/lua/plugins/ui.lua".source = ./spec.lua;

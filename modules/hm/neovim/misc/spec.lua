@@ -16,7 +16,7 @@ return {
     lazy = false,
     opts = {
       columns = {
-        -- "icon",
+        "icon",
       },
       cleanup_delay_ms = 0,
       keymaps = {

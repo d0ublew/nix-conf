@@ -19,6 +19,7 @@ return {
         },
       },
       quickfile = { enabled = true },
+      input = { enabled = true },
     },
     keys = {
       { "<leader>z", "<cmd>lua Snacks.zen()<CR>", "Toggle zen mode" },

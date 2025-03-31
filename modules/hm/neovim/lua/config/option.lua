@@ -70,7 +70,7 @@ local options = {
   backspace = "start,eol,indent",
 
   showmode = false,
-  winbar = "%=%m %f",
+  -- winbar = "%=%m %f",
 }
 
 vim.opt.shortmess:append("c")

@@ -143,6 +143,7 @@ in
     ui.enable = true;
     misc.enable = true;
     mini.enable = true;
+    snacks.enable = true;
     treesitter.enable = true;
   };
 

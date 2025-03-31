@@ -1,4 +1,9 @@
 return {
+  -- {
+  --   "echasnovski/mini.pick",
+  --   opts = {},
+  --   lazy = false,
+  -- },
   {
     "echasnovski/mini.pairs",
     opts = {},

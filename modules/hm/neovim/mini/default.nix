@@ -14,6 +14,7 @@ in
   };
   config = mkIf cfg.enable {
     neovim-mod.extraPlugins = with pkgs.vimPlugins; [
+      # mini-pick
       mini-pairs
       mini-ai
       mini-surround

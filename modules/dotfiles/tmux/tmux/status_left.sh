@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function ipv4() {
-    printf "#[fg=black,bg=blue,bold] W #[fg=#ffffff,bg=brightblack,bold] %s #[default]" "$(ip address show eth0 | rg -oP '(?<=inet ).*(?= brd)' | cut -d '/' -f1)"
+    printf "#[fg=#ffffff,bg=blue,bold] W #[fg=#ffffff,bg=brightblack,bold] %s #[default]" "$(ip address show eth0 | rg -oP '(?<=inet ).*(?= brd)' | cut -d '/' -f1)"
 }
 
 function sep() {

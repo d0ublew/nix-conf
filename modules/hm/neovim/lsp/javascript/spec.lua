@@ -16,5 +16,6 @@ return {
   formatters = {
     { name = "biome" },
     { name = "biome-check" },
+    { name = "biome-organize-imports" },
   },
 }

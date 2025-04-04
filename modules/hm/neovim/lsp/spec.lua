@@ -98,6 +98,11 @@ return {
             end
           end
           _formatters_by_ft[lang] = fmts
+          if lang == "javascript" then
+            _formatters_by_ft["javascriptreact"] = fmts
+            _formatters_by_ft["typescript"] = fmts
+            _formatters_by_ft["typescriptreact"] = fmts
+          end
         end
       end
       -- local table_dump = require("util.table_dump")

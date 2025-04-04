@@ -141,15 +141,27 @@ return {
           vim.keymap.set("n", "gr", builtin.lsp_references, { buffer = 0 })
           vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
           vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
-          vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = 0 })
-          vim.keymap.set("i", "<C-l>", vim.lsp.buf.signature_help, { buffer = 0 })
+          -- vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
+          vim.keymap.set("n", "K", function()
+            vim.lsp.buf.hover({ border = "rounded", max_height = 25, max_width = 120 })
+          end, { buffer = 0 })
+          -- vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = 0 })
+          -- vim.keymap.set("i", "<C-l>", vim.lsp.buf.signature_help, { buffer = 0 })
+          vim.keymap.set("n", "gK", function()
+            vim.lsp.buf.signature_help({ border = "rounded", max_height = 25, max_width = 120 })
+          end, { buffer = 0 })
+          vim.keymap.set("i", "<C-l>", function()
+            vim.lsp.buf.signature_help({ border = "rounded", max_height = 25, max_width = 120 })
+          end, { buffer = 0 })
 
           vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
           vim.keymap.set({ "n", "v" }, "<space>ca", require("actions-preview").code_actions, { buffer = 0 })
           vim.keymap.set("n", "<space>wd", builtin.lsp_document_symbols, { buffer = 0 })
 
-          vim.keymap.set("n", "gl", vim.diagnostic.open_float, { buffer = 0 })
+          -- vim.keymap.set("n", "gl", vim.diagnostic.open_float, { buffer = 0 })
+          vim.keymap.set("n", "gl", function()
+            vim.diagnostic.open_float({ border = "rounded", max_height = 25, max_width = 120 })
+          end, { buffer = 0 })
 
           local filetype = vim.bo[bufnr].filetype
           if disable_semantic_tokens[filetype] then

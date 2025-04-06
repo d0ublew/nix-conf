@@ -150,7 +150,7 @@ return {
           vim.keymap.set("n", "gK", function()
             vim.lsp.buf.signature_help({ border = "rounded", max_height = 25, max_width = 120 })
           end, { buffer = 0 })
-          vim.keymap.set("i", "<C-l>", function()
+          vim.keymap.set("i", "<C-s>", function()
             vim.lsp.buf.signature_help({ border = "rounded", max_height = 25, max_width = 120 })
           end, { buffer = 0 })
 

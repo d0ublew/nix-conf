@@ -25,6 +25,7 @@ in
       mini-bracketed
       mini-trailspace
       mini-align
+      mini-hipatterns
     ];
 
     xdg.configFile."nvim/lua/plugins/mini.lua".source = ./spec.lua;

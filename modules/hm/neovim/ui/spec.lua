@@ -232,13 +232,13 @@ return {
     dependencies = {
       "nvim-telescope/telescope-fzf-native.nvim",
     },
-    event = "BufReadPost",
+    event = "BufWinEnter",
     config = function()
       local dropbar_api = require("dropbar.api")
       vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
       vim.keymap.set("n", "[;", dropbar_api.goto_context_start, { desc = "Go to start of current context" })
       vim.keymap.set("n", "];", dropbar_api.select_next_context, { desc = "Select next context" })
-      vim.ui.select = require("dropbar.utils.menu").select
+      -- vim.ui.select = require("dropbar.utils.menu").select
       require("dropbar").setup({
         bar = {
           enable = function(buf, win, _)

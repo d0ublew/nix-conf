@@ -19,7 +19,8 @@ return {
         },
       },
       quickfile = { enabled = true },
-      input = { enabled = true },
+      input = { enabled = true, relative = "cursor" },
+      picker = { enabled = true },
     },
     keys = {
       { "<leader>z", "<cmd>lua Snacks.zen()<CR>", "Toggle zen mode" },

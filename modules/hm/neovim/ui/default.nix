@@ -16,10 +16,10 @@ in
     neovim-mod.extraPlugins = with pkgs.vimPlugins; [
       # nvim-navic
       dropbar-nvim
-      nvim-web-devicons
+      # nvim-web-devicons
       nui-nvim
       # indent-blankline-nvim
-      lualine-nvim
+      # lualine-nvim
       nvim-notify
       # zen-mode-nvim
       # dressing-nvim

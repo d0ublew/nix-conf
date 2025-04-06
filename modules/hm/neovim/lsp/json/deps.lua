@@ -1,3 +1,3 @@
 return {
-  { "b0o/SchemaStore.nvim", event = "VeryLazy" },
+  { "b0o/SchemaStore.nvim", ft = "json" },
 }

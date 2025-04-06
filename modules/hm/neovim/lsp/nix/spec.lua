@@ -29,6 +29,9 @@ return {
               command = { "nixfmt" },
             },
             options = {
+              nixpkgs = {
+                expr = "import <nixpkgs> { }",
+              },
               nixos = {
                 expr = string.format(
                   '(builtins.getFlake "git+file://%s").nixosConfigurations."%s".options',

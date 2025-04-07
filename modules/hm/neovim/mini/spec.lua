@@ -42,7 +42,8 @@ return {
 
   {
     "echasnovski/mini.statusline",
-    lazy = false,
+    event = { "ColorScheme", "VeryLazy" },
+    -- lazy = false,
     config = function()
       local MiniStatusline = require("mini.statusline")
       MiniStatusline.setup({
@@ -51,6 +52,8 @@ return {
             local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
             local git = MiniStatusline.section_git({ trunc_width = 40 })
             local diff = MiniStatusline.section_diff({ trunc_width = 75 })
+            local severity = vim.diagnostic.severity
+            local icon = require("util.icon")
             local diagnostics = MiniStatusline.section_diagnostics({
               trunc_width = 75,
               signs = {
@@ -62,11 +65,24 @@ return {
                 -- WARN = "%#DiagnosticWarn#󰀪 %#MiniStatuslineDevinfo#",
                 -- INFO = "%#DiagnosticInfo#󰋽 %#MiniStatuslineDevinfo#",
                 -- HINT = "%#DiagnosticHint#󰌶 %#MiniStatuslineDevinfo#",
-                ERROR = " ",
-                WARN = " ",
-                INFO = " ",
-                HINT = " ",
+                -- ERROR = " ",
+                -- WARN = " ",
+                -- INFO = " ",
+                -- HINT = " ",
+                -- ERROR = "%#WWDiagnosticError# %#MiniStatuslineDevinfo#",
+                -- WARN = "%#WWDiagnosticWarn# %#MiniStatuslineDevinfo#",
+                -- INFO = "%#WWDiagnosticInfo# %#MiniStatuslineDevinfo#",
+                -- HINT = "%#WWDiagnosticHint# %#MiniStatuslineDevinfo#",
+                -- ERROR = "%#WWDiagnosticError#󰅚 ",
+                -- WARN = "%#WWDiagnosticWarn#󰀪 ",
+                -- INFO = "%#WWDiagnosticInfo# ",
+                -- HINT = "%#WWDiagnosticHint#󰌶 ",
+                ERROR = "%#WWDiagnosticError#" .. icon.lsp_diagnostics_sign[severity.ERROR] .. " ",
+                WARN = "%#WWDiagnosticWarn#" .. icon.lsp_diagnostics_sign[severity.WARN] .. " ",
+                INFO = "%#WWDiagnosticInfo#" .. icon.lsp_diagnostics_sign[severity.INFO] .. " ",
+                HINT = "%#WWDiagnosticHint#" .. icon.lsp_diagnostics_sign[severity.HINT] .. " ",
               },
+              icon = "|",
             })
             -- local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
             local filename = MiniStatusline.section_filename({ trunc_width = 140 })
@@ -94,6 +110,12 @@ return {
           end,
         },
       })
+      local statusline_hl = vim.api.nvim_get_hl(0, { name = "MiniStatuslineDevinfo", link = true })
+      local lsp_diags = { "DiagnosticError", "DiagnosticWarn", "DiagnosticInfo", "DiagnosticHint" }
+      for _, v in pairs(lsp_diags) do
+        local diag_hl = vim.api.nvim_get_hl(0, { name = v })
+        vim.api.nvim_set_hl(0, "WW" .. v, { fg = diag_hl.fg, bg = statusline_hl.bg, bold = false })
+      end
     end,
   },
 

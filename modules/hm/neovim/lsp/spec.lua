@@ -225,14 +225,36 @@ return {
       })
 
       require("lsp_lines").setup()
-      vim.diagnostic.config({ virtual_text = false, virtual_lines = false })
+
+      local icon = require("util.icon")
+
+      local severity = vim.diagnostic.severity
+
+      local diag_config = {
+        signs = {
+          text = {
+            [severity.ERROR] = icon.lsp_diagnostics_sign[severity.ERROR],
+            [severity.WARN] = icon.lsp_diagnostics_sign[severity.WARN],
+            [severity.INFO] = icon.lsp_diagnostics_sign[severity.INFO],
+            [severity.HINT] = icon.lsp_diagnostics_sign[severity.HINT],
+          },
+          numhl = {
+            [severity.ERROR] = "DiagnosticSignError",
+            [severity.WARN] = "DiagnosticSignWarn",
+            [severity.INFO] = "DiagnosticSignInfo",
+            [severity.HINT] = "DiagnosticSignHint",
+          },
+        },
+        update_in_insert = true,
+      }
+      vim.diagnostic.config(vim.tbl_extend("force", diag_config, { virtual_text = false, virtual_lines = false }))
 
       vim.keymap.set("", "gL", function()
         local config = vim.diagnostic.config() or {}
         if config.virtual_lines then
-          vim.diagnostic.config({ virtual_text = false, virtual_lines = false })
+          vim.diagnostic.config(vim.tbl_extend("force", diag_config, { virtual_text = false, virtual_lines = false }))
         else
-          vim.diagnostic.config({ virtual_text = false, virtual_lines = true })
+          vim.diagnostic.config(vim.tbl_extend("force", diag_config, { virtual_text = false, virtual_lines = true }))
         end
       end, { desc = "Toggle lsp_lines" })
     end,

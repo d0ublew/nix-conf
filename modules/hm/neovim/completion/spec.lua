@@ -3,6 +3,7 @@ return {
     "saghen/blink.cmp",
     dependencies = "rafamadriz/friendly-snippets",
     version = "v0.*",
+    event = "VeryLazy",
     opts = {
       keymap = { preset = "default", ["<C-k>"] = {}, ["<C-l>"] = { "show_signature", "hide_signature", "fallback" } },
       appearance = {

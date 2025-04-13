@@ -25,10 +25,23 @@ return {
   },
   {
     "echasnovski/mini.surround",
-    opts = {},
-    keys = {
-      { "s", "<nop>", mode = { "n", "v" } },
+    opts = {
+      mappings = {
+        add = "Sa", -- Add surrounding in Normal and Visual modes
+        delete = "Sd", -- Delete surrounding
+        find = "Sf", -- Find surrounding (to the right)
+        find_left = "SF", -- Find surrounding (to the left)
+        highlight = "Sh", -- Highlight surrounding
+        replace = "Sr", -- Replace surrounding
+        update_n_lines = "Sn", -- Update `n_lines`
+
+        suffix_last = "l", -- Suffix to search with "prev" method
+        suffix_next = "n", -- Suffix to search with "next" method
+      },
     },
+    -- keys = {
+    --   { "s", "<nop>", mode = { "n", "v" } },
+    -- },
     lazy = false,
   },
   {
@@ -195,8 +208,8 @@ return {
           { mode = "n", keys = "]" },
 
           -- `mini.surround` key
-          { mode = "n", keys = "s" },
-          { mode = "x", keys = "s" },
+          { mode = "n", keys = "S" },
+          { mode = "x", keys = "S" },
         },
         clues = {
           -- Enhance this by adding descriptions for <Leader> mapping groups

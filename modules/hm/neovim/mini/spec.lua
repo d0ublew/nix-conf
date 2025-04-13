@@ -1,3 +1,12 @@
+function diag_hl()
+  local statusline_hl = vim.api.nvim_get_hl(0, { name = "MiniStatuslineDevinfo", link = true })
+  local lsp_diags = { "DiagnosticError", "DiagnosticWarn", "DiagnosticInfo", "DiagnosticHint" }
+  for _, v in pairs(lsp_diags) do
+    local diag_hl = vim.api.nvim_get_hl(0, { name = v })
+    vim.api.nvim_set_hl(0, "WW" .. v, { fg = diag_hl.fg, bg = statusline_hl.bg, bold = false })
+  end
+end
+
 return {
   -- {
   --   "echasnovski/mini.pick",
@@ -113,12 +122,14 @@ return {
           end,
         },
       })
-      local statusline_hl = vim.api.nvim_get_hl(0, { name = "MiniStatuslineDevinfo", link = true })
-      local lsp_diags = { "DiagnosticError", "DiagnosticWarn", "DiagnosticInfo", "DiagnosticHint" }
-      for _, v in pairs(lsp_diags) do
-        local diag_hl = vim.api.nvim_get_hl(0, { name = v })
-        vim.api.nvim_set_hl(0, "WW" .. v, { fg = diag_hl.fg, bg = statusline_hl.bg, bold = false })
-      end
+      diag_hl()
+      local aug = vim.api.nvim_create_augroup("d0ublew_ministatusline_diagnostic_hl", { clear = true })
+      vim.api.nvim_create_autocmd("OptionSet", {
+        callback = diag_hl,
+        group = aug,
+        desc = "Set mini.statusline diagnostic highlight when background option changes",
+        pattern = "background",
+      })
     end,
   },
 

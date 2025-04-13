@@ -1,7 +1,7 @@
 local M = {}
 
 local function toggle_bg()
-  local curr_bg = vim.api.nvim_get_option("background")
+  local curr_bg = vim.api.nvim_get_option_value("background", { scope = "global" })
   if curr_bg == "dark" then
     curr_bg = "light"
     -- vim.cmd([[ colorscheme github_light ]])

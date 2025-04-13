@@ -232,7 +232,8 @@ return {
     dependencies = {
       "nvim-telescope/telescope-fzf-native.nvim",
     },
-    event = "BufWinEnter",
+    -- event = { "LspAttach", "BufWinEnter" },
+    event = { "VeryLazy" },
     config = function()
       local dropbar_api = require("dropbar.api")
       vim.keymap.set("n", "<Leader>;", dropbar_api.pick, { desc = "Pick symbols in winbar" })

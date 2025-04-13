@@ -17,6 +17,9 @@ return {
   {
     "echasnovski/mini.surround",
     opts = {},
+    keys = {
+      { "s", "<nop>", mode = { "n", "v" } },
+    },
     lazy = false,
   },
   {
@@ -82,7 +85,7 @@ return {
                 INFO = "%#WWDiagnosticInfo#" .. icon.lsp_diagnostics_sign[severity.INFO] .. " ",
                 HINT = "%#WWDiagnosticHint#" .. icon.lsp_diagnostics_sign[severity.HINT] .. " ",
               },
-              icon = "|",
+              -- icon = "|",
             })
             -- local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
             local filename = MiniStatusline.section_filename({ trunc_width = 140 })
@@ -179,6 +182,10 @@ return {
           -- `mini.bracketed` key
           { mode = "n", keys = "[" },
           { mode = "n", keys = "]" },
+
+          -- `mini.surround` key
+          { mode = "n", keys = "s" },
+          { mode = "x", keys = "s" },
         },
         clues = {
           -- Enhance this by adding descriptions for <Leader> mapping groups

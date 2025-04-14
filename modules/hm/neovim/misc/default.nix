@@ -20,7 +20,8 @@ in
       vim-repeat
       undotree
       vim-unimpaired
-      nvim-spectre
+      grug-far-nvim
+      # nvim-spectre
       # which-key-nvim
       gitsigns-nvim
       vim-illuminate

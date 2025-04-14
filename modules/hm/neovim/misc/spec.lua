@@ -2,15 +2,24 @@ local lazy_keymap = require("util.keymaps").lazy_keymap
 return {
 
   -- { "ThePrimeagen/git-worktree.nvim", lazy = true },
+
+  -- {
+  --   "nvim-pack/nvim-spectre",
+  --   cmd = "Spectre",
+  --   opts = { open_cmd = "noswapfile vnew" },
+  --       -- stylua: ignore
+  --       keys = {
+  --           { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
+  --       },
+  -- },
+
   {
-    "nvim-pack/nvim-spectre",
-    cmd = "Spectre",
-    opts = { open_cmd = "noswapfile vnew" },
-        -- stylua: ignore
-        keys = {
-            { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
-        },
+    "MagicDuck/grug-far.nvim",
+    cmd = { "GrugFar" },
+    opts = {},
+    -- event = { "VeryLazy" },
   },
+
   {
     "stevearc/oil.nvim",
     lazy = false,

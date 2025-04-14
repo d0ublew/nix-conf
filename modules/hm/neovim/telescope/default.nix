@@ -17,6 +17,7 @@ in
       telescope-nvim
       telescope-fzf-native-nvim
       telescope-ui-select-nvim
+      nvim-notify
       plenary-nvim
     ];
 

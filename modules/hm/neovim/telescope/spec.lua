@@ -1,11 +1,13 @@
 local builtin = require("telescope.builtin")
 local themes = require("telescope.themes")
 pcall(require("telescope").load_extension, "ui-select")
+pcall(require("telescope").load_extension, "notify")
 
 return {
   {
     "nvim-telescope/telescope.nvim",
     dependencies = {
+      { "rcarriga/nvim-notify" },
       { "nvim-telescope/telescope-fzf-native.nvim" },
       { "nvim-telescope/telescope-ui-select.nvim" },
       { "nvim-lua/plenary.nvim" },
@@ -60,6 +62,7 @@ return {
       { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
       { "<leader>sM", "<cmd>Telescope man_pages<cr>", desc = "Man Pages" },
       { "<leader>sm", "<cmd>Telescope marks<cr>", desc = "Jump to Mark" },
+      { "<leader>sn", "<cmd>Telescope notify<cr>", desc = "Notifications history" },
       { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Options" },
       { "<leader>sR", "<cmd>Telescope resume<cr>", desc = "Launch last telescope command" },
       {
@@ -160,6 +163,9 @@ return {
       -- },
       extensions = {
         ["ui-select"] = {
+          require("telescope.themes").get_ivy({ winblend = 0 }),
+        },
+        ["notify"] = {
           require("telescope.themes").get_ivy({ winblend = 0 }),
         },
       },

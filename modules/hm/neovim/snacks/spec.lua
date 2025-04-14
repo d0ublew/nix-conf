@@ -1,25 +1,25 @@
-local transparent = function()
-  vim.api.nvim_set_hl(0, "SnacksNormal", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "SnacksNormalNC", { bg = "NONE" })
-end
-
-local aug = vim.api.nvim_create_augroup("d0ublew_snacks", { clear = true })
-
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  callback = function()
-    transparent()
-  end,
-  pattern = "snacks_terminal",
-  group = aug,
-})
-
-vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-  pattern = "*",
-  callback = function()
-    transparent()
-  end,
-  group = aug,
-})
+-- local transparent = function()
+--   vim.api.nvim_set_hl(0, "SnacksNormal", { bg = "NONE" })
+--   vim.api.nvim_set_hl(0, "SnacksNormalNC", { bg = "NONE" })
+-- end
+--
+-- local aug = vim.api.nvim_create_augroup("d0ublew_snacks", { clear = true })
+--
+-- vim.api.nvim_create_autocmd({ "FileType" }, {
+--   callback = function()
+--     transparent()
+--   end,
+--   pattern = "snacks_terminal",
+--   group = aug,
+-- })
+--
+-- vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+--   pattern = "*",
+--   callback = function()
+--     transparent()
+--   end,
+--   group = aug,
+-- })
 
 return {
   {
@@ -45,7 +45,8 @@ return {
       input = { enabled = true, relative = "cursor" },
       picker = {
         enabled = true,
-        -- ui_select = true
+        -- ui_select = true,
+        layout = { preset = "ivy" },
       },
       terminal = {
         enabled = true,

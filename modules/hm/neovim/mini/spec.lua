@@ -137,11 +137,16 @@ return {
       })
       diag_hl()
       local aug = vim.api.nvim_create_augroup("d0ublew_ministatusline_diagnostic_hl", { clear = true })
-      vim.api.nvim_create_autocmd("OptionSet", {
+      -- vim.api.nvim_create_autocmd({ "OptionSet" }, {
+      --   callback = diag_hl,
+      --   group = aug,
+      --   desc = "Set mini.statusline diagnostic highlight when background option changes",
+      --   pattern = "background",
+      -- })
+      vim.api.nvim_create_autocmd({ "ColorScheme" }, {
         callback = diag_hl,
         group = aug,
-        desc = "Set mini.statusline diagnostic highlight when background option changes",
-        pattern = "background",
+        desc = "Set mini.statusline diagnostic highlight when colorscheme changes",
       })
     end,
   },

@@ -3,6 +3,7 @@ local float_transparent = function()
   vim.api.nvim_set_hl(0, "FloatTitle", { bg = "NONE" })
   vim.api.nvim_set_hl(0, "FloatBorder", { bg = "NONE" })
   vim.api.nvim_set_hl(0, "FloatFooter", { bg = "NONE" })
+  vim.api.nvim_set_hl(0, "Pmenu", { bg = "NONE" })
 end
 
 local aug = vim.api.nvim_create_augroup("d0ublew_colorscheme", { clear = true })

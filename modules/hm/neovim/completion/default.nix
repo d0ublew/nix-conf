@@ -21,6 +21,7 @@ in
       # cmp-path
       blink-cmp
       friendly-snippets
+      colorful-menu-nvim
     ];
 
     xdg.configFile."nvim/lua/plugins/completion.lua".source = ./spec.lua;

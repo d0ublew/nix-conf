@@ -76,18 +76,19 @@ return {
         "<leader>ss",
         function()
           builtin.lsp_document_symbols({
-            symbols = {
-              "Class",
-              "Function",
-              "Method",
-              "Constructor",
-              "Interface",
-              "Module",
-              "Struct",
-              "Trait",
-              "Field",
-              "Property",
-            },
+            -- symbols = {
+            --   "Class",
+            --   "Function",
+            --   "Method",
+            --   "Constructor",
+            --   "Interface",
+            --   "Module",
+            --   "Struct",
+            --   "Trait",
+            --   "Field",
+            --   "Property",
+            --   "Variable",
+            -- },
           })
         end,
         desc = "Goto Symbol",
@@ -96,18 +97,18 @@ return {
         "<leader>sS",
         function()
           builtin.lsp_dynamic_workspace_symbols({
-            symbols = {
-              "Class",
-              "Function",
-              "Method",
-              "Constructor",
-              "Interface",
-              "Module",
-              "Struct",
-              "Trait",
-              "Field",
-              "Property",
-            },
+            -- symbols = {
+            --   "Class",
+            --   "Function",
+            --   "Method",
+            --   "Constructor",
+            --   "Interface",
+            --   "Module",
+            --   "Struct",
+            --   "Trait",
+            --   "Field",
+            --   "Property",
+            -- },
           })
         end,
         desc = "Goto Symbol (Workspace)",

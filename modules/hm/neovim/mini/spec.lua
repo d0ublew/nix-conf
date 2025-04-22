@@ -27,13 +27,13 @@ return {
     "echasnovski/mini.surround",
     opts = {
       mappings = {
-        add = "Sa", -- Add surrounding in Normal and Visual modes
-        delete = "Sd", -- Delete surrounding
-        find = "Sf", -- Find surrounding (to the right)
-        find_left = "SF", -- Find surrounding (to the left)
-        highlight = "Sh", -- Highlight surrounding
-        replace = "Sr", -- Replace surrounding
-        update_n_lines = "Sn", -- Update `n_lines`
+        add = "<localleader>sa", -- Add surrounding in Normal and Visual modes
+        delete = "<localleader>sd", -- Delete surrounding
+        find = "<localleader>sf", -- Find surrounding (to the right)
+        find_left = "<localleader>sF", -- Find surrounding (to the left)
+        highlight = "<localleader>sh", -- Highlight surrounding
+        replace = "<localleader>sr", -- Replace surrounding
+        update_n_lines = "<localleader>sn", -- Update `n_lines`
 
         suffix_last = "l", -- Suffix to search with "prev" method
         suffix_next = "n", -- Suffix to search with "next" method
@@ -61,7 +61,12 @@ return {
   },
   {
     "echasnovski/mini.align",
-    opts = {},
+    opts = {
+      mappings = {
+        start = "<localleader>ga",
+        start_with_preview = "<localleader>gA",
+      },
+    },
     lazy = false,
   },
 
@@ -213,17 +218,19 @@ return {
           { mode = "n", keys = "]" },
 
           -- `mini.surround` key
-          { mode = "n", keys = "S" },
-          { mode = "x", keys = "S" },
+          { mode = "n", keys = "<localleader>" },
+          { mode = "x", keys = "<localleader>" },
         },
         clues = {
-          -- Enhance this by adding descriptions for <Leader> mapping groups
           miniclue.gen_clues.builtin_completion(),
           miniclue.gen_clues.g(),
           miniclue.gen_clues.marks(),
           miniclue.gen_clues.registers(),
           miniclue.gen_clues.windows(),
           miniclue.gen_clues.z(),
+          { mode = "n", keys = "<localleader>s", desc = "surround" },
+          { mode = "x", keys = "<localleader>s", desc = "surround" },
+          -- Enhance this by adding descriptions for <Leader> mapping groups
           { mode = "n", keys = "<leader>f", desc = "file/find" },
           { mode = "n", keys = "<leader>g", desc = "git" },
           { mode = "n", keys = "<leader>s", desc = "search" },

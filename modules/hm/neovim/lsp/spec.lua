@@ -1,7 +1,166 @@
+local servers = {}
+local formatters = {}
+local formatters_by_ft = {}
+
+local function extract_lang(fpath)
+  local fname = fpath:match("^.+/(.+)$") or fpath
+  local lang = fname:match("^(.*)%.") or fname
+  return lang
+end
+
+local function get_configs()
+  for _, fpath in ipairs(vim.api.nvim_get_runtime_file("lua/plugins/lsp/*.lua", true)) do
+    local lang = extract_lang(fpath)
+    local lsp_cfgs = require("plugins.lsp." .. lang)
+    for _, lsp_cfg in pairs(lsp_cfgs.servers) do
+      servers[lsp_cfg.name] = lsp_cfg.config
+    end
+    if lsp_cfgs.formatters ~= nil then
+      local fmts = {}
+      for _, fmt_cfg in ipairs(lsp_cfgs.formatters) do
+        table.insert(fmts, fmt_cfg.name)
+        if fmt_cfg["config"] ~= nil and next(fmt_cfg.config) ~= nil then
+          formatters[fmt_cfg.name] = fmt_cfg.config
+        end
+      end
+      formatters_by_ft[lang] = fmts
+      if lang == "javascript" then
+        formatters_by_ft["javascriptreact"] = fmts
+        formatters_by_ft["typescript"] = fmts
+        formatters_by_ft["typescriptreact"] = fmts
+      end
+    end
+  end
+  -- local table_dump = require("util.table_dump")
+  -- vim.print(table_dump(formatters_by_ft))
+  -- vim.print(table_dump(formatters))
+end
+
+get_configs()
+
+vim.api.nvim_create_user_command("Format", function(args)
+  local range = nil
+  if args.count ~= -1 then
+    local end_line = vim.api.nvim_buf_get_lines(0, args.line2 - 1, args.line2, true)[1]
+    range = {
+      start = { args.line1, 0 },
+      ["end"] = { args.line2, end_line:len() },
+    }
+  end
+  local ok, conform = pcall(require, "conform")
+  if not ok then
+    vim.notify("Missing conform, aborting format")
+    return
+  end
+  conform.format({ async = true, lsp_format = "fallback", range = range })
+end, { range = true })
+
+local function show_autoformat_state(text)
+  vim.notify(
+    "format on save: " .. text
+    -- .. "\n- buffer: "
+    -- .. (vim.b.disable_autoformat and "off" or "on")
+    -- .. "\n- global: "
+    -- .. (vim.g.disable_autoformat and "off" or "on")
+  )
+end
+
+vim.api.nvim_create_user_command("FormatDisable", function(args)
+  if args.bang then
+    -- FormatDisable! will disable formatting just for this buffer
+    vim.b.disable_autoformat = true
+  else
+    vim.g.disable_autoformat = true
+  end
+  show_autoformat_state("disable" .. (args.bang and " (buffer)" or ""))
+end, {
+  desc = "Disable autoformat-on-save",
+  bang = true,
+})
+vim.api.nvim_create_user_command("FormatEnable", function(args)
+  vim.b.disable_autoformat = false
+  vim.g.disable_autoformat = false
+  show_autoformat_state("enable" .. (args.bang and " (buffer)" or ""))
+end, {
+  desc = "Re-enable autoformat-on-save",
+})
+
 return {
+  -- Autoformatting
+  {
+    "stevearc/conform.nvim",
+    event = { "BufWritePre" },
+    cmd = { "ConformInfo" },
+    keys = {
+      {
+        -- Customize or remove this keymap to your liking
+        "<leader><S-f>",
+        "<cmd>Format<CR>",
+        -- function()
+        --   require("conform").format({ async = true }, function(err)
+        --     if not err then
+        --       local mode = vim.api.nvim_get_mode().mode
+        --       if vim.startswith(string.lower(mode), "v") then
+        --         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", true)
+        --       end
+        --     end
+        --   end)
+        -- end,
+        mode = "",
+        desc = "Format buffer",
+      },
+      {
+        "<leader>mf",
+        function()
+          if vim.g.disable_autoformat then
+            vim.cmd("FormatEnable")
+          else
+            vim.cmd("FormatDisable")
+          end
+        end,
+        mode = "n",
+        desc = "Toggle global format on save",
+      },
+      {
+        "<localleader>mf",
+        function()
+          if vim.b.disable_autoformat then
+            vim.cmd("FormatEnable")
+          else
+            vim.cmd("FormatDisable!")
+          end
+        end,
+        mode = "n",
+        desc = "Toggle buffer format on save",
+      },
+    },
+    opts = {
+      log_level = vim.log.levels.DEBUG,
+      default_format_opts = {
+        lsp_format = "fallback",
+      },
+      -- Set up format-on-save
+      format_on_save = function(bufnr)
+        -- Disable with a global or buffer-local variable
+        -- global takes priority
+        if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+          return
+        end
+        return { timeout_ms = 500, lsp_format = "fallback" }
+      end,
+      formatters_by_ft = formatters_by_ft,
+      formatters = formatters,
+    },
+    init = function()
+      -- If you want the formatexpr, here is the place to set it
+      vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+      vim.g.disable_autoformat = false
+      vim.b.disable_autoformat = false
+    end,
+  },
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       -- "williamboman/mason.nvim",
       -- "williamboman/mason-lspconfig.nvim",
@@ -36,17 +195,6 @@ return {
         end,
       },
       { "nvim-telescope/telescope.nvim" },
-
-      -- Autoformatting
-      {
-        "stevearc/conform.nvim",
-        opts = {
-          format = {
-            timeout_ms = 10000,
-          },
-          log_level = vim.log.levels.DEBUG,
-        },
-      },
     },
     config = function()
       -- Don't do LSP stuff if we're in Obsidian Edit mode
@@ -62,52 +210,6 @@ return {
       end
 
       local lspconfig = require("lspconfig")
-      local servers = {}
-      local _formatters = {}
-      local _formatters_by_ft = {}
-
-      local function extract_lang(fpath)
-        local fname = fpath:match("^.+/(.+)$") or fpath
-        local lang = fname:match("^(.*)%.") or fname
-        return lang
-      end
-
-      for _, fpath in ipairs(vim.api.nvim_get_runtime_file("lua/plugins/lsp/*.lua", true)) do
-        local lang = extract_lang(fpath)
-        --   local has_lang, lsp_cfgs = pcall(require, "plugins.lsp." .. lang)
-        --   if has_lang then
-        --     for _, lsp_cfg in pairs(lsp_cfgs.servers) do
-        --       servers[lsp_cfg.name] = lsp_cfg.config
-        --     end
-        --     if lsp_cfgs.formatters ~= nil then
-        --       formatters[lang] = lsp_cfgs.formatters
-        --     end
-        --   end
-        -- end
-
-        local lsp_cfgs = require("plugins.lsp." .. lang)
-        for _, lsp_cfg in pairs(lsp_cfgs.servers) do
-          servers[lsp_cfg.name] = lsp_cfg.config
-        end
-        if lsp_cfgs.formatters ~= nil then
-          local fmts = {}
-          for _, fmt_cfg in ipairs(lsp_cfgs.formatters) do
-            table.insert(fmts, fmt_cfg.name)
-            if fmt_cfg["config"] ~= nil and next(fmt_cfg.config) ~= nil then
-              _formatters[fmt_cfg.name] = fmt_cfg.config
-            end
-          end
-          _formatters_by_ft[lang] = fmts
-          if lang == "javascript" then
-            _formatters_by_ft["javascriptreact"] = fmts
-            _formatters_by_ft["typescript"] = fmts
-            _formatters_by_ft["typescriptreact"] = fmts
-          end
-        end
-      end
-      -- local table_dump = require("util.table_dump")
-      -- vim.print(table_dump(_formatters_by_ft))
-      -- vim.print(table_dump(_formatters))
 
       for name, config in pairs(servers) do
         if config == true then
@@ -182,47 +284,22 @@ return {
         end,
       })
 
-      -- Autoformatting Setup
-      local conform = require("conform")
-      -- conform.setup({
-      --   formatters_by_ft = {
-      --     lua = { "stylua" },
-      --     nix = { "nixfmt" },
-      --     python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
-      --     javascript = { "biome", "biome-check" },
-      --   },
+      -- vim.api.nvim_create_autocmd("BufWritePre", {
+      --   callback = function(args)
+      --     -- local filename = vim.fn.expand "%:p"
+      --
+      --     local extension = vim.fn.expand("%:e")
+      --     if extension == "mlx" then
+      --       return
+      --     end
+      --
+      --     require("conform").format({
+      --       bufnr = args.buf,
+      --       lsp_fallback = true,
+      --       -- quiet = true,
+      --     })
+      --   end,
       -- })
-
-      conform.setup({
-        formatters_by_ft = _formatters_by_ft,
-        formatters = _formatters,
-      })
-
-      -- conform.formatters.injected = {
-      --   options = {
-      --     ignore_errors = false,
-      --     lang_to_formatters = {
-      --       sql = { "sleek" },
-      --     },
-      --   },
-      -- }
-
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        callback = function(args)
-          -- local filename = vim.fn.expand "%:p"
-
-          local extension = vim.fn.expand("%:e")
-          if extension == "mlx" then
-            return
-          end
-
-          require("conform").format({
-            bufnr = args.buf,
-            lsp_fallback = true,
-            -- quiet = true,
-          })
-        end,
-      })
 
       require("lsp_lines").setup()
 

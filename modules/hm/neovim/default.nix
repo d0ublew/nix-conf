@@ -133,9 +133,8 @@ in
                   fallback = true,
               },
               spec = {
-                  { import = "plugins" },
-
                   ${cfg.extraSpec}
+                  { import = "plugins" },
               },
           })
           require("config")

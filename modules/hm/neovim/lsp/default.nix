@@ -24,6 +24,10 @@ in
       actions-preview-nvim
       lsp_lines-nvim
     ];
+    # neovim-mod.extraSpec = ''
+    #   { import = "plugins.lsp" },
+    # '';
+
     xdg.configFile."nvim/lua/plugins/lsp_config.lua".source = ./spec.lua;
   };
 }

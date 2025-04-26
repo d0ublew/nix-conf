@@ -1,10 +1,19 @@
-function diag_hl()
+local function diag_hl_config()
   local statusline_hl = vim.api.nvim_get_hl(0, { name = "MiniStatuslineDevinfo", link = true })
   local lsp_diags = { "DiagnosticError", "DiagnosticWarn", "DiagnosticInfo", "DiagnosticHint" }
   for _, v in pairs(lsp_diags) do
     local diag_hl = vim.api.nvim_get_hl(0, { name = v })
     vim.api.nvim_set_hl(0, "WW" .. v, { fg = diag_hl.fg, bg = statusline_hl.bg, bold = false })
   end
+end
+
+local function section_autoformat()
+  if vim.bo.filetype == "oil" then
+    return ""
+  end
+  local autoformat_global = vim.g.disable_autoformat and "g" or "G"
+  local autoformat_buffer = vim.b.disable_autoformat and "b" or "B"
+  return "[" .. autoformat_buffer .. " " .. autoformat_global .. "]"
 end
 
 return {
@@ -119,6 +128,7 @@ return {
             local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
             local location = MiniStatusline.section_location({ trunc_width = 75 })
             local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
+            local autoformat = section_autoformat()
 
             return MiniStatusline.combine_groups({
               { hl = mode_hl, strings = { mode } },
@@ -134,13 +144,13 @@ return {
               "%<", -- Mark general truncate point
               { hl = "MiniStatuslineFilename", strings = { filename } },
               "%=", -- End left alignment
-              { hl = "MiniStatuslineFileinfo", strings = { fileinfo } },
+              { hl = "MiniStatuslineFileinfo", strings = { autoformat, fileinfo } },
               { hl = mode_hl, strings = { search, location } },
             })
           end,
         },
       })
-      diag_hl()
+      diag_hl_config()
       local aug = vim.api.nvim_create_augroup("d0ublew_ministatusline_diagnostic_hl", { clear = true })
       -- vim.api.nvim_create_autocmd({ "OptionSet" }, {
       --   callback = diag_hl,
@@ -149,7 +159,7 @@ return {
       --   pattern = "background",
       -- })
       vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-        callback = diag_hl,
+        callback = diag_hl_config,
         group = aug,
         desc = "Set mini.statusline diagnostic highlight when colorscheme changes",
       })

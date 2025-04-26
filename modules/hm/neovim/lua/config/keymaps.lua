@@ -10,9 +10,15 @@ local vnoremap = keymap.vnoremap
 local xnoremap = keymap.xnoremap
 local onoremap = keymap.onoremap
 local cmap = keymap.cmap
+local cnoremap = keymap.cnoremap
 
+cmap("<C-d>", "<del>", { desc = "delete character on cursor" })
 cmap("<C-a>", "<home>", { desc = "Go to beginning of line" })
-cmap("<C-e>", "<end>", { desc = "Go to end of line" })
+cmap("<A-e>", "<end>", { desc = "Go to end of line" })
+cmap("<C-f>", "<right>", { desc = "move cursor forward" })
+cmap("<C-b>", "<left>", { desc = "move cursor backward" })
+cmap("<A-f>", "<S-right>", { desc = "move cursor forward by 1 word" })
+cmap("<A-b>", "<S-left>", { desc = "move cursor backward by 1 word" })
 
 local status_ok_toggle, toggle = pcall(require, "util.toggle")
 if status_ok_toggle then

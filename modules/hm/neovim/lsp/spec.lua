@@ -185,7 +185,7 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "BufReadPre", "BufNewFile" },
     dependencies = {
       -- "williamboman/mason.nvim",
       -- "williamboman/mason-lspconfig.nvim",
@@ -270,15 +270,15 @@ return {
           vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
           -- vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = 0 })
           vim.keymap.set("n", "K", function()
-            vim.lsp.buf.hover({ border = "rounded", max_height = 25, max_width = 120 })
+            vim.lsp.buf.hover()
           end, { buffer = 0 })
           -- vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = 0 })
           -- vim.keymap.set("i", "<C-l>", vim.lsp.buf.signature_help, { buffer = 0 })
           vim.keymap.set("n", "gK", function()
-            vim.lsp.buf.signature_help({ border = "rounded", max_height = 25, max_width = 120 })
+            vim.lsp.buf.signature_help()
           end, { buffer = 0 })
           vim.keymap.set("i", "<C-s>", function()
-            vim.lsp.buf.signature_help({ border = "rounded", max_height = 25, max_width = 120 })
+            vim.lsp.buf.signature_help()
           end, { buffer = 0 })
 
           vim.keymap.set("n", "<space>cr", vim.lsp.buf.rename, { buffer = 0 })
@@ -309,22 +309,13 @@ return {
         end,
       })
 
-      -- vim.api.nvim_create_autocmd("BufWritePre", {
-      --   callback = function(args)
-      --     -- local filename = vim.fn.expand "%:p"
-      --
-      --     local extension = vim.fn.expand("%:e")
-      --     if extension == "mlx" then
-      --       return
-      --     end
-      --
-      --     require("conform").format({
-      --       bufnr = args.buf,
-      --       lsp_fallback = true,
-      --       -- quiet = true,
-      --     })
-      --   end,
-      -- })
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
+
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = "rounded",
+      })
 
       require("lsp_lines").setup()
 

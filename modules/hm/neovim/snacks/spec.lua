@@ -46,7 +46,7 @@ return {
       input = { enabled = true, relative = "cursor" },
       picker = {
         enabled = true,
-        -- ui_select = true,
+        ui_select = true,
         layout = { preset = "ivy" },
       },
       terminal = {

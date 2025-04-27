@@ -30,6 +30,7 @@ return {
       bigfile = { enabled = true },
       -- dim = { enabled = true },
       indent = { enabled = true },
+      bufdelete = { enabled = true },
       statuscolumn = { enabled = true, left = { "sign", "mark" } },
       zen = {
         enabled = true,
@@ -87,13 +88,26 @@ return {
       },
     },
     keys = {
-      { "<leader>z", "<cmd>lua Snacks.zen()<CR>", "Toggle zen mode" },
+      {
+        "<leader>z",
+        function()
+          require("snacks").zen()
+        end,
+        desc = "Toggle zen mode",
+      },
       {
         "<leader><space>",
         function()
-          Snacks.terminal(nil, { start_insert = false, auto_insert = false })
+          require("snacks").terminal(nil, { start_insert = false, auto_insert = false })
         end,
-        "Snacks terminal",
+        desc = "Snacks terminal",
+      },
+      {
+        "<leader>bd",
+        function()
+          require("snacks").bufdelete()
+        end,
+        desc = "Delete current buffer",
       },
     },
   },

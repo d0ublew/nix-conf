@@ -145,5 +145,9 @@ in
       recursive = true;
       source = ./lua;
     };
+    xdg.configFile."nvim/after/ftplugin" = {
+      recursive = true;
+      source = ./ftplugin;
+    };
   };
 }

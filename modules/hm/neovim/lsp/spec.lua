@@ -1,3 +1,28 @@
+local diag_vline_transparent = function()
+  local dvth = "DiagnosticVirtualTextHint"
+  local dvti = "DiagnosticVirtualTextInfo"
+  local dvtw = "DiagnosticVirtualTextWarn"
+  local dvte = "DiagnosticVirtualTextError"
+  local hint_hl = vim.api.nvim_get_hl(0, { name = dvth, link = true })
+  local info_hl = vim.api.nvim_get_hl(0, { name = dvti, link = true })
+  local warn_hl = vim.api.nvim_get_hl(0, { name = dvtw, link = true })
+  local error_hl = vim.api.nvim_get_hl(0, { name = dvte, link = true })
+  vim.api.nvim_set_hl(0, dvth, { bg = "NONE", fg = hint_hl.fg })
+  vim.api.nvim_set_hl(0, dvti, { bg = "NONE", fg = info_hl.fg })
+  vim.api.nvim_set_hl(0, dvtw, { bg = "NONE", fg = warn_hl.fg })
+  vim.api.nvim_set_hl(0, dvte, { bg = "NONE", fg = error_hl.fg })
+end
+
+local aug = vim.api.nvim_create_augroup("d0ublew_diag_vline", { clear = true })
+
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+  pattern = "*",
+  callback = function()
+    diag_vline_transparent()
+  end,
+  group = aug,
+})
+
 local servers = {}
 local formatters = {}
 local formatters_by_ft = {}
@@ -327,13 +352,14 @@ return {
       vim.diagnostic.config(vim.tbl_extend("force", diag_config, { virtual_text = false, virtual_lines = false }))
 
       vim.keymap.set("", "gL", function()
-        local config = vim.diagnostic.config() or {}
+        local config = vim.diagnostic.config() or { virtual_lines = false }
         if config.virtual_lines then
           vim.diagnostic.config(vim.tbl_extend("force", diag_config, { virtual_text = false, virtual_lines = false }))
         else
           vim.diagnostic.config(vim.tbl_extend("force", diag_config, { virtual_text = false, virtual_lines = true }))
         end
       end, { desc = "Toggle lsp_lines" })
+      diag_vline_transparent()
     end,
   },
 }

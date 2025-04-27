@@ -60,7 +60,11 @@ return {
   },
   {
     "echasnovski/mini.bracketed",
-    opts = {},
+    opts = {
+      diagnostic = { suffix = "d", options = { float = {
+        border = "rounded",
+      } } },
+    },
     lazy = false,
   },
   {

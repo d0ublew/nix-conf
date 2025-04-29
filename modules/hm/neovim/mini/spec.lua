@@ -7,6 +7,41 @@ local function diag_hl_config()
   end
 end
 
+local function fileinfo_hl_config()
+  local statusline_hl = vim.api.nvim_get_hl(0, { name = "MiniStatuslineFileinfo", link = true })
+  local mini_icons = {
+    "MiniIconsRed",
+    "MiniIconsBlue",
+    "MiniIconsCyan",
+    "MiniIconsGrey",
+    "MiniIconsAzure",
+    "MiniIconsGreen",
+    "MiniIconsOrange",
+    "MiniIconsPurple",
+    "MiniIconsYellow",
+  }
+  for _, v in pairs(mini_icons) do
+    local icon_hl = vim.api.nvim_get_hl(0, { name = v })
+    vim.api.nvim_set_hl(0, "WW" .. v, { fg = icon_hl.fg, bg = statusline_hl.bg, bold = false })
+  end
+end
+
+local aug = vim.api.nvim_create_augroup("d0ublew_ministatusline_hl", { clear = true })
+-- vim.api.nvim_create_autocmd({ "OptionSet" }, {
+--   callback = diag_hl,
+--   group = aug,
+--   desc = "Set mini.statusline diagnostic highlight when background option changes",
+--   pattern = "background",
+-- })
+vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+  callback = function()
+    diag_hl_config()
+    fileinfo_hl_config()
+  end,
+  group = aug,
+  desc = "Set mini.statusline custom highlight when colorscheme changes",
+})
+
 local function section_autoformat()
   if vim.bo.filetype == "oil" then
     return ""
@@ -97,6 +132,35 @@ return {
             local diff = MiniStatusline.section_diff({ trunc_width = 75 })
             local severity = vim.diagnostic.severity
             local icon = require("util.icon")
+            local my_section_fileinfo = function(args)
+              local filetype = vim.bo.filetype
+
+              -- Add filetype icon
+              if filetype ~= "" then
+                local fileicon, hl, _ = require("mini.icons").get("filetype", filetype)
+                filetype = "%#WW" .. hl .. "#" .. fileicon .. "%#MiniStatusLineFileinfo# " .. filetype
+              end
+
+              -- Construct output string if truncated or buffer is not normal
+              if MiniStatusline.is_truncated(args.trunc_width) or vim.bo.buftype ~= "" then
+                return filetype
+              end
+
+              -- Construct output string with extra file info
+              local encoding = vim.bo.fileencoding or vim.bo.encoding
+              local format = vim.bo.fileformat
+              -- local size = H.get_filesize()
+
+              return string.format(
+                "%s%s%s%s[%s]",
+                filetype,
+                filetype == "" and "" or " ",
+                encoding,
+                encoding == "" and "" or " ",
+                format
+              )
+            end
+
             local diagnostics = MiniStatusline.section_diagnostics({
               trunc_width = 75,
               signs = {
@@ -129,7 +193,8 @@ return {
             })
             -- local lsp = MiniStatusline.section_lsp({ trunc_width = 75 })
             local filename = MiniStatusline.section_filename({ trunc_width = 140 })
-            local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+            -- local fileinfo = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+            local fileinfo = my_section_fileinfo({ trunc_width = 120 })
             local location = MiniStatusline.section_location({ trunc_width = 75 })
             local search = MiniStatusline.section_searchcount({ trunc_width = 75 })
             local autoformat = section_autoformat()
@@ -155,18 +220,6 @@ return {
         },
       })
       diag_hl_config()
-      local aug = vim.api.nvim_create_augroup("d0ublew_ministatusline_diagnostic_hl", { clear = true })
-      -- vim.api.nvim_create_autocmd({ "OptionSet" }, {
-      --   callback = diag_hl,
-      --   group = aug,
-      --   desc = "Set mini.statusline diagnostic highlight when background option changes",
-      --   pattern = "background",
-      -- })
-      vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-        callback = diag_hl_config,
-        group = aug,
-        desc = "Set mini.statusline diagnostic highlight when colorscheme changes",
-      })
     end,
   },
 

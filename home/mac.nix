@@ -162,6 +162,7 @@ in
     mini.enable = true;
     snacks.enable = true;
     treesitter.enable = true;
+    trouble.enable = true;
   };
 
   programs.direnv = {

@@ -53,6 +53,8 @@ in
         init.defaultBranch = cfg.default-branch;
         diff.tool = "nvim -d";
         difftool.prompt = false;
+        pull.rebase = true;
+        rebase.autoStash = true;
       };
       aliases = {
         ap = "add -i -p";

@@ -17,7 +17,6 @@ in
     programs.neovim.extraPackages = with pkgs; [
       pyright
       ruff
-      ruff-lsp
     ];
 
     xdg.configFile."nvim/lua/plugins/lsp/python.lua".source = ./spec.lua;

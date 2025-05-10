@@ -29,6 +29,22 @@ return {
         desc = "Buffer Diagnostics (Trouble)",
       },
       {
+        "]]",
+        function()
+          require("trouble").next("diagnostics")
+          require("trouble").jump_only("diagnostics")
+        end,
+        desc = "Diagnostics Next (Trouble)",
+      },
+      {
+        "[[",
+        function()
+          require("trouble").prev("diagnostics")
+          require("trouble").jump_only("diagnostics")
+        end,
+        desc = "Diagnostics Previous (Trouble)",
+      },
+      {
         "<leader>cs",
         "<cmd>Trouble symbols toggle focus=false<cr>",
         desc = "Symbols (Trouble)",

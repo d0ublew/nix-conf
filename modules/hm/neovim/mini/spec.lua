@@ -71,13 +71,13 @@ return {
     "echasnovski/mini.surround",
     opts = {
       mappings = {
-        add = "<localleader>sa", -- Add surrounding in Normal and Visual modes
-        delete = "<localleader>sd", -- Delete surrounding
-        find = "<localleader>sf", -- Find surrounding (to the right)
-        find_left = "<localleader>sF", -- Find surrounding (to the left)
-        highlight = "<localleader>sh", -- Highlight surrounding
-        replace = "<localleader>sr", -- Replace surrounding
-        update_n_lines = "<localleader>sn", -- Update `n_lines`
+        add = "gsa", -- Add surrounding in Normal and Visual modes
+        delete = "gsd", -- Delete surrounding
+        find = "gsf", -- Find surrounding (to the right)
+        find_left = "gsF", -- Find surrounding (to the left)
+        highlight = "gsh", -- Highlight surrounding
+        replace = "gsr", -- Replace surrounding
+        update_n_lines = "gsn", -- Update `n_lines`
 
         suffix_last = "l", -- Suffix to search with "prev" method
         suffix_next = "n", -- Suffix to search with "next" method
@@ -295,8 +295,8 @@ return {
           miniclue.gen_clues.registers(),
           miniclue.gen_clues.windows({ submode_resize = true }),
           miniclue.gen_clues.z(),
-          { mode = "n", keys = "<localleader>s", desc = "surround" },
-          { mode = "x", keys = "<localleader>s", desc = "surround" },
+          { mode = "n", keys = "gs", desc = "surround" },
+          { mode = "x", keys = "gs", desc = "surround" },
           -- Enhance this by adding descriptions for <Leader> mapping groups
           { mode = "n", keys = "<leader>f", desc = "file/find" },
           { mode = "n", keys = "<leader>g", desc = "git" },

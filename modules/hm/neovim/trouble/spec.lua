@@ -1,4 +1,7 @@
 local transparent = function()
+  if not vim.g.d0ublew_transparent then
+    return
+  end
   vim.api.nvim_set_hl(0, "TroubleNormal", { bg = "NONE" })
 end
 

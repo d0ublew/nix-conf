@@ -87,4 +87,6 @@ for k, v in pairs(options) do
   vim.opt[k] = v
 end
 
+vim.g.d0ublew_transparent = true
+
 vim.cmd("set nostartofline")

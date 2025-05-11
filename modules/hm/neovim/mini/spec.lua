@@ -1,56 +1,3 @@
-local function diag_hl_config()
-  local statusline_hl = vim.api.nvim_get_hl(0, { name = "MiniStatuslineDevinfo", link = true })
-  local lsp_diags = { "DiagnosticError", "DiagnosticWarn", "DiagnosticInfo", "DiagnosticHint" }
-  for _, v in pairs(lsp_diags) do
-    local diag_hl = vim.api.nvim_get_hl(0, { name = v })
-    vim.api.nvim_set_hl(0, "WW" .. v, { fg = diag_hl.fg, bg = statusline_hl.bg, bold = false })
-  end
-end
-
-local function fileinfo_hl_config()
-  local statusline_hl = vim.api.nvim_get_hl(0, { name = "MiniStatuslineFileinfo", link = true })
-  local mini_icons = {
-    "MiniIconsRed",
-    "MiniIconsBlue",
-    "MiniIconsCyan",
-    "MiniIconsGrey",
-    "MiniIconsAzure",
-    "MiniIconsGreen",
-    "MiniIconsOrange",
-    "MiniIconsPurple",
-    "MiniIconsYellow",
-  }
-  for _, v in pairs(mini_icons) do
-    local icon_hl = vim.api.nvim_get_hl(0, { name = v })
-    vim.api.nvim_set_hl(0, "WW" .. v, { fg = icon_hl.fg, bg = statusline_hl.bg, bold = false })
-  end
-end
-
-local aug = vim.api.nvim_create_augroup("d0ublew_ministatusline_hl", { clear = true })
--- vim.api.nvim_create_autocmd({ "OptionSet" }, {
---   callback = diag_hl,
---   group = aug,
---   desc = "Set mini.statusline diagnostic highlight when background option changes",
---   pattern = "background",
--- })
-vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-  callback = function()
-    diag_hl_config()
-    fileinfo_hl_config()
-  end,
-  group = aug,
-  desc = "Set mini.statusline custom highlight when colorscheme changes",
-})
-
-local function section_autoformat()
-  if vim.bo.filetype == "oil" then
-    return ""
-  end
-  local autoformat_global = vim.g.disable_autoformat and "g" or "G"
-  local autoformat_buffer = vim.b.disable_autoformat and "b" or "B"
-  return "[" .. autoformat_buffer .. " " .. autoformat_global .. "]"
-end
-
 return {
   -- {
   --   "echasnovski/mini.pick",
@@ -123,6 +70,59 @@ return {
     event = { "ColorScheme", "VeryLazy" },
     -- lazy = false,
     config = function()
+      local function diag_hl_config()
+        local statusline_hl = vim.api.nvim_get_hl(0, { name = "MiniStatuslineDevinfo", link = true })
+        local lsp_diags = { "DiagnosticError", "DiagnosticWarn", "DiagnosticInfo", "DiagnosticHint" }
+        for _, v in pairs(lsp_diags) do
+          local diag_hl = vim.api.nvim_get_hl(0, { name = v })
+          vim.api.nvim_set_hl(0, "WW" .. v, { fg = diag_hl.fg, bg = statusline_hl.bg, bold = false })
+        end
+      end
+
+      local function fileinfo_hl_config()
+        local statusline_hl = vim.api.nvim_get_hl(0, { name = "MiniStatuslineFileinfo", link = true })
+        local mini_icons = {
+          "MiniIconsRed",
+          "MiniIconsBlue",
+          "MiniIconsCyan",
+          "MiniIconsGrey",
+          "MiniIconsAzure",
+          "MiniIconsGreen",
+          "MiniIconsOrange",
+          "MiniIconsPurple",
+          "MiniIconsYellow",
+        }
+        for _, v in pairs(mini_icons) do
+          local icon_hl = vim.api.nvim_get_hl(0, { name = v })
+          vim.api.nvim_set_hl(0, "WW" .. v, { fg = icon_hl.fg, bg = statusline_hl.bg, bold = false })
+        end
+      end
+
+      local aug = vim.api.nvim_create_augroup("d0ublew_ministatusline_hl", { clear = true })
+      -- vim.api.nvim_create_autocmd({ "OptionSet" }, {
+      --   callback = diag_hl,
+      --   group = aug,
+      --   desc = "Set mini.statusline diagnostic highlight when background option changes",
+      --   pattern = "background",
+      -- })
+      vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+        callback = function()
+          diag_hl_config()
+          fileinfo_hl_config()
+        end,
+        group = aug,
+        desc = "Set mini.statusline custom highlight when colorscheme changes",
+      })
+
+      local function section_autoformat()
+        if vim.bo.filetype == "oil" then
+          return ""
+        end
+        local autoformat_global = vim.g.disable_autoformat and "g" or "G"
+        local autoformat_buffer = vim.b.disable_autoformat and "b" or "B"
+        return "[" .. autoformat_buffer .. " " .. autoformat_global .. "]"
+      end
+
       local MiniStatusline = require("mini.statusline")
       MiniStatusline.setup({
         content = {

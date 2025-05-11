@@ -1,23 +1,3 @@
-local transparent = function()
-  vim.api.nvim_set_hl(0, "BlinkCmpBorder", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelp", { bg = "NONE" })
-  vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelpBorder", { bg = "NONE" })
-end
-
-local aug = vim.api.nvim_create_augroup("d0ublew_blink_cmp_hl", { clear = true })
-
-vim.api.nvim_create_autocmd({ "ColorScheme" }, {
-  pattern = "*",
-  callback = function()
-    transparent()
-  end,
-  group = aug,
-})
-
 return {
   {
     "saghen/blink.cmp",
@@ -80,6 +60,29 @@ return {
         },
       }
       require("blink.cmp").setup(opts)
+      local transparent = function()
+        if not vim.g.d0ublew_transparent then
+          return
+        end
+        vim.api.nvim_set_hl(0, "BlinkCmpBorder", { bg = "NONE" })
+        vim.api.nvim_set_hl(0, "BlinkCmpMenu", { bg = "NONE" })
+        vim.api.nvim_set_hl(0, "BlinkCmpMenuBorder", { bg = "NONE" })
+        vim.api.nvim_set_hl(0, "BlinkCmpDoc", { bg = "NONE" })
+        vim.api.nvim_set_hl(0, "BlinkCmpDocBorder", { bg = "NONE" })
+        vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelp", { bg = "NONE" })
+        vim.api.nvim_set_hl(0, "BlinkCmpSignatureHelpBorder", { bg = "NONE" })
+      end
+
+      local aug = vim.api.nvim_create_augroup("d0ublew_blink_cmp_hl", { clear = true })
+
+      vim.api.nvim_create_autocmd({ "ColorScheme" }, {
+        pattern = "*",
+        callback = function()
+          transparent()
+        end,
+        group = aug,
+      })
+
       transparent()
     end,
   },

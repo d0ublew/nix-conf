@@ -1,4 +1,7 @@
 local float_transparent = function()
+  if not vim.g.d0ublew_transparent then
+    return
+  end
   vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
   vim.api.nvim_set_hl(0, "FloatTitle", { bg = "NONE" })
   vim.api.nvim_set_hl(0, "FloatBorder", { bg = "NONE" })

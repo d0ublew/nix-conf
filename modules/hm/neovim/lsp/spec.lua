@@ -1,4 +1,7 @@
 local diag_vline_transparent = function()
+  if not vim.g.d0ublew_transparent then
+    return
+  end
   local dvth = "DiagnosticVirtualTextHint"
   local dvti = "DiagnosticVirtualTextInfo"
   local dvtw = "DiagnosticVirtualTextWarn"

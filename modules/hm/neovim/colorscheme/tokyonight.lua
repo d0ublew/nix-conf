@@ -3,9 +3,9 @@ return {
     "folke/tokyonight.nvim",
     opts = function(_)
       return {
-        style = "storm",
+        style = "moon",
         light_style = "day",
-        transparent = true,
+        transparent = vim.g.d0ublew_transparent,
         terminal_colors = true,
         styles = {
           comments = { italic = false },
@@ -21,6 +21,9 @@ return {
         dim_inactive = false,
         lualine_bold = false,
         on_highlights = function(hl, c)
+          if not vim.g.d0ublew_transparent then
+            return
+          end
           -- set telescope-bg transparent
           hl.TelescopeNormal.bg = c.none
           hl.TelescopeBorder.bg = c.none

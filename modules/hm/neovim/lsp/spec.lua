@@ -276,15 +276,15 @@ return {
           vim.keymap.set("n", "gD", vim.lsp.buf.declaration, { buffer = 0 })
           -- vim.keymap.set("n", "gT", vim.lsp.buf.type_definition, { buffer = 0 })
           vim.keymap.set("n", "K", function()
-            vim.lsp.buf.hover()
+            vim.lsp.buf.hover({ border = "rounded" })
           end, { buffer = 0, desc = "Symbol information" })
           -- vim.keymap.set("n", "gK", vim.lsp.buf.signature_help, { buffer = 0 })
           -- vim.keymap.set("i", "<C-l>", vim.lsp.buf.signature_help, { buffer = 0 })
           vim.keymap.set("n", "gK", function()
-            vim.lsp.buf.signature_help()
+            vim.lsp.buf.signature_help({ border = "rounded" })
           end, { buffer = 0, desc = "Signature Help (Full)" })
           vim.keymap.set("i", "<C-s>", function()
-            vim.lsp.buf.signature_help()
+            vim.lsp.buf.signature_help({ border = "rounded" })
           end, { buffer = 0 })
 
           vim.keymap.set("n", "grn", vim.lsp.buf.rename, { buffer = 0, desc = "Rename symbol" })
@@ -318,14 +318,6 @@ return {
             end
           end
         end,
-      })
-
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "rounded",
-      })
-
-      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = "rounded",
       })
 
       require("lsp_lines").setup()

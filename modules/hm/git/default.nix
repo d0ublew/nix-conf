@@ -49,12 +49,14 @@ in
         "credential \"https://gist.github.com\"".helper = "!${pkgs.gh}/bin/gh auth git-credential";
         core = {
           editor = "nvim";
+          autocrlf = "input";
         };
         init.defaultBranch = cfg.default-branch;
         diff.tool = "nvim -d";
         difftool.prompt = false;
         pull.rebase = true;
         rebase.autoStash = true;
+        submodule.recurse = true;
       };
       aliases = {
         ap = "add -i -p";

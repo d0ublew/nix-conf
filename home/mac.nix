@@ -60,6 +60,11 @@ in
     timg
     devenv
     inetutils
+    socat
+    colima
+    openjdk21
+    radare2
+
     # aapt
     # apksigner
     # apktool
@@ -154,6 +159,7 @@ in
       nim.enable = true;
       go.enable = true;
       dart.enable = true;
+      c.enable = true;
     };
     telescope.enable = true;
     completion.enable = true;

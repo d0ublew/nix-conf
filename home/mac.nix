@@ -55,7 +55,7 @@ in
   # environment.
   home.packages = with pkgs; [
     gh
-    yazi
+    # yazi
     btop
     timg
     devenv
@@ -169,6 +169,20 @@ in
     snacks.enable = true;
     treesitter.enable = true;
     trouble.enable = true;
+  };
+
+  programs.bat = {
+    enable = true;
+    config = {
+      theme = "ansi";
+      style = "plain";
+      paging = "never";
+      pager = "less -FR";
+    };
+  };
+
+  yazi-mod = {
+    enable = true;
   };
 
   programs.direnv = {

@@ -9,7 +9,7 @@
 let
   aliases = {
     less = "less -R";
-    vim = "nvim";
+    # vim = "nvim";
     tm = "history -a; tmux";
     ta = "tmux attach";
     py3 = "python3";
@@ -20,6 +20,7 @@ let
     mv = "mv -i";
     cp = "cp -i";
     ".." = "cd ..";
+    tree = "lsd --tree";
   };
 in
 {
@@ -54,8 +55,11 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    ascii
     gh
-    # yazi
+    fd
+    p7zip
+    tmux
     btop
     timg
     devenv
@@ -64,6 +68,19 @@ in
     colima
     openjdk21
     radare2
+    zoxide
+    ripgrep
+    ffmpeg
+    dust
+    iproute2mac
+    aria2
+    wget
+    fzf
+    scrcpy
+    yarn
+    tealdeer
+    xz
+    reattach-to-user-namespace
 
     # aapt
     # apksigner
@@ -171,6 +188,40 @@ in
     trouble.enable = true;
   };
 
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    shellAliases = aliases;
+    profileExtra = ''
+      export PATH="${"$"}{HOME}/.local/bin:$PATH"
+      export PATH="${"$"}{HOME}/bin:$PATH"
+      export PATH="${"$"}{HOME}/tools/jadx/bin:$PATH"
+      export PATH="${"$"}{HOME}/tools/ghidra_11.3.2_PUBLIC:$PATH"
+
+      # export ANDROID_NDK_ROOT="${"$"}{HOME}/Library/Android/sdk/ndk/27.1.12297006/"
+      export ANDROID_NDK_ROOT="${"$"}{HOME}/Library/Android/sdk/ndk/28.1.13356709/"
+      export ANDROID_SDK_ROOT="${"$"}{HOME}/Library/Android/sdk"
+      export ANDROID_HOME="${"$"}{HOME}/Library/Android/sdk"
+
+      export PATH="${"$"}{ANDROID_SDK_ROOT}/platform-tools:$PATH"
+      export PATH="${"$"}{ANDROID_SDK_ROOT}/emulator:$PATH"
+      export PATH="${"$"}{ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:$PATH"
+
+      export PATH="${"$"}{ANDROID_NDK_ROOT}:$PATH"
+
+    '';
+    bashrcExtra = ''
+      export PS1="[\u@\h \w]\n$ "
+      [[ -f ~/tools/ipsw/completions/ipsw/_bash ]] && source ~/tools/ipsw/completions/ipsw/_bash
+
+      FZF_CTRL_T_COMMAND="" eval "$(fzf --bash)"
+      _fzf_setup_completion path cp mv cat
+
+      M_GHOSTTY_BASH_INTEGRATION="${"$"}{GHOSTTY_RESOURCES_DIR}/shell-integration/bash/ghostty.bash"
+      test -e "${"$"}{M_GHOSTTY_BASH_INTEGRATION}"  && source "${"$"}{M_GHOSTTY_BASH_INTEGRATION}"
+    '';
+  };
+
   programs.bat = {
     enable = true;
     config = {
@@ -189,6 +240,25 @@ in
     enable = true;
     enableBashIntegration = true;
     nix-direnv.enable = true;
+  };
+
+  programs.zoxide = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+
+  programs.lsd = {
+    enable = true;
+    enableBashIntegration = true;
+    icons = true;
+    colors = true;
+  };
+
+  programs.uv = {
+    enable = true;
+    settings = {
+      python-preference = "managed";
+    };
   };
 
   # Let Home Manager install and manage itself.

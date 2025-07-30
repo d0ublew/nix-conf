@@ -13,6 +13,19 @@ let
         # sha256 = final.lib.fakeHash;
       };
     };
+  crccheck =
+    with final.python313.pkgs;
+    buildPythonPackage rec {
+      name = "crccheck";
+      version = "v1.3.0";
+      src = final.fetchFromGitHub {
+        owner = "MartinScharrer";
+        repo = name;
+        tag = version;
+        sha256 = "sha256-nujt3RWupvCtk7gORejtSwqqVjW9VwztOVGXBHW9T+k=";
+        # sha256 = final.lib.fakeHash;
+      };
+    };
   pythonPath =
     with final.python313.pkgs;
     makePythonPath [

@@ -5,8 +5,10 @@ return {
   opts = {
     variant = "auto",
     dark_variant = "moon",
+    dim_inactive_windows = true,
     styles = {
-      transparency = true,
+      transparency = vim.g.d0ublew_transparent,
+      italic = false,
     },
     before_highlight = function(group, highlight, palette)
       -- Disable all undercurls

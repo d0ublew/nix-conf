@@ -24,10 +24,15 @@ local function get_jdtls_workspace_dir()
     curr_path = vim.fn.fnamemodify(curr_path, ":p:h")
   end
 
-  local root_dir = vim.fs.find(
-    { "build.gradle", "build.gradle.kts", "settings.gradle", "settings.gradle.kts", ".gradlew", ".git", "mvnw" },
-    { upward = true, stop = env.HOME, path = curr_path }
-  )
+  local root_dir = vim.fs.find({
+    -- "build.gradle",
+    -- "build.gradle.kts",
+    "settings.gradle",
+    "settings.gradle.kts",
+    ".gradlew",
+    ".git",
+    "mvnw",
+  }, { upward = true, stop = env.HOME, path = curr_path })
   local project_name = ""
   if #root_dir == 0 then
     project_name = string.gsub(curr_path, "/", "%%")
@@ -66,6 +71,9 @@ return {
           os_config = nil,
           settings = {
             java = {
+              configuration = {
+                updateBuildConfiguration = "automatic",
+              },
               implementationsCodeLens = { enabled = true },
               imports = {
                 gradle = {

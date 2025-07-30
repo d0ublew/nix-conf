@@ -65,6 +65,7 @@ in
         br = "branch";
         ba = "branch -a";
         d = "diff";
+        co = "checkout";
         ci = "commit";
         ca = "commit -a";
         rb = "rebase";
@@ -75,6 +76,7 @@ in
         hist = "log --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --graph --date=relative --decorate --all";
         logg = "log --pretty=format:\"%Cgreen%h %Creset%cd %Cblue[%cn] %Creset%s%C(yellow)%d%C(reset)\" --date=relative --decorate";
         llog = "log --graph --name-status --pretty=format:\"%C(red)%h %C(reset)(%cd) %C(green)%an %Creset%s %C(yellow)%d%Creset\" --date=relative";
+        submodule-checkout-branch = "!f() { git submodule -q foreach 'branch=$(git branch --no-column --format=\"%(refname:short)\" --points-at `git rev-parse HEAD` | grep -v \"HEAD detached\" | head -1); if [[ ! -z $branch && -z `git symbolic-ref --short -q HEAD` ]]; then git checkout -q \"$branch\"; fi'; }; f";
       };
     };
   };

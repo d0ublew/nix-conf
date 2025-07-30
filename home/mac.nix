@@ -50,7 +50,7 @@ in
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "24.05"; # Please read the comment before changing.
+  home.stateVersion = "25.05"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -81,6 +81,14 @@ in
     tealdeer
     xz
     reattach-to-user-namespace
+    nodejs
+    docker-client
+    docker-compose
+    zed
+    zlib-ng
+    nix-index
+    rlwrap
+    gef-bata24
 
     # aapt
     # apksigner
@@ -219,6 +227,12 @@ in
 
       M_GHOSTTY_BASH_INTEGRATION="${"$"}{GHOSTTY_RESOURCES_DIR}/shell-integration/bash/ghostty.bash"
       test -e "${"$"}{M_GHOSTTY_BASH_INTEGRATION}"  && source "${"$"}{M_GHOSTTY_BASH_INTEGRATION}"
+
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    '';
+
+    initExtra = ''
+      source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
     '';
   };
 
@@ -239,7 +253,10 @@ in
   programs.direnv = {
     enable = true;
     enableBashIntegration = true;
-    nix-direnv.enable = true;
+    nix-direnv = {
+      enable = true;
+      package = pkgs.nix-direnv;
+    };
   };
 
   programs.zoxide = {
@@ -259,6 +276,10 @@ in
     settings = {
       python-preference = "managed";
     };
+  };
+
+  programs.command-not-found = {
+    enable = true;
   };
 
   # Let Home Manager install and manage itself.

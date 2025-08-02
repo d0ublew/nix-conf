@@ -5,6 +5,7 @@ let
     buildPythonPackage rec {
       name = "vmlinux-to-elf";
       version = "da14e789596d493f305688e221e9e34ebf63cbb8";
+      format = "setuptools";
       src = final.fetchFromGitHub {
         owner = "marin-m";
         repo = name;
@@ -18,6 +19,7 @@ let
     buildPythonPackage rec {
       name = "crccheck";
       version = "v1.3.0";
+      format = "setuptools";
       src = final.fetchFromGitHub {
         owner = "MartinScharrer";
         repo = name;

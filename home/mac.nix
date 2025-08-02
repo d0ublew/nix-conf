@@ -62,7 +62,7 @@ in
     tmux
     btop
     timg
-    devenv
+    # devenv
     inetutils
     socat
     colima
@@ -84,11 +84,12 @@ in
     nodejs
     docker-client
     docker-compose
-    zed
     zlib-ng
     nix-index
     rlwrap
-    gef-bata24
+    gemini-cli
+    qemu
+    # gef-bata24
 
     # aapt
     # apksigner
@@ -232,7 +233,7 @@ in
     '';
 
     initExtra = ''
-      source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
+      # source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
     '';
   };
 
@@ -279,7 +280,7 @@ in
   };
 
   programs.command-not-found = {
-    enable = true;
+    enable = false;
   };
 
   # Let Home Manager install and manage itself.

@@ -35,7 +35,7 @@ in
       enableBashIntegration = true;
       initLua = ./init.lua;
       settings = {
-        manager = {
+        mgr = {
           show_hidden = true;
         };
         preview = {
@@ -50,7 +50,7 @@ in
         smart-enter = "${yazi-plugins}/smart-enter.yazi";
       };
       keymap = {
-        manager.prepend_keymap = [
+        mgr.prepend_keymap = [
           {
             run = "leave";
             on = [ "-" ];

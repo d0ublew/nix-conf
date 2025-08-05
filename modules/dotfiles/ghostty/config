@@ -1,0 +1,66 @@
+title = "Ghostty"
+
+keybind = super+k=unbind
+keybind = super+enter=unbind
+keybind = global:super+ctrl+enter=toggle_quick_terminal
+keybind = ctrl+shift+l=clear_screen
+keybind = super+ctrl+p=toggle_window_decorations
+
+keybind = ctrl+alt+h=goto_split:left
+keybind = ctrl+alt+j=goto_split:bottom
+keybind = ctrl+alt+k=goto_split:top
+keybind = ctrl+alt+l=goto_split:right
+
+keybind = ctrl+alt+equal=equalize_splits
+keybind = ctrl+alt+shift+h=resize_split:left,10
+keybind = ctrl+alt+shift+j=resize_split:down,10
+keybind = ctrl+alt+shift+k=resize_split:up,10
+keybind = ctrl+alt+shift+l=resize_split:right,10
+
+quick-terminal-position = bottom
+quick-terminal-screen = main
+# quick-terminal-animation-duration = 0.2
+
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = false
+
+selection-invert-fg-bg = true
+
+window-theme = system
+background-opacity = 0.85
+background-opacity = 0.8
+background-blur-radius = 20
+theme = light:tokyonight-day,dark:tokyonight_moon
+# theme = light:rose-pine-dawn,dark:rose-pine-moon
+# custom-shader = ~/ghostty-shaders/drunkard.glsl
+custom-shader-animation = always
+
+unfocused-split-opacity = 1
+
+cursor-invert-fg-bg = false
+cursor-style = block
+cursor-style-blink = false
+
+shell-integration = bash
+shell-integration-features = no-cursor,no-title
+
+wait-after-command = false
+
+# font-family = IosevkaTerm Nerd Font Mono
+# font-family = ComicMono Nerd Font
+font-family = ComicShannsMono Nerd Font Mono
+font-size = 16
+font-feature = -calt
+font-feature = -liga
+font-feature = -dlig
+
+window-decoration = true
+window-padding-x = 8
+window-padding-y = 8
+window-padding-balance = true
+window-padding-color = background
+
+macos-option-as-alt = true
+macos-titlebar-proxy-icon = hidden
+macos-titlebar-style = hidden

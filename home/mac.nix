@@ -83,6 +83,7 @@ in
     reattach-to-user-namespace
     nodejs
     docker-client
+    docker-buildx
     docker-compose
     zlib-ng
     nix-index
@@ -120,6 +121,7 @@ in
     # ".tmux".source = ../modules/dotfiles/tmux/tmux;
     # ".tmux.conf".source = ../modules/dotfiles/tmux/tmux.conf;
     # ".wezterm.sh".source = ../modules/dotfiles/wezterm.sh;
+    ".docker/cli-plugins/docker-buildx".source = "${pkgs.docker-buildx}/bin/docker-buildx";
 
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a

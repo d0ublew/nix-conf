@@ -27,15 +27,14 @@ return {
       name = "ktlint",
       config = {
         parser = function(output)
-          if output:find("^Picked up JAVA_TOOL_OPTIONS") then
-            local lines = {}
-            for line in output:gmatch("([^\r\n]+)") do
+          local lines = {}
+          for line in output:gmatch("([^\r\n]+)") do
+            if line:find("^Picked up JAVA_TOOL_OPTIONS:") == nil then
               table.insert(lines, line)
             end
-            table.remove(lines, 1)
-            output = table.concat(lines, "\n")
           end
-          local ktlint_output = vim.json.decode(output)
+          local clean_output = table.concat(lines, "\n")
+          local ktlint_output = vim.json.decode(clean_output)
           if vim.tbl_isempty(ktlint_output) then
             return {}
           end

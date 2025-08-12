@@ -11,8 +11,8 @@ let
   yazi-plugins = pkgs.fetchFromGitHub {
     owner = "yazi-rs";
     repo = "plugins";
-    rev = "273019910c1111a388dd20e057606016f4bd0d17";
-    hash = "sha256-80mR86UWgD11XuzpVNn56fmGRkvj0af2cFaZkU8M31I=";
+    rev = "de53d90cb2740f84ae595f93d0c4c23f8618a9e4";
+    hash = "sha256-ixZKOtLOwLHLeSoEkk07TB3N57DXoVEyImR3qzGUzxQ=";
     # hash = lib.fakeHash;
   };
 in
@@ -34,6 +34,16 @@ in
       enable = true;
       enableBashIntegration = true;
       initLua = ./init.lua;
+      flavors = {
+        tokyonight-day = ./flavors/tokyonight-day;
+        tokyonight-moon = ./flavors/tokyonight-moon;
+      };
+      theme = {
+        flavor = {
+          light = "tokyonight-day";
+          dark = "tokyonight-moon";
+        };
+      };
       settings = {
         mgr = {
           show_hidden = true;
@@ -45,8 +55,7 @@ in
       };
       plugins = {
         full-border = "${yazi-plugins}/full-border.yazi";
-        max-preview = "${yazi-plugins}/max-preview.yazi";
-        hide-preview = "${yazi-plugins}/hide-preview.yazi";
+        toggle-pane = "${yazi-plugins}/toggle-pane.yazi";
         smart-enter = "${yazi-plugins}/smart-enter.yazi";
       };
       keymap = {
@@ -85,12 +94,12 @@ in
             desc = "Enter the child directory, or open the file";
           }
           {
-            run = "plugin hide-preview";
+            run = "plugin toggle-pane min-preview";
             on = [ "<A-Z>" ];
             desc = "Toggle preview pane";
           }
           {
-            run = "plugin max-preview";
+            run = "plugin toggle-pane max-preview";
             on = [ "<A-p>" ];
             desc = "Maximize or restore preview";
           }

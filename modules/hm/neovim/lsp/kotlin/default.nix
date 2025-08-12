@@ -18,6 +18,7 @@ in
     programs.neovim.extraPackages = with pkgs; [
       kotlin-language-server
       ktfmt
+      ktlint
     ];
 
     xdg.configFile."nvim/lua/plugins/lsp/${lang}.lua".source = ./spec.lua;

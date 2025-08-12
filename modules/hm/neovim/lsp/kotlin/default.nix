@@ -17,7 +17,6 @@ in
   config = mkIf cfg.enable {
     programs.neovim.extraPackages = with pkgs; [
       kotlin-language-server
-      ktfmt
       ktlint
     ];
 

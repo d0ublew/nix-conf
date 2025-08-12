@@ -29,6 +29,8 @@ vim.api.nvim_create_autocmd({ "ColorScheme" }, {
 local servers = {}
 local formatters = {}
 local formatters_by_ft = {}
+local linters = {}
+local linters_by_ft = {}
 
 local function extract_lang(fpath)
   local fname = fpath:match("^.+/(.+)$") or fpath
@@ -40,8 +42,10 @@ local function get_configs()
   for _, fpath in ipairs(vim.api.nvim_get_runtime_file("lua/plugins/lsp/*.lua", true)) do
     local lang = extract_lang(fpath)
     local lsp_cfgs = require("plugins.lsp." .. lang)
-    for _, lsp_cfg in pairs(lsp_cfgs.servers) do
-      servers[lsp_cfg.name] = lsp_cfg.config
+    if lsp_cfgs.servers ~= nil then
+      for _, lsp_cfg in pairs(lsp_cfgs.servers) do
+        servers[lsp_cfg.name] = lsp_cfg.config
+      end
     end
     if lsp_cfgs.formatters ~= nil then
       local fmts = {}
@@ -57,6 +61,16 @@ local function get_configs()
         formatters_by_ft["typescript"] = fmts
         formatters_by_ft["typescriptreact"] = fmts
       end
+    end
+    if lsp_cfgs.linters ~= nil then
+      local lts = {}
+      for _, lt_cfg in ipairs(lsp_cfgs.linters) do
+        table.insert(lts, lt_cfg.name)
+        if lt_cfg["config"] ~= nil and next(lt_cfg.config) ~= nil then
+          linters[lt_cfg.name] = lt_cfg.config
+        end
+      end
+      linters_by_ft[lang] = lts
     end
   end
   -- local table_dump = require("util.table_dump")
@@ -114,6 +128,54 @@ end, {
 })
 
 return {
+  -- Linting
+  {
+    "mfussenegger/nvim-lint",
+    event = "VeryLazy",
+    opts = {
+      events = { "BufWritePost", "BufReadPost", "InsertLeave" },
+      linters = linters,
+      linters_by_ft = linters_by_ft,
+    },
+    config = function(_, opts)
+      local M = {}
+
+      local lint = require("lint")
+      for name, linter in pairs(opts.linters) do
+        if type(linter) == "table" and type(lint.linters[name]) == "table" then
+          lint.linters[name] = vim.tbl_deep_extend("force", lint.linters[name], linter)
+          if type(linter.prepend_args) == "table" then
+            lint.linters[name].args = lint.linters[name].args or {}
+            vim.list_extend(lint.linters[name].args, linter.prepend_args)
+          end
+        else
+          lint.linters[name] = linter
+        end
+      end
+      lint.linters_by_ft = opts.linters_by_ft
+
+      function M.debounce(ms, fn)
+        local timer = vim.uv.new_timer()
+        return function(...)
+          local argv = { ... }
+          timer:start(ms, 0, function()
+            timer:stop()
+            vim.schedule_wrap(fn)(unpack(argv))
+          end)
+        end
+      end
+
+      function M.lint()
+        lint.try_lint()
+      end
+
+      vim.api.nvim_create_autocmd(opts.events, {
+        group = vim.api.nvim_create_augroup("ww-nvim-lint", { clear = true }),
+        callback = M.debounce(500, M.lint),
+      })
+    end,
+  },
+
   -- Autoformatting
   {
     "stevearc/conform.nvim",

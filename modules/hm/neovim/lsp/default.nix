@@ -23,6 +23,7 @@ in
       telescope-nvim
       actions-preview-nvim
       lsp_lines-nvim
+      nvim-lint
     ];
     # neovim-mod.extraSpec = ''
     #   { import = "plugins.lsp" },

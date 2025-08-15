@@ -303,14 +303,16 @@ return {
         capabilities = require("cmp_nvim_lsp").default_capabilities()
       end
 
-      local lspconfig = require("lspconfig")
+      -- local lspconfig = require("lspconfig")
 
       for name, config in pairs(servers) do
         config = vim.tbl_deep_extend("force", {}, {
           capabilities = capabilities,
         }, config)
 
-        lspconfig[name].setup(config)
+        vim.lsp.config(name, config)
+        vim.lsp.enable(name)
+        -- lspconfig[name].setup(config)
       end
 
       local disable_semantic_tokens = {

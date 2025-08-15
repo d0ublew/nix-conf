@@ -44,7 +44,11 @@ local function get_configs()
     local lsp_cfgs = require("plugins.lsp." .. lang)
     if lsp_cfgs.servers ~= nil then
       for _, lsp_cfg in pairs(lsp_cfgs.servers) do
-        servers[lsp_cfg.name] = lsp_cfg.config
+        if lsp_cfg.config ~= nil then
+          servers[lsp_cfg.name] = lsp_cfg.config
+        else
+          servers[lsp_cfg.name] = {}
+        end
       end
     end
     if lsp_cfgs.formatters ~= nil then
@@ -302,9 +306,6 @@ return {
       local lspconfig = require("lspconfig")
 
       for name, config in pairs(servers) do
-        if config == true then
-          config = {}
-        end
         config = vim.tbl_deep_extend("force", {}, {
           capabilities = capabilities,
         }, config)

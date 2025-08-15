@@ -2,7 +2,6 @@ return {
   servers = {
     {
       name = "biome",
-      config = true,
     },
     {
       name = "ts_ls",

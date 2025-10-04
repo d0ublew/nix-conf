@@ -1,8 +1,62 @@
+# This is the configuration file for Ghostty.
+#
+# This template file has been automatically created at the following
+# path since Ghostty couldn't find any existing config files on your system:
+#
+#   /home/d0ublew/.config/ghostty/config
+#
+# The template does not set any default options, since Ghostty ships
+# with sensible defaults for all options. Users should only need to set
+# options that they want to change from the default.
+#
+# Run `ghostty +show-config --default --docs` to view a list of
+# all available config options and their default values.
+#
+# Additionally, each config option is also explained in detail
+# on Ghostty's website, at https://ghostty.org/docs/config.
+
+# Config syntax crash course
+# ==========================
+# # The config file consists of simple key-value pairs,
+# # separated by equals signs.
+# font-family = Iosevka
+# window-padding-x = 2
+#
+# # Spacing around the equals sign does not matter.
+# # All of these are identical:
+# key=value
+# key= value
+# key =value
+# key = value
+#
+# # Any line beginning with a # is a comment. It's not possible to put
+# # a comment after a config option, since it would be interpreted as a
+# # part of the value. For example, this will have a value of "#123abc":
+# background = #123abc
+#
+# # Empty values are used to reset config keys to default.
+# key =
+#
+# # Some config options have unique syntaxes for their value,
+# # which is explained in the docs for that config option.
+# # Just for example:
+# resize-overlay-duration = 4s 200ms
+
 title = "Ghostty"
+
+keybind = alt+one=unbind
+keybind = alt+two=unbind
+keybind = alt+three=unbind
+keybind = alt+four=unbind
+keybind = alt+five=unbind
+keybind = alt+six=unbind
+keybind = alt+seven=unbind
+keybind = alt+eight=unbind
+keybind = alt+nine=unbind
 
 keybind = super+k=unbind
 keybind = super+enter=unbind
-keybind = global:super+ctrl+enter=toggle_quick_terminal
+# keybind = global:super+ctrl+enter=toggle_quick_terminal
 keybind = ctrl+shift+l=clear_screen
 keybind = super+ctrl+p=toggle_window_decorations
 
@@ -28,13 +82,12 @@ copy-on-select = false
 selection-invert-fg-bg = true
 
 window-theme = system
-background-opacity = 0.85
-background-opacity = 0.8
-background-blur-radius = 20
-theme = light:tokyonight-day,dark:tokyonight_moon
-# theme = light:rose-pine-dawn,dark:rose-pine-moon
-# custom-shader = ~/ghostty-shaders/drunkard.glsl
-custom-shader-animation = always
+# background-opacity = 0.85
+background-opacity = 1
+# background-blur-radius = 20
+# theme = light:tokyonight-day,dark:tokyonight_moon
+theme = light:tokyonight_moon,dark:tokyonight_moon
+# theme = light:rose pine dawn,dark:rose pine moon
 
 unfocused-split-opacity = 1
 
@@ -50,12 +103,12 @@ wait-after-command = false
 # font-family = IosevkaTerm Nerd Font Mono
 # font-family = ComicMono Nerd Font
 font-family = ComicShannsMono Nerd Font Mono
-font-size = 16
+font-size = 12
 font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
 
-window-decoration = true
+window-decoration = false
 window-padding-x = 8
 window-padding-y = 8
 window-padding-balance = true

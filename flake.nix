@@ -110,6 +110,19 @@
             ./overlays
           ];
         };
+        "mini" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          inherit lib;
+          extraSpecialArgs = {
+            inherit uname;
+            inherit pkgs-stable;
+            inherit unfree-pkgs;
+          };
+          modules = [
+            ./home/mini.nix
+            ./overlays
+          ];
+        };
       };
     };
 }

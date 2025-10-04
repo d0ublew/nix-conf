@@ -9,6 +9,7 @@
       url = "github:Mic92/nix-ld";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixgl.url = "github:nix-community/nixGL";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -22,6 +23,7 @@
       nixpkgs-stable,
       nixos-wsl,
       nix-ld,
+      nixgl,
       home-manager,
       ...
     }@inputs:
@@ -29,6 +31,10 @@
       uname = "d0ublew";
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      # pkgs = import nixpkgs {
+      #   inherit system;
+      #   overlays = [ nixgl.overlay ];
+      # };
       pkgs-stable = nixpkgs-stable.legacyPackages.${system};
       mylib = import ./libs { inherit (nixpkgs) lib; };
       lib = nixpkgs.lib.extend (final: prev: { my = mylib; });
@@ -114,9 +120,10 @@
           inherit pkgs;
           inherit lib;
           extraSpecialArgs = {
-            inherit uname;
+            uname = "kali";
             inherit pkgs-stable;
             inherit unfree-pkgs;
+            inherit nixgl;
           };
           modules = [
             ./home/mini.nix

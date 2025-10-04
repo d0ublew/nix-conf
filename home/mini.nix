@@ -4,6 +4,7 @@
   uname,
   lib,
   unfree-pkgs,
+  nixgl,
   ...
 }:
 let
@@ -26,6 +27,7 @@ let
   };
 in
 {
+  nixGL.packages = import nixgl { inherit pkgs; };
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) unfree-pkgs;
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
@@ -44,6 +46,8 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    (config.lib.nixGL.wrap ghostty)
+
     uv
     gh
     ripgrep
@@ -57,11 +61,12 @@ in
     tealdeer
     rlwrap
     p7zip
-    colima
-    docker-client
-    docker-buildx
-    docker-compose
-    netcat-openbsd
+    btop
+    # colima
+    # docker-client
+    # docker-buildx
+    # docker-compose
+    # netcat-openbsd
 
     # nmap
     # feroxbuster
@@ -94,11 +99,12 @@ in
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
   home.file = {
+    ".Xmodmap".source = ../modules/dotfiles/Xmodmap;
     ".inputrc".source = ../modules/dotfiles/inputrc;
     ".tmux".source = ../modules/dotfiles/tmux/tmux;
     ".tmux.conf".source = ../modules/dotfiles/tmux/tmux.conf;
     # ".wezterm.sh".source = ../modules/dotfiles/wezterm.sh;
-    ".docker/cli-plugins/docker-buildx".source = "${pkgs.docker-buildx}/bin/docker-buildx";
+    # ".docker/cli-plugins/docker-buildx".source = "${pkgs.docker-buildx}/bin/docker-buildx";
 
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
@@ -111,7 +117,8 @@ in
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
-  # xdg.configFile."wtf/config.yml".source = dotfiles/wtf/config.yml;
+  # xdg.configFile."wtf/config.yml".source = ../modules/dotfiles/wtf/config.yml;
+  xdg.configFile."ghostty/config".source = ../modules/dotfiles/ghostty/config;
 
   # Home Manager can also manage your environment variables through
   # 'home.sessionVariables'. These will be explicitly sourced when using a

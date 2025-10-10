@@ -25,7 +25,8 @@ in
       # which-key-nvim
       gitsigns-nvim
       vim-illuminate
-      indent-o-matic
+      # indent-o-matic
+      guess-indent-nvim
     ];
 
     xdg.configFile."nvim/lua/plugins/misc.lua".source = ./spec.lua;

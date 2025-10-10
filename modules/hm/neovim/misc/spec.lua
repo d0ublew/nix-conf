@@ -76,34 +76,40 @@ return {
   -- { "tpope/vim-unimpaired", event = "VeryLazy" },
   { "tpope/vim-repeat", event = "VeryLazy" },
 
+  -- {
+  --   "Darazaki/indent-o-matic",
+  --   event = { "BufReadPost" },
+  --   config = function()
+  --     require("indent-o-matic").setup({
+  --       max_lines = 2048,
+  --       standard_width = { 2, 4 },
+  --       skip_multiline = true,
+  --     })
+  --     local iom_augroup = vim.api.nvim_create_augroup("indent_o_matic", {
+  --       clear = true,
+  --     })
+  --     vim.api.nvim_create_autocmd("BufReadPost", {
+  --       callback = function()
+  --         require("indent-o-matic").detect()
+  --       end,
+  --       group = iom_augroup,
+  --       buffer = 0,
+  --     })
+  --     vim.api.nvim_create_autocmd("BufWritePost", {
+  --       callback = function()
+  --         require("indent-o-matic").detect()
+  --       end,
+  --       group = iom_augroup,
+  --       buffer = 0,
+  --       once = true,
+  --     })
+  --   end,
+  -- },
+
   {
-    "Darazaki/indent-o-matic",
-    event = { "BufReadPost" },
-    config = function()
-      require("indent-o-matic").setup({
-        max_lines = 2048,
-        standard_width = { 2, 4 },
-        skip_multiline = true,
-      })
-      local iom_augroup = vim.api.nvim_create_augroup("indent_o_matic", {
-        clear = true,
-      })
-      vim.api.nvim_create_autocmd("BufReadPost", {
-        callback = function()
-          require("indent-o-matic").detect()
-        end,
-        group = iom_augroup,
-        buffer = 0,
-      })
-      vim.api.nvim_create_autocmd("BufWritePost", {
-        callback = function()
-          require("indent-o-matic").detect()
-        end,
-        group = iom_augroup,
-        buffer = 0,
-        once = true,
-      })
-    end,
+    "nmac427/guess-indent.nvim",
+    opts = {},
+    lazy = false,
   },
 
   -- {

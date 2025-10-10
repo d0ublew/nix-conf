@@ -362,6 +362,11 @@ return {
             require("actions-preview").code_actions,
             { buffer = 0, desc = "LSP Code Action" }
           )
+          vim.keymap.set("n", "<leader>uh", function()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }))
+            vim.notify("Inlay Hint: " .. tostring(vim.lsp.inlay_hint.is_enabled({ bufnr = 0 })))
+          end, { buffer = 0, desc = "Toggle LSP inlay hint" })
+
           -- vim.keymap.set("n", "<leader>wd", builtin.lsp_document_symbols, { buffer = 0 })
 
           -- vim.keymap.set("n", "gl", vim.diagnostic.open_float, { buffer = 0 })

@@ -2,8 +2,21 @@ return {
   servers = {
     {
       name = "kotlin_language_server",
-      config = {},
+      config = {
+        settings = {
+          kotlin = {
+            hints = {
+              typeHints = true,
+              parameterHints = true,
+              chainedHints = false,
+            },
+          },
+        },
+      },
     },
+    -- {
+    --   name = "kotlin_lsp",
+    -- },
   },
   formatters = {
     {

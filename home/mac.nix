@@ -21,6 +21,7 @@ let
     cp = "cp -i";
     ".." = "cd ..";
     tree = "lsd --tree";
+    ascii = "rax2 -a";
   };
 in
 {
@@ -61,7 +62,7 @@ in
   # environment.
   home.packages = with pkgs; [
     cachix
-    ascii
+    # ascii
     gh
     fd
     p7zip
@@ -73,7 +74,7 @@ in
     socat
     colima
     openjdk21
-    kotlin
+    # kotlin
     radare2
     zoxide
     ripgrep
@@ -83,7 +84,7 @@ in
     aria2
     wget
     fzf
-    scrcpy
+    # scrcpy
     yarn
     tealdeer
     xz
@@ -95,12 +96,14 @@ in
     zlib-ng
     nix-index
     rlwrap
-    gemini-cli
+    # gemini-cli
     qemu
     nuclei
     semgrep
-    powershell
+    # powershell
     parallel
+    proxychains-ng
+    gnupg
 
     # gef-bata24
 
@@ -178,6 +181,8 @@ in
     delta = true;
     username = uname;
     email = "66501624+d0UBleW@users.noreply.github.com";
+    signing-key = "C290D836F2395167";
+    enable-signing = true;
   };
 
   neovim-mod = rec {
@@ -232,7 +237,7 @@ in
       export PATH="${"$"}{ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:$PATH"
 
       export PATH="${"$"}{ANDROID_NDK_ROOT}:$PATH"
-
+      export LANG=en_US.UTF-8
     '';
     bashrcExtra = ''
       export PS1="[\u@\h \w]\n$ "

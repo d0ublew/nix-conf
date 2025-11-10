@@ -36,6 +36,11 @@ in
         "root"
         "williamwijaya"
       ];
+      extra-substituters = [ "https://nix-community.cachix.org" ];
+      extra-trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      ];
+
     };
   };
   # Home Manager needs a bit of information about you and the paths it should
@@ -55,6 +60,7 @@ in
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    cachix
     ascii
     gh
     fd
@@ -67,6 +73,7 @@ in
     socat
     colima
     openjdk21
+    kotlin
     radare2
     zoxide
     ripgrep
@@ -90,6 +97,11 @@ in
     rlwrap
     gemini-cli
     qemu
+    nuclei
+    semgrep
+    powershell
+    parallel
+
     # gef-bata24
 
     # aapt
@@ -188,6 +200,7 @@ in
       go.enable = true;
       dart.enable = true;
       c.enable = true;
+      swift.enable = true;
     };
     telescope.enable = true;
     completion.enable = true;

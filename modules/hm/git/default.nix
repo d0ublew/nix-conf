@@ -24,6 +24,14 @@ in
       type = types.str;
       description = "Git user email";
     };
+    signing-key = mkOption {
+      type = types.str;
+      description = "Git user signing key";
+    };
+    enable-signing = mkOption {
+      type = types.bool;
+      description = "Enable git commit and tag signing";
+    };
     default-branch = mkOption {
       type = types.str;
       default = "main";
@@ -44,6 +52,10 @@ in
           line-numbers = false;
         };
       };
+      signing = {
+        key = cfg.signing-key;
+        signByDefault = cfg.enable-signing;
+      };
       extraConfig = {
         "credential \"https://github.com\"".helper = "!${pkgs.gh}/bin/gh auth git-credential";
         "credential \"https://gist.github.com\"".helper = "!${pkgs.gh}/bin/gh auth git-credential";
@@ -57,6 +69,7 @@ in
         pull.rebase = true;
         rebase.autoStash = true;
         submodule.recurse = true;
+        push.followTags = true;
       };
       aliases = {
         ap = "add -i -p";

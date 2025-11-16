@@ -117,7 +117,6 @@ in
 
   git-mod = {
     enable = true;
-    delta = true;
     username = uname;
     email = "66501624+d0UBleW@users.noreply.github.com";
   };
@@ -149,6 +148,16 @@ in
 
   yazi-mod = {
     enable = true;
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      light = true;
+      line-numbers = false;
+    };
   };
 
   programs.zoxide = {

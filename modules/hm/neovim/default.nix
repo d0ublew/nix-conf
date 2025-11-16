@@ -87,11 +87,18 @@ in
         default = cschemes;
         description = "List of colorschemes to be installed";
       };
+
+      package = mkOption {
+        type = lib.types.package;
+        default = pkgs.neovim-unwrapped;
+        description = "Neovim package to be used";
+      };
     };
 
   # https://github.com/LazyVim/LazyVim/discussions/1972
   config = mkIf cfg.enable {
     programs.neovim = {
+      package = cfg.package;
       enable = true;
       defaultEditor = true;
       viAlias = true;

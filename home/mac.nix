@@ -4,6 +4,7 @@
   uname,
   lib,
   unfree-pkgs,
+  pkgs-stable,
   ...
 }:
 let
@@ -60,74 +61,64 @@ in
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
-    cachix
-    # ascii
-    gh
-    fd
-    p7zip
-    tmux
-    btop
-    timg
-    # devenv
-    inetutils
-    socat
-    colima
-    openjdk21
-    # kotlin
-    radare2
-    zoxide
-    ripgrep
-    ffmpeg
-    dust
-    iproute2mac
-    aria2
-    wget
-    fzf
-    # scrcpy
-    yarn
-    tealdeer
-    xz
-    reattach-to-user-namespace
-    nodejs
-    docker-client
-    docker-buildx
-    docker-compose
-    zlib-ng
-    nix-index
-    rlwrap
-    # gemini-cli
-    qemu
-    nuclei
-    semgrep
-    # powershell
-    parallel
-    proxychains-ng
-    gnupg
+  home.packages =
+    with pkgs;
+    [
+      # cachix
+      # ascii
+      gh
+      fd
+      p7zip
+      tmux
+      btop
+      timg
+      # devenv
+      inetutils
+      socat
+      colima
+      openjdk21
+      # kotlin
+      radare2
+      zoxide
+      ripgrep
+      ffmpeg
+      dust
+      iproute2mac
+      aria2
+      wget
+      fzf
+      # scrcpy
+      yarn
+      # tealdeer
+      xz
+      reattach-to-user-namespace
+      nodejs
+      docker-client
+      docker-buildx
+      docker-compose
+      zlib-ng
+      nix-index
+      rlwrap
+      # gemini-cli
+      qemu
+      nuclei
+      semgrep
+      # powershell
+      parallel
+      proxychains-ng
+      gnupg
+      nix-du
+      nix-tree
 
-    # gef-bata24
+      # gef-bata24
 
-    # aapt
-    # apksigner
-    # apktool
-
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
-
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-  ];
+      # aapt
+      # apksigner
+      # apktool
+    ]
+    ++ (with pkgs-stable; [
+      tealdeer
+    ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -178,7 +169,6 @@ in
 
   git-mod = {
     enable = true;
-    delta = true;
     username = uname;
     email = "66501624+d0UBleW@users.noreply.github.com";
     signing-key = "C290D836F2395167";
@@ -186,6 +176,7 @@ in
   };
 
   neovim-mod = rec {
+    package = pkgs.neovim-unwrapped;
     enable = true;
     colorschemes = [
       "tokyonight"
@@ -215,6 +206,20 @@ in
     snacks.enable = true;
     treesitter.enable = true;
     trouble.enable = true;
+  };
+
+  yazi-mod = {
+    enable = true;
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      light = true;
+      line-numbers = false;
+    };
   };
 
   programs.bash = {
@@ -267,11 +272,8 @@ in
     };
   };
 
-  yazi-mod = {
-    enable = true;
-  };
-
   programs.direnv = {
+    package = pkgs-stable.direnv;
     enable = true;
     enableBashIntegration = true;
     nix-direnv = {

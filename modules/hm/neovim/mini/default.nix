@@ -27,6 +27,7 @@ in
       mini-align
       mini-hipatterns
       mini-statusline
+      mini-jump
     ];
 
     xdg.configFile."nvim/lua/plugins/mini.lua".source = ./spec.lua;

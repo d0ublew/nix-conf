@@ -1,21 +1,21 @@
 return {
   -- {
-  --   "echasnovski/mini.pick",
+  --   "nvim-mini/mini.pick",
   --   opts = {},
   --   lazy = false,
   -- },
   {
-    "echasnovski/mini.pairs",
+    "nvim-mini/mini.pairs",
     opts = {},
     lazy = false,
   },
   {
-    "echasnovski/mini.ai",
+    "nvim-mini/mini.ai",
     opts = {},
     lazy = false,
   },
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.surround",
     opts = {
       mappings = {
         add = "gsa", -- Add surrounding in Normal and Visual modes
@@ -36,12 +36,12 @@ return {
     lazy = false,
   },
   {
-    "echasnovski/mini.cursorword",
+    "nvim-mini/mini.cursorword",
     opts = {},
     lazy = false,
   },
   {
-    "echasnovski/mini.bracketed",
+    "nvim-mini/mini.bracketed",
     opts = {
       diagnostic = { suffix = "d", options = { float = {
         border = "rounded",
@@ -50,12 +50,12 @@ return {
     lazy = false,
   },
   {
-    "echasnovski/mini.trailspace",
+    "nvim-mini/mini.trailspace",
     opts = {},
     lazy = false,
   },
   {
-    "echasnovski/mini.align",
+    "nvim-mini/mini.align",
     opts = {
       mappings = {
         start = "<localleader>ga",
@@ -66,7 +66,7 @@ return {
   },
 
   {
-    "echasnovski/mini.statusline",
+    "nvim-mini/mini.statusline",
     event = { "ColorScheme", "VeryLazy" },
     -- lazy = false,
     config = function()
@@ -224,7 +224,7 @@ return {
   },
 
   {
-    "echasnovski/mini.hipatterns",
+    "nvim-mini/mini.hipatterns",
     lazy = false,
     config = function()
       local hipatterns = require("mini.hipatterns")
@@ -244,7 +244,7 @@ return {
   },
 
   {
-    "echasnovski/mini.clue",
+    "nvim-mini/mini.clue",
     config = function()
       local miniclue = require("mini.clue")
       miniclue.setup({
@@ -316,9 +316,10 @@ return {
   },
 
   -- {
-  --   "echasnovski/mini.completion",
+  --   "nvim-mini/mini.completion",
   --   opts = {},
   --   event = "InsertEnter",
   -- },
-  { "echasnovski/mini.icons", opts = {}, version = false, lazy = false },
+  { "nvim-mini/mini.icons", opts = {}, version = false, lazy = false },
+  { "nvim-mini/mini.jump", opts = {}, lazy = false },
 }

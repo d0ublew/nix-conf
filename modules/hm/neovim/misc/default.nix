@@ -15,6 +15,7 @@ in
   config = mkIf cfg.enable {
     neovim-mod.extraPlugins = with pkgs.vimPlugins; [
       oil-nvim
+      quicker-nvim
       plenary-nvim
       fugitive
       vim-repeat

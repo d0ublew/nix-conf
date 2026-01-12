@@ -40,6 +40,7 @@
       lib = nixpkgs.lib.extend (final: prev: { my = mylib; });
       unfree-pkgs = [
         "ngrok"
+        "copilot-language-server"
       ];
     in
     {

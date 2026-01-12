@@ -203,6 +203,7 @@ in
       dart.enable = true;
       c.enable = true;
       swift.enable = true;
+      copilot.enable = true;
     };
     telescope.enable = true;
     completion.enable = true;

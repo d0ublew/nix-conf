@@ -16,7 +16,7 @@ in
   config = mkIf cfg.enable {
     programs.neovim.extraPackages = with pkgs; [
       nixd
-      nixfmt-rfc-style
+      nixfmt
     ];
 
     xdg.configFile."nvim/lua/plugins/lsp/nix.lua".source = ./spec.lua;

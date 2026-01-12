@@ -92,7 +92,7 @@ in
       # tealdeer
       xz
       reattach-to-user-namespace
-      nodejs
+      # nodejs
       docker-client
       docker-buildx
       docker-compose
@@ -109,6 +109,12 @@ in
       gnupg
       nix-du
       nix-tree
+      foundry
+      simple-http-server
+      mkcert
+      dnsmasq
+      bun
+      deno
 
       # gef-bata24
 
@@ -230,10 +236,9 @@ in
       export PATH="${"$"}{HOME}/.local/bin:$PATH"
       export PATH="${"$"}{HOME}/bin:$PATH"
       export PATH="${"$"}{HOME}/tools/jadx/bin:$PATH"
-      export PATH="${"$"}{HOME}/tools/ghidra_11.3.2_PUBLIC:$PATH"
 
-      # export ANDROID_NDK_ROOT="${"$"}{HOME}/Library/Android/sdk/ndk/27.1.12297006/"
-      export ANDROID_NDK_ROOT="${"$"}{HOME}/Library/Android/sdk/ndk/28.1.13356709/"
+      export ANDROID_NDK_ROOT="${"$"}{HOME}/Library/Android/sdk/ndk/27.0.12077973/"
+      # export ANDROID_NDK_ROOT="${"$"}{HOME}/Library/Android/sdk/ndk/28.1.13356709/"
       export ANDROID_SDK_ROOT="${"$"}{HOME}/Library/Android/sdk"
       export ANDROID_HOME="${"$"}{HOME}/Library/Android/sdk"
 

@@ -30,7 +30,7 @@ in
         config = function ()
           vim.opt.runtimepath:append("${pkgs.vimPlugins.nvim-treesitter}")
           vim.opt.runtimepath:append("${grammarsPath}")
-          require("nvim-treesitter.configs").setup {
+          require("nvim-treesitter.config").setup {
             -- they are managed by nix
             auto_install = false,
 

@@ -18,6 +18,8 @@ in
     programs.neovim.extraPackages = with pkgs; [
       gopls
       gofumpt
+      golangci-lint
+      golines
     ];
 
     xdg.configFile."nvim/lua/plugins/lsp/${lang}.lua".source = ./spec.lua;

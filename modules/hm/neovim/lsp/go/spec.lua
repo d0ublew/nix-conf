@@ -24,5 +24,13 @@ return {
       name = "gofumpt",
       config = {},
     },
+    {
+      name = "golangci-lint",
+      config = {},
+    },
+    {
+      name = "golines",
+      config = {},
+    },
   },
 }

@@ -80,6 +80,8 @@ local function get_configs()
   -- local table_dump = require("util.table_dump")
   -- vim.print(table_dump(formatters_by_ft))
   -- vim.print(table_dump(formatters))
+  -- vim.print(table_dump(linters_by_ft))
+  -- vim.print(table_dump(linters))
 end
 
 get_configs()

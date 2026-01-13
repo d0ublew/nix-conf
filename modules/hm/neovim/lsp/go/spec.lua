@@ -25,11 +25,13 @@ return {
       config = {},
     },
     {
-      name = "golangci-lint",
+      name = "golines",
       config = {},
     },
+  },
+  linters = {
     {
-      name = "golines",
+      name = "golangcilint",
       config = {},
     },
   },

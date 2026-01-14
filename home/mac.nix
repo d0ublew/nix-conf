@@ -204,6 +204,7 @@ in
       c.enable = true;
       swift.enable = true;
       copilot.enable = true;
+      svelte.enable = true;
     };
     telescope.enable = true;
     completion.enable = true;

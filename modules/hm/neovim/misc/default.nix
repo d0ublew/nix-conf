@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs,
+  pkgs-stable,
   ...
 }:
 with lib;
@@ -13,7 +13,7 @@ in
     enable = mkEnableOption "neovim misc";
   };
   config = mkIf cfg.enable {
-    neovim-mod.extraPlugins = with pkgs.vimPlugins; [
+    neovim-mod.extraPlugins = with pkgs-stable.vimPlugins; [
       oil-nvim
       quicker-nvim
       plenary-nvim

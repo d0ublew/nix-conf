@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs,
+  pkgs-stable,
   ...
 }:
 with lib;
@@ -14,12 +14,12 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs.neovim.extraPackages = with pkgs; [
+    programs.neovim.extraPackages = with pkgs-stable; [
       vscode-langservers-extracted
       jq
     ];
 
-    neovim-mod.extraPlugins = with pkgs.vimPlugins; [
+    neovim-mod.extraPlugins = with pkgs-stable.vimPlugins; [
       SchemaStore-nvim
     ];
 

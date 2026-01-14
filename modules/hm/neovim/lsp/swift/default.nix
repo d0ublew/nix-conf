@@ -1,7 +1,7 @@
 {
   config,
   lib,
-  pkgs,
+  pkgs-stable,
   ...
 }:
 with lib;
@@ -15,7 +15,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    programs.neovim.extraPackages = with pkgs; [
+    programs.neovim.extraPackages = with pkgs-stable; [
       sourcekit-lsp
       # swift
       # swift-format

@@ -1,16 +1,16 @@
 {
   config,
   lib,
-  pkgs,
+  pkgs-stable,
   ...
 }:
 with lib;
 let
   mod = "treesitter";
   cfg = config.neovim-mod.${mod};
-  grammarsPath = pkgs.symlinkJoin {
+  grammarsPath = pkgs-stable.symlinkJoin {
     name = "nvim-treesitter-grammars";
-    paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
+    paths = pkgs-stable.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
   };
 in
 {
@@ -18,19 +18,20 @@ in
     enable = mkEnableOption "neovim ${mod}";
   };
   config = mkIf cfg.enable {
-    neovim-mod.extraPlugins = with pkgs.vimPlugins; [
-      nvim-treesitter
+    neovim-mod.extraPlugins = with pkgs-stable.vimPlugins; [
+      nvim-treesitter.withAllGrammars
     ];
 
     # xdg.configFile."nvim/lua/plugins/${mod}.lua".source = ./spec.lua;
     xdg.configFile."nvim/lua/plugins/${mod}.lua".text = ''
       return {
-        dir = "${pkgs.vimPlugins.nvim-treesitter}",
+        dir = "${pkgs-stable.vimPlugins.nvim-treesitter.withAllGrammars}",
         name = "nvim-treesitter",
         config = function ()
-          vim.opt.runtimepath:append("${pkgs.vimPlugins.nvim-treesitter}")
+          vim.opt.runtimepath:append("${pkgs-stable.vimPlugins.nvim-treesitter.withAllGrammars}")
           vim.opt.runtimepath:append("${grammarsPath}")
-          require("nvim-treesitter.config").setup {
+          require("nvim-treesitter.configs").setup {
+            -- install_dir = "${grammarsPath}",
             -- they are managed by nix
             auto_install = false,
 
@@ -41,7 +42,8 @@ in
             indent = { enable = true },
           }
         end,
-        event = "VeryLazy",
+        lazy = false,
+        -- event = "VeryLazy",
       }
     '';
   };

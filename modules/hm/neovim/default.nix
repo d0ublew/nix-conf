@@ -1,6 +1,6 @@
 {
   config,
-  pkgs,
+  pkgs-stable,
   lib,
   ...
 }:
@@ -57,7 +57,7 @@ in
       enable = mkEnableOption "Neovim config";
       plugins = mkOption {
         type = pluginsOptionType;
-        default = with pkgs.vimPlugins; [
+        default = with pkgs-stable.vimPlugins; [
           # lazy-nvim
         ];
       };
@@ -90,7 +90,7 @@ in
 
       package = mkOption {
         type = lib.types.package;
-        default = pkgs.neovim-unwrapped;
+        default = pkgs-stable.neovim-unwrapped;
         description = "Neovim package to be used";
       };
     };
@@ -105,10 +105,10 @@ in
       vimAlias = true;
       vimdiffAlias = true;
       withNodeJs = false;
-      extraPackages = with pkgs; [
+      extraPackages = with pkgs-stable; [
         ripgrep
       ];
-      plugins = with pkgs.vimPlugins; [
+      plugins = with pkgs-stable.vimPlugins; [
         lazy-nvim
       ];
       extraLuaConfig =
@@ -122,7 +122,7 @@ in
               }
             else
               drv;
-          lazyPath = pkgs.linkFarm "lazy-plugins" (
+          lazyPath = pkgs-stable.linkFarm "lazy-plugins" (
             # builtins.map mkEntryFromDrv (lib.subtractLists cfg.excludePlugins cfg.plugins ++ cfg.extraPlugins)
             builtins.map mkEntryFromDrv (cfg.plugins ++ cfg.extraPlugins)
           );

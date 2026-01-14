@@ -6,7 +6,7 @@
 }:
 with lib;
 let
-  lang = "c";
+  lang = "svelte";
   cfg = config.neovim-mod.lsp.${lang};
 in
 {
@@ -16,7 +16,7 @@ in
 
   config = mkIf cfg.enable {
     programs.neovim.extraPackages = with pkgs-stable; [
-      clang-tools
+      svelte-language-server
     ];
 
     xdg.configFile."nvim/lua/plugins/lsp/${lang}.lua".source = ./spec.lua;

@@ -1,20 +1,20 @@
 {
   config,
   lib,
-  pkgs,
+  pkgs-stable,
   ...
 }:
 with lib;
 let
   cfg = config.neovim-mod.completion;
 in
-# my-blink-cmp = pkgs.callPackage ./blink-cmp.nix { };
+# my-blink-cmp = pkgs-stable.callPackage ./blink-cmp.nix { };
 {
   options.neovim-mod.completion = {
     enable = mkEnableOption "neovim completion";
   };
   config = mkIf cfg.enable {
-    neovim-mod.extraPlugins = with pkgs.vimPlugins; [
+    neovim-mod.extraPlugins = with pkgs-stable.vimPlugins; [
       # nvim-cmp
       # cmp-nvim-lsp
       # cmp-buffer

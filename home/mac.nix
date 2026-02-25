@@ -84,7 +84,6 @@ in
       ffmpeg
       dust
       iproute2mac
-      aria2
       wget
       fzf
       # scrcpy
@@ -92,7 +91,7 @@ in
       # tealdeer
       xz
       reattach-to-user-namespace
-      # nodejs
+      nodejs
       docker-client
       docker-buildx
       docker-compose
@@ -114,7 +113,10 @@ in
       mkcert
       dnsmasq
       bun
-      deno
+      zbar
+      postgresql
+      go
+      pnpm
 
       # gef-bata24
 
@@ -124,6 +126,7 @@ in
     ]
     ++ (with pkgs-stable; [
       tealdeer
+      aria2
     ]);
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -205,6 +208,7 @@ in
       swift.enable = true;
       copilot.enable = true;
       svelte.enable = true;
+      tailwindcss.enable = true;
     };
     telescope.enable = true;
     completion.enable = true;

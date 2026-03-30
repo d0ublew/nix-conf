@@ -16,7 +16,18 @@ let
 in
 {
 
-  imports = lib.my.getModules ./.;
+  imports = [
+    ./colorscheme
+    ./completion
+    ./lsp
+    ./mini
+    ./misc
+    ./snacks
+    ./telescope
+    ./treesitter
+    ./trouble
+    ./ui
+  ];
 
   # https://github.com/azuwis/nix-config/blob/52a6c657fb8031d5690f8971c52dc5c95c2f91b6/common/lazyvim/base/default.nix
   options.${mod} =
@@ -111,7 +122,7 @@ in
       plugins = with pkgs-stable.vimPlugins; [
         lazy-nvim
       ];
-      extraLuaConfig =
+      initLua =
         let
           mkEntryFromDrv =
             drv:

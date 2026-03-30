@@ -13,7 +13,7 @@
       home.packages = with pkgs; [
         uv
         patchelf
-        gef-bata24
+        pkgs.local.gef-bata24
         kompose
         zrok
         ngrok

@@ -8,7 +8,7 @@
       inputs.self.modules.homeManager.d0ublew
       ({ pkgs, ... }: {
         home.packages = [
-          (import ../../pkgs/ropr { inherit (pkgs) fetchFromGitHub rustPlatform lib; })
+          pkgs.local.ropr
         ];
       })
     ];

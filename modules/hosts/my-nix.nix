@@ -21,9 +21,7 @@ in
         networking.hostName = "my-nix";
         time.timeZone = "Asia/Jakarta";
         nixpkgs.config.allowUnfreePredicate = unfreePredicate;
-        nixpkgs.overlays = [
-          (import ../../overlays/gef-bata24.nix)
-        ];
+        nixpkgs.overlays = builtins.attrValues inputs.self.overlays;
         wsl-mod.enable = true;
 
         home-manager.useGlobalPkgs = true;

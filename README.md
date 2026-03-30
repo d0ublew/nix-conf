@@ -10,7 +10,10 @@ modules/
   nix/
     flake-parts.nix              # flake-parts setup (systems, flakeModules.modules)
     configurations.nix           # Shared helpers (mkStandaloneHome, unfreePredicate)
-    overlays.nix                 # Nixpkgs overlay registration
+    overlays.nix                 # Auto-applies all flake.overlays.* to nixpkgs
+    packages.nix                 # Auto-discovers packages/ as perSystem outputs
+  overlays/                      # Nixpkgs overlays (one file per overlay)
+    local.nix                    # Maps perSystem packages to pkgs.local.*
   system/
     nix-settings.nix             # Nix daemon + HM nix/unfree settings
     wsl.nix                      # WSL-specific NixOS config
@@ -43,8 +46,7 @@ modules/
     williamwijaya.nix            # macOS
     mini.nix                     # Headless Linux + nixGL
   dotfiles/                      # Static config files (inputrc, tmux, ghostty, etc.)
-overlays/                        # Package overlays (outside modules/)
-pkgs/                            # Custom package definitions (outside modules/)
+packages/                        # Custom packages (auto-discovered as pkgs.local.*)
 ```
 
 ## Key Concepts
@@ -163,6 +165,38 @@ Create two files — an aspect defining the user's config, and a standalone wrap
 ```
 
 The user aspect imports a system type (`system-cli` or `system-default`) which brings in all shared programs. `mkStandaloneHome` just provides `pkgs` and `home.stateVersion`.
+
+### Add an overlay
+
+Create a file under `modules/overlays/`:
+
+```nix
+# modules/overlays/my-tool.nix
+{ ... }:
+{
+  flake.overlays.my-tool = final: prev: {
+    my-tool = prev.my-tool.override { withFeature = true; };
+  };
+}
+```
+
+It's automatically applied to all HM and NixOS configs. No other files need to change — `nix/overlays.nix` auto-collects all `flake.overlays.*`.
+
+### Add a custom package
+
+Create `packages/<name>/package.nix`:
+
+```nix
+# packages/mytool/package.nix
+{ pkgs, ... }:
+pkgs.buildGoModule rec {
+  pname = "mytool";
+  version = "1.0.0";
+  src = pkgs.fetchFromGitHub { ... };
+}
+```
+
+It's automatically available as `pkgs.local.mytool` in all user and host configs, and as `nix build .#mytool` from the CLI. No other files need to change.
 
 ### Add a new flake input
 

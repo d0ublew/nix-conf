@@ -1,19 +1,11 @@
-{
-  lib,
-  rustPlatform,
-  fetchFromGitHub,
-  ...
-}:
-let
+{ pkgs, ... }:
+pkgs.rustPlatform.buildRustPackage rec {
   pname = "ropr";
   version = "0.2.25";
-in
-rustPlatform.buildRustPackage rec {
-  inherit pname version;
-  src = fetchFromGitHub {
+  src = pkgs.fetchFromGitHub {
     owner = "Ben-Lichtman";
     repo = "ropr";
-    rev = "${version}";
+    rev = version;
     hash = "sha256-LfQp7knYlwzxyfA7NolYu9RQQAR3eBir6ULEiUOhQ7s=";
   };
   useFetchCargoVendor = true;

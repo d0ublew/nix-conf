@@ -91,7 +91,29 @@ Then add `inputs.self.modules.homeManager.ripgrep` to the desired user/host file
 
 ### Add a program to a single user
 
-Add the config inline in the user's module block in `modules/users/<user>.nix`.
+Add the config inline in the user's module block in `modules/users/<user>.nix`:
+
+```nix
+# modules/users/d0ublew.nix
+{ inputs, ... }:
+{
+  flake.modules.homeManager.d0ublew = { pkgs, ... }: {
+    imports = with inputs.self.modules.homeManager; [ system-cli ];
+
+    # ... existing config ...
+
+    # Add a program for just this user:
+    home.packages = with pkgs; [ wireshark ];
+    programs.tmux.enable = true;
+  };
+}
+```
+
+If the program is an existing aspect, import it in the user's `imports` list:
+
+```nix
+imports = with inputs.self.modules.homeManager; [ system-cli gdb ];
+```
 
 ### Add a new NixOS aspect
 

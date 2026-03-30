@@ -40,7 +40,6 @@
 
         programs.bash.shellAliases = {
           ls = "lsd";
-          tree = "lsd --tree";
           podr = "podman --remote";
         };
         programs.bash.bashrcExtra = ''

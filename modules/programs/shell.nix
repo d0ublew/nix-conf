@@ -13,6 +13,8 @@ let
     mv = "mv -i";
     cp = "cp -i";
     ".." = "cd ..";
+    tree = "lsd --tree";
+    ascii = "rax2 -a";
   };
 in
 {

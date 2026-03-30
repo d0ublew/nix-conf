@@ -51,7 +51,6 @@
         neovim-mod.trouble.enable = true;
 
         programs.bash.shellAliases = {
-          tree = "lsd --tree";
           podr = "podman --remote";
         };
         programs.bash.bashrcExtra = ''

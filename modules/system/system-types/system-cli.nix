@@ -1,7 +1,7 @@
 { inputs, ... }:
 {
   flake.modules.homeManager.system-cli =
-    { ... }:
+    { lib, pkgs, ... }:
     {
       imports = with inputs.self.modules.homeManager; [
         system-default
@@ -10,10 +10,16 @@
         neovim
       ];
 
-      home.file = {
-        ".tmux".source = ../../dotfiles/tmux/tmux;
-        ".tmux.conf".source = ../../dotfiles/tmux/tmux.conf;
-      };
+      home.file = lib.mkMerge [
+        (lib.mkIf pkgs.stdenv.isDarwin {
+          ".tmux".source = ../../dotfiles/tmux/darwin/tmux;
+          ".tmux.conf".source = ../../dotfiles/tmux/darwin/tmux.conf;
+        })
+        (lib.mkIf pkgs.stdenv.isLinux {
+          ".tmux".source = ../../dotfiles/tmux/linux/tmux;
+          ".tmux.conf".source = ../../dotfiles/tmux/linux/tmux.conf;
+        })
+      ];
 
       git-mod.email = "66501624+d0UBleW@users.noreply.github.com";
 

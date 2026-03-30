@@ -129,6 +129,7 @@
           eval "$(/opt/homebrew/bin/brew shellenv)"
         '';
 
+        programs.starship.enable = false;
         programs.command-not-found.enable = false;
       })
     ];

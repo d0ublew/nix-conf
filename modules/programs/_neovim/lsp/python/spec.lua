@@ -22,18 +22,31 @@ return {
         },
       },
     },
+    -- {
+    --   name = "pyright",
+    --   config = {
+    --     settings = {
+    --       pyright = {
+    --         disableOrganizeImpors = true,
+    --       },
+    --       python = {
+    --         analysis = {
+    --           diagnosticSeverityOverrides = {
+    --             reportUndefinedVariable = "none",
+    --           },
+    --         },
+    --       },
+    --     },
+    --   },
+    -- },
     {
-      name = "pyright",
+      name = "basedpyright",
       config = {
         settings = {
-          pyright = {
+          basedpyright = {
             disableOrganizeImpors = true,
-          },
-          python = {
             analysis = {
-              diagnosticSeverityOverrides = {
-                reportUndefinedVariable = "none",
-              },
+              ignore = { "*" },
             },
           },
         },

@@ -15,7 +15,7 @@ in
 
   config = mkIf cfg.enable {
     programs.neovim.extraPackages = with pkgs-stable; [
-      pyright
+      basedpyright
       ruff
     ];
 

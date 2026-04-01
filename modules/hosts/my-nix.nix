@@ -1,8 +1,7 @@
-{ inputs, config, ... }:
+{ inputs, ... }:
 let
   system = "x86_64-linux";
   uname = "d0ublew";
-  inherit (config.flake.lib) unfreePredicate;
 in
 {
   flake.nixosConfigurations."my-nix" = inputs.nixpkgs.lib.nixosSystem {
@@ -20,8 +19,8 @@ in
         system.stateVersion = "24.05";
         networking.hostName = "my-nix";
         time.timeZone = "Asia/Jakarta";
-        nixpkgs.config.allowUnfreePredicate = unfreePredicate;
         nixpkgs.overlays = builtins.attrValues inputs.self.overlays;
+        unfree-pkgs = [ "ngrok" ];
         wsl-mod.enable = true;
 
         home-manager.useGlobalPkgs = true;

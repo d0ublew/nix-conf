@@ -1,12 +1,5 @@
 { inputs, lib, ... }:
 let
-  unfree-pkgs = [
-    "ngrok"
-    "copilot-language-server"
-  ];
-
-  unfreePredicate = pkg: builtins.elem (lib.getName pkg) unfree-pkgs;
-
   mkStandaloneHome =
     {
       system,
@@ -27,6 +20,6 @@ let
 in
 {
   flake.lib = {
-    inherit mkStandaloneHome unfreePredicate;
+    inherit mkStandaloneHome;
   };
 }

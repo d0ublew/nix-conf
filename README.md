@@ -9,13 +9,13 @@ flake.nix                        # Inputs + mkFlake + import-tree (keep minimal)
 modules/
   nix/
     flake-parts.nix              # flake-parts setup (systems, flakeModules.modules)
-    configurations.nix           # Shared helpers (mkStandaloneHome, unfreePredicate)
+    configurations.nix           # Shared helpers (mkStandaloneHome)
     overlays.nix                 # Auto-applies all flake.overlays.* to nixpkgs
     packages.nix                 # Auto-discovers packages/ as perSystem outputs
   overlays/                      # Nixpkgs overlays (one file per overlay)
     local.nix                    # Maps perSystem packages to pkgs.local.*
   system/
-    nix-settings.nix             # Nix daemon + HM nix/unfree settings
+    nix-settings.nix             # Nix daemon + HM nix settings, per-user unfree-pkgs option
     wsl.nix                      # WSL-specific NixOS config
     users.nix                    # User accounts and groups
     system-packages.nix          # System-wide packages
@@ -214,7 +214,25 @@ mv modules/programs/starship.nix modules/programs/_starship.nix
 
 Create a new directory under `modules/programs/_neovim/lsp/<lang>/` with `default.nix` and `spec.lua`, then add the import to `modules/programs/_neovim/lsp/default.nix`. Enable it per-user with `neovim-mod.lsp.<lang>.enable = true`.
 
-### Override a shared aspect per-host
+### Allow unfree packages
+
+Set `unfree-pkgs` per-user with the package names that user needs:
+
+```nix
+# In a user aspect (modules/users/<user>.nix):
+unfree-pkgs = [ "ngrok" "copilot-language-server" ];
+```
+
+For NixOS hosts, set it at the system level:
+
+```nix
+# In a host definition (modules/hosts/<host>.nix):
+unfree-pkgs = [ "ngrok" ];
+```
+
+The option is a list, so if set in multiple places (e.g., system-cli and a user module), the values merge.
+
+### Override a shared aspect per-user
 
 Shared aspects should use `lib.mkDefault` for overridable values. Hosts can then set the value directly:
 

@@ -23,6 +23,7 @@
       home.file.".wezterm.sh".source = ../dotfiles/wezterm.sh;
       xdg.configFile."wtf/config.yml".source = ../dotfiles/wtf/config.yml;
 
+      unfree-pkgs = [ "ngrok" ];
       git-mod.username = "d0ublew";
 
       neovim-mod.lsp.c.enable = true;

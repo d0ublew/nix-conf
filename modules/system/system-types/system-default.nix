@@ -9,6 +9,7 @@
       zoxide
       overlays
       yazi
+      unfree-pkgs
     ];
 
     programs.home-manager.enable = true;

@@ -7,25 +7,12 @@
 with lib;
 let
   cfg = config.neovim-mod.lsp;
+  langDirs = lib.filterAttrs (
+    name: type: type == "directory" && name != "_" && builtins.pathExists (./. + "/${name}/default.nix")
+  ) (builtins.readDir ./.);
 in
 {
-  imports = [
-    ./c
-    ./copilot
-    ./dart
-    ./go
-    ./java
-    ./javascript
-    ./json
-    ./kotlin
-    ./lua
-    ./nim
-    ./nix
-    ./python
-    ./svelte
-    ./swift
-    ./tailwindcss
-  ];
+  imports = map (name: ./. + "/${name}") (builtins.attrNames langDirs);
 
   options.neovim-mod.lsp = {
     enable = mkEnableOption "neovim LSP";

@@ -212,7 +212,7 @@ mv modules/programs/starship.nix modules/programs/_starship.nix
 
 ### Add an LSP to neovim
 
-Create a new directory under `modules/programs/_neovim/lsp/<lang>/` with `default.nix` and `spec.lua`, then add the import to `modules/programs/_neovim/lsp/default.nix`. Enable it per-user with `neovim-mod.lsp.<lang>.enable = true`.
+Create a new directory under `modules/programs/_neovim/lsp/<lang>/` with `default.nix` and `spec.lua`. It's auto-discovered — no imports to update. Enable it per-user with `neovim-mod.lsp.<lang>.enable = true`.
 
 ### Allow unfree packages
 

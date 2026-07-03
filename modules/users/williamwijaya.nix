@@ -54,7 +54,6 @@
               nix-index
               rlwrap
               qemu
-              nuclei
               semgrep
               parallel
               proxychains-ng
@@ -70,6 +69,7 @@
               postgresql
               go
               pnpm
+              jujutsu
             ]
             ++ (with inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}; [
               tealdeer
@@ -84,6 +84,13 @@
             username = "williamwijaya";
             signing-key = "C290D836F2395167";
             enable-signing = true;
+          };
+
+          jujutsu-mod = {
+            username = "d0ublew";
+            email = "66501624+d0UBleW@users.noreply.github.com";
+            signing-key = "C290D836F2395167";
+            signing-backend = "gpg";
           };
 
           neovim-mod = {

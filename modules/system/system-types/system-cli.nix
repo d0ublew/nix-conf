@@ -8,6 +8,8 @@
         starship
         git
         neovim
+        jujutsu
+        gpg
       ];
 
       home.file = lib.mkMerge [

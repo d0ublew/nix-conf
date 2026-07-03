@@ -48,11 +48,43 @@
           git = {
             sign-on-push = true;
           };
-          aliases.lsig = [
-            "log"
-            "-T"
-            "commit_id.short() ++ \" \" ++ if(signature, signature.status() ++ \" \" ++ signature.key(), \"unsigned\") ++ \" \" ++ description.first_line() ++ \"\\n\""
-          ];
+          aliases = {
+            lsig = [
+              "log"
+              "-T"
+              "commit_id.short() ++ \" \" ++ if(signature, signature.status() ++ \" \" ++ signature.key(), \"unsigned\") ++ \" \" ++ description.first_line() ++ \"\\n\""
+            ];
+            ci = [
+              "commit"
+            ];
+            ps = [
+              "git"
+              "push"
+            ];
+          };
+          ui.diff-formatter = "delta";
+          merge-tools.delta = {
+            program = "sh";
+            diff-args = [
+              "-c" # sh
+              ''
+                if [ "$3" -gt 180 ]; then
+                  exec delta --side-by-side "$1" "$2" --width="$3"
+                else
+                  exec delta --features=one-window "$1" "$2" --width="$3"
+                fi
+              ''
+              "_"
+              "$left"
+              "$right"
+              "$width"
+            ];
+            # Fixes `tool exited with exit status: 1` warning
+            diff-expected-exit-codes = [
+              0
+              1
+            ];
+          };
         };
       };
     };

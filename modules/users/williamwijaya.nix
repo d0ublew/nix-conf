@@ -25,6 +25,7 @@
           home.packages =
             with pkgs;
             [
+              csvlens
               gh
               fd
               p7zip
@@ -113,6 +114,9 @@
           };
 
           programs.bash.profileExtra = ''
+            export PNPM_HOME="''${HOME}/Library/pnpm"
+            export PATH="''${PNPM_HOME}/bin:$PATH"
+
             export PATH="''${HOME}/bin:$PATH"
             export PATH="''${HOME}/tools/jadx/bin:$PATH"
 

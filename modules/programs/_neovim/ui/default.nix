@@ -24,7 +24,7 @@ in
       # zen-mode-nvim
       # dressing-nvim
       mini-icons
-      render-markdown-nvim
+      # render-markdown-nvim
     ];
 
     xdg.configFile."nvim/lua/plugins/ui.lua".source = ./spec.lua;

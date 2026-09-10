@@ -1,7 +1,12 @@
 { ... }:
 {
   flake.modules.homeManager.gpg =
-    { config, pkgs, lib, ... }:
+    {
+      config,
+      pkgs,
+      lib,
+      ...
+    }:
     let
       cfg = config.gpg-mod;
     in
@@ -47,7 +52,7 @@
           };
         }
 
-        (lib.mkIf pkgs.stdenv.isLinux {
+        (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
           services.gpg-agent = {
             enable = true;
             pinentry.package = pkgs.pinentry-curses;
@@ -56,7 +61,7 @@
           };
         })
 
-        (lib.mkIf pkgs.stdenv.isDarwin {
+        (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
           home.packages = [ pkgs.pinentry_mac ];
           home.file.".gnupg/gpg-agent.conf".text = ''
             default-cache-ttl ${toString cfg.cache-ttl}

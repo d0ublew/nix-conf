@@ -17,7 +17,7 @@ in
       oil-nvim
       quicker-nvim
       plenary-nvim
-      fugitive
+      vim-fugitive
       vim-repeat
       undotree
       vim-unimpaired

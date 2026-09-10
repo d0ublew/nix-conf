@@ -13,11 +13,11 @@
       ];
 
       home.file = lib.mkMerge [
-        (lib.mkIf pkgs.stdenv.isDarwin {
+        (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
           ".tmux".source = ../../dotfiles/tmux/darwin/tmux;
           ".tmux.conf".source = ../../dotfiles/tmux/darwin/tmux.conf;
         })
-        (lib.mkIf pkgs.stdenv.isLinux {
+        (lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
           ".tmux".source = ../../dotfiles/tmux/linux/tmux;
           ".tmux.conf".source = ../../dotfiles/tmux/linux/tmux.conf;
         })

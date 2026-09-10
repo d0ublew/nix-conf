@@ -30,7 +30,7 @@ in
         config = function ()
           vim.opt.runtimepath:append("${pkgs-stable.vimPlugins.nvim-treesitter.withAllGrammars}")
           vim.opt.runtimepath:append("${grammarsPath}")
-          require("nvim-treesitter.configs").setup {
+          require("nvim-treesitter").setup {
             -- install_dir = "${grammarsPath}",
             -- they are managed by nix
             auto_install = false,

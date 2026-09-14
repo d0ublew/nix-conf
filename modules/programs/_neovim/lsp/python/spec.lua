@@ -27,7 +27,7 @@ return {
     --   config = {
     --     settings = {
     --       pyright = {
-    --         disableOrganizeImpors = true,
+    --         disableOrganizeImports = true,
     --       },
     --       python = {
     --         analysis = {
@@ -44,7 +44,7 @@ return {
       config = {
         settings = {
           basedpyright = {
-            disableOrganizeImpors = true,
+            disableOrganizeImports = true,
             analysis = {
               ignore = { "*" },
             },

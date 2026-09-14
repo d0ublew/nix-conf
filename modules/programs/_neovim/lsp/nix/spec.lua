@@ -1,4 +1,4 @@
-local uv = vim.loop
+local uv = vim.uv
 
 local dir
 if uv.fs_stat(vim.fn.expand("~/config")) then

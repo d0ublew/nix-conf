@@ -36,7 +36,7 @@ return {
       {
         "<leader>fR",
         function()
-          builtin.oldfiles({ cwd = vim.loop.cwd() })
+          builtin.oldfiles({ cwd = vim.uv.cwd() })
         end,
         desc = "Recent (cwd)",
       },

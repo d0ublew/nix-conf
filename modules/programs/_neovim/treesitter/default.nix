@@ -29,18 +29,27 @@ in
         name = "nvim-treesitter",
         config = function ()
           vim.opt.runtimepath:append("${pkgs-stable.vimPlugins.nvim-treesitter.withAllGrammars}")
+          -- the curated queries live under `runtime/queries`, not `queries`;
+          -- without this, `; inherits: ecma,jsx` in the js/ts/tsx queries
+          -- resolves to nothing and those filetypes end up unhighlighted
+          vim.opt.runtimepath:append("${pkgs-stable.vimPlugins.nvim-treesitter.withAllGrammars}/runtime")
           vim.opt.runtimepath:append("${grammarsPath}")
-          require("nvim-treesitter").setup {
-            -- install_dir = "${grammarsPath}",
-            -- they are managed by nix
-            auto_install = false,
+          -- parsers are managed by nix; `install_dir` is the only key
+          -- `setup()` accepts on the `main` branch
+          require("nvim-treesitter").setup {}
 
-            highlight = {
-              enable = true,
-              additional_vim_regex_highlighting = false,
-            },
-            indent = { enable = true },
-          }
+          -- `main` branch does not auto-enable highlight/indent anymore
+          vim.api.nvim_create_autocmd("FileType", {
+            group = vim.api.nvim_create_augroup("d0ublew_treesitter", { clear = true }),
+            callback = function(args)
+              local lang = vim.treesitter.language.get_lang(args.match)
+              if not (lang and vim.treesitter.language.add(lang)) then
+                return
+              end
+              vim.treesitter.start(args.buf, lang)
+              vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            end,
+          })
         end,
         lazy = false,
         -- event = "VeryLazy",
